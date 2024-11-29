@@ -2,7 +2,7 @@ import AuthLogo from '@/components/auth/auth-logo'
 import LoginForm from '@/components/auth/forms/login-form'
 import MyImage from '@/components/my-components/myImage'
 
-export const LoginPage = () => {
+export const page = () => {
   return (
     <div className=' w-full justify-center flex'>
         <div className=' card bg-base-300 p-4 gap-4 shadow-xl'>
@@ -20,4 +20,4 @@ export const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default page
