@@ -39,3 +39,40 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 node_modules
+
+
+# Data Files
+*.parquet
+*.map
+*.zip
+*.gz
+*.tar
+*.tgz
+*.vsix
+
+# Videos
+*.mov
+*.mp4
+*.avi
+
+# Images
+*.icns
+*.ico
+*.jpeg
+*.jpg
+# *.png
+*.bmp
+
+# -- Nodejs
+node_modules/
+!.mocharc.yaml
+report.*.json
+
+# -- Python
+__pycache__/
+
+
+# -- others
+_*
+# '_' in src dir, ok.
+!src/**/_*
