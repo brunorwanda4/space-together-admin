@@ -1,6 +1,6 @@
-import AuthLogo from '@/components/auth/auth-logo';
-import { LoginForm } from '@/components/auth/forms/login-form';
-import MyImage from '@/components/my-components/myImage';
+import AuthLogo from "@/components/auth/auth-logo";
+import { LoginForm } from "@/components/auth/forms/login-form";
+import MyImage from "@/components/my-components/myImage";
 
 const Page = () => {
   return (
