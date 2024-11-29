@@ -9,7 +9,7 @@ import { AtSign } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-const LoginForm = () => {
+export const LoginForm = () => {
   const [seePass, setSeePass] = useState<boolean>(false);
 
   const handleSeePass = () => {
@@ -104,4 +104,3 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
