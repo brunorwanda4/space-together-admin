@@ -18,6 +18,7 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   Accordion,
@@ -27,7 +28,6 @@ import {
 } from "@/components/ui/accordion";
 import SiteLogo from "./site-logo";
 import AuthChangeTheme from "@/components/auth/nav/auth-theme";
-import AdminButton from "./admin-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ProfileButton from "./profile-button";
 import Link from "next/link";
@@ -170,7 +170,8 @@ export function AppSidebar() {
         {/* Sidebar Header */}
         <SidebarHeader className="flex  w-[16rem] justify-between gap-2 flex-row items-center fixed top-0 bg-gradient-to-b h-16 pb-4 from-base-200 via-base-200  to-transparent z-50">
           <SiteLogo />
-          <AdminButton />
+          {/* <AdminButton /> */}
+          <SidebarTrigger className=" size-12"/>
           <AuthChangeTheme />
         </SidebarHeader>
 
