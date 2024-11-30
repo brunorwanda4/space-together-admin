@@ -17,7 +17,7 @@ export const LoginForm = () => {
     resolver: zodResolver(LoginModel),
     defaultValues: {
       email: "",
-      password: "",
+      password: ""
     },
   });
 

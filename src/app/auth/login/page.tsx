@@ -12,7 +12,7 @@ const Page = () => {
           Other providers
         </span>
         <div>
-          <button className="btn btn-ghost w-full justify-start">
+          <button className="btn w-full btn-neutral">
             <MyImage
               src="https://cdn-icons-png.flaticon.com/512/300/300221.png"
               className="size-6"
