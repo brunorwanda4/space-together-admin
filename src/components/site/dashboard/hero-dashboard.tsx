@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { AiFillDatabase } from "react-icons/ai";
+import { FaBell } from "react-icons/fa6";
 
 const HeroDashboard = () => {
   return (
@@ -19,10 +19,10 @@ const HeroDashboard = () => {
       <div>
         <div className=" justify-center px-4 py-2 items-center rounded-lg text-sm hover:bg-base-200 duration-300 flex font-medium cursor-pointer">
           <div className=" flex  space-x-2 items-center">
-            <AiFillDatabase size={32} className=" text-info " />
+            <FaBell size={32} className=" text-info " />
             <div className=" flex flex-col gap-1 justify-start">
-              <h6 className="">Database</h6>
-              <span className=" justify-start text-start font-semibold">32 GB</span>
+              <h6 className="">Notification</h6>
+              <span className=" justify-start text-start font-semibold">80+</span>
             </div>
           </div>
         </div>

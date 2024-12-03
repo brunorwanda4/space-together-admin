@@ -147,13 +147,20 @@ const SidebarGroupComponent = ({
           ) : (
             <SidebarMenuItem key={index}>
               <SidebarMenuButton asChild>
-                <a
-                  href={item.url}
-                  className="flex items-center gap-2 font-normal"
-                >
-                  {item.icon && <item.icon className="w-5 h-5" />}
-                  {item.title}
-                </a>
+                {item.url ? (
+                  <Link
+                    href={item.url}
+                    className="flex items-center gap-2 font-normal"
+                  >
+                    {item.icon && <item.icon className="w-5 h-5" />}
+                    {item.title}
+                  </Link>
+                ) : (
+                  <div className="flex items-center gap-2 font-normal">
+                    {item.icon && <item.icon className="w-5 h-5" />}
+                    {item.title}
+                  </div>
+                )}
               </SidebarMenuButton>
             </SidebarMenuItem>
           )
@@ -171,7 +178,7 @@ export function AppSidebar() {
         <SidebarHeader className="flex  w-[16rem] justify-between gap-2 flex-row items-center fixed top-0 bg-gradient-to-b h-16 pb-4 from-base-200 via-base-200  to-transparent z-50">
           <SiteLogo />
           {/* <AdminButton /> */}
-          <SidebarTrigger className=" size-12"/>
+          <SidebarTrigger className=" size-12" />
           <AuthChangeTheme />
         </SidebarHeader>
 
