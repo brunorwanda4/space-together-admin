@@ -90,11 +90,3 @@ body {
 .my-sm-text {
   @apply font-semibold text-xs text-myGray
 }
-
-.my-border {
-  @apply border-2 border-base-300/50
-}
-
-.my-card {
-  @apply bg-base-200 my-border p-4 card shadow-xl
-}

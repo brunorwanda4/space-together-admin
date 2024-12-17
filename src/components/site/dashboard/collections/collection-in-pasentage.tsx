@@ -3,7 +3,7 @@ import React from "react";
 
 const CollectionInPasentage = () => {
   return (
-    <div className=" bg-base-200 w-1/2 shadow-lg p-4 space-y-4 relative card my-border">
+    <div className=" w-1/2 p-4 space-y-4 relative happy-card my-border">
       <div className=" justify-between flex">
         <h3 className=" font-bold text-xl">All collections in DB</h3>
         <span className=" font-bold text-xl">32</span>

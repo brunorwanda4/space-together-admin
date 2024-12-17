@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaBell } from "react-icons/fa6";
-
 const HeroDashboard = () => {
+
   return (
     <div className=" w-full justify-between  flex items-center">
       <div className=" w-full flex items-center space-x-4">
@@ -11,9 +11,10 @@ const HeroDashboard = () => {
         </Avatar>
         <div>
           <h3 className=" font-semibold text-xl">Good evening, Bruno Rwanda</h3>
-          <p className=" text-myGray">
-            this evening the on the database it get 7090 request and new users{" "}
-          </p>
+            <span className=" font-bold text-myGray">CEO</span>
+          <div>
+            <p className=" text-myGray text-sm">CRUD in all collections and new features in system! 🌼🌼</p>
+          </div>
         </div>
       </div>
       <div>
@@ -22,7 +23,7 @@ const HeroDashboard = () => {
             <FaBell size={32} className=" text-info " />
             <div className=" flex flex-col gap-1 justify-start">
               <h6 className="">Notification</h6>
-              <span className=" justify-start text-start font-semibold">80+</span>
+              <span className=" justify-start text-start font-semibold -mt-2">80+</span>
             </div>
           </div>
         </div>

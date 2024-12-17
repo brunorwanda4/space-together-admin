@@ -49,10 +49,10 @@ const CollectionInDBMain = () => {
   return (
     <div className=" w-1/2 grid grid-cols-2 gap-4 grid-rows-2">
       {mainCollections.map((collection, index) => (
-        <div key={index} className=" h-full w-full my-card">
+        <div key={index} className=" h-full w-full happy-card">
           <div className=" flex gap-2 items-center ">
             {collection.icon && <collection.icon className=" size-6"/>}
-            <h4 className=" font-semibold text-lg">{collection.name}</h4>
+            <h4 className=" happy-title-base">{collection.name}</h4>
           </div>
           <div className=" flex justify-center items-center flex-col mt-1">
             <span className=" font-bold text-4xl">{collection.items}</span>

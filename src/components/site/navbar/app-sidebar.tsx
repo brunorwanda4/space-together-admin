@@ -172,10 +172,10 @@ const SidebarGroupComponent = ({
 
 export function AppSidebar() {
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar className=" bg-base-300">
+      <SidebarContent className=" bg-base-300">
         {/* Sidebar Header */}
-        <SidebarHeader className="flex  w-[16rem] justify-between gap-2 flex-row items-center fixed top-0 bg-gradient-to-b h-16 pb-4 from-base-200 via-base-200  to-transparent z-50">
+        <SidebarHeader className="flex  w-[16rem] justify-between gap-2 flex-row items-center fixed top-0 bg-gradient-to-b h-16 pb-4 from-base-300 via-base-300  to-transparent z-50">
           <SiteLogo />
           {/* <AdminButton /> */}
           <SidebarTrigger className=" size-12" />
@@ -193,7 +193,7 @@ export function AppSidebar() {
           ))}
           <div className="h-[1.5rem]]" />
         </div>
-        <SidebarFooter className=" fixed bottom-0 bg-gradient-to-t from-base-200 via-base-200  to-transparent h-20 w-[16rem] ">
+        <SidebarFooter className=" fixed bottom-0 bg-gradient-to-t from-base-300 via-base-300  to-transparent h-20 w-[16rem] ">
           <div className=" flex justify-between items-center ">
             <div className="flex  items-center space-x-1 pt-6">
               <Avatar>
