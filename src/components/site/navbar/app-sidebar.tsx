@@ -4,6 +4,7 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { LiaUsersSolid } from "react-icons/lia";
 import { MdClass } from "react-icons/md";
 import { CiGrid31 } from "react-icons/ci";
+import { BsCollection} from "react-icons/bs";
 
 import {
   Sidebar,
@@ -31,6 +32,8 @@ import AuthChangeTheme from "@/components/auth/nav/auth-theme";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ProfileButton from "./profile-button";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // Define type for sidebar items
 type SidebarItem = {
@@ -48,12 +51,17 @@ const sidebarGroups: { label: string; items: SidebarItem[] }[] = [
       {
         title: "Dashboard",
         icon: CiGrid31,
-        url: "/dashboard",
+        url: "/",
+      },
+      {
+        title: "Collections",
+        icon: BsCollection,
+        url: "/collections",
       },
     ],
   },
   {
-    label: "Collections",
+    label: "Main collections",
     items: [
       {
         title: "Users",
@@ -94,8 +102,9 @@ const SidebarGroupComponent = ({
 }: {
   label: string;
   items: SidebarItem[];
-}) => (
-  <SidebarGroup>
+}) => {
+  const path = usePathname();
+  return(<SidebarGroup>
     <SidebarGroupLabel>{label}</SidebarGroupLabel>
     <SidebarGroupContent>
       <SidebarMenu>
@@ -122,7 +131,10 @@ const SidebarGroupComponent = ({
                           {subItem.url ? (
                             <Link
                               href={subItem.url}
-                              className="ml-8 flex items-center gap-2 btn-xs btn-ghost  rounded-md"
+                              className={cn(
+                                "ml-8 flex items-center gap-2 btn-xs btn-ghost  rounded-md",
+                                path === subItem.url && "btn-info"
+                              )}
                             >
                               {subItem.icon && (
                                 <subItem.icon className="w-4 h-4" />
@@ -150,7 +162,10 @@ const SidebarGroupComponent = ({
                 {item.url ? (
                   <Link
                     href={item.url}
-                    className="flex items-center gap-2 font-normal"
+                    className={cn(
+                      "flex items-center gap-2 font-normal",
+                      path === item.url && "text-info"
+                    )}
                   >
                     {item.icon && <item.icon className="w-5 h-5" />}
                     {item.title}
@@ -168,7 +183,9 @@ const SidebarGroupComponent = ({
       </SidebarMenu>
     </SidebarGroupContent>
   </SidebarGroup>
-);
+)
+}
+  
 
 export function AppSidebar() {
   return (

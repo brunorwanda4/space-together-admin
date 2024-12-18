@@ -4,7 +4,8 @@ import RequestAndMessagesDashboard from "@/components/site/dashboard/requests/re
 
 const page = () => {
   return (
-    <div  className=" min-h-screen p-2 flex flex-col space-y-2 happy-line ">
+    <div  className=" happy-page">
+      <h1 className=" happy-title-head">Dashboard</h1>
       <div className=" happy-line gap-4">
         <HeroDashboard />
         <CollectionInDatabase />
