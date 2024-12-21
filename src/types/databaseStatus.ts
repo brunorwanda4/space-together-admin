@@ -1,3 +1,5 @@
+import { FetchError } from "./fetchErr";
+
 export interface CollectionStats {
     name: string;
     document_count: number;
@@ -10,3 +12,8 @@ export interface DatabaseStats {
     total_collection: number;
     collections: CollectionStats[];
 }
+
+export interface DbProps {
+    data: DatabaseStats | null;
+    error: FetchError | null;
+  }

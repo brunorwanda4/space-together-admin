@@ -1,4 +1,5 @@
-import CollectionsCharts from "@/components/site/collections/collections_charts";
+import CollectionsCharts from "@/components/site/database/collections_charts";
+import DatabaseHeader from "@/components/site/database/databaseHeader";
 import { fetchDatabaseStatus } from "@/services/databaseStatusService";
 import { DatabaseStats } from "@/types/databaseStatus";
 import { FetchError } from "@/types/fetchErr";
@@ -25,9 +26,11 @@ const Home = async () => {
   return (
     <div className="happy-page">
       <h1 className="happy-title-head">Collections</h1>
+      <DatabaseHeader data={data} error={error}/>
       <div>
         <CollectionsCharts data={data} error={error} />
       </div>
+      <div className=" h-screen" />
     </div>
   );
 };

@@ -19,7 +19,7 @@ export const fetchDatabaseStatus = async (): Promise<
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return {
-        message: error.response?.data?.message || "Failed to fetch user data",
+        message: error.response?.data?.message || "Failed to fetch database status! 😔",
         status: error.response?.status,
         details: error.message,
       };
