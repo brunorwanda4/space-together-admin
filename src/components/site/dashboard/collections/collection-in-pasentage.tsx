@@ -69,7 +69,7 @@ const CollectionInPasentage = async () => {
           <>
             <div className="flex justify-between">
               {/* Main Collections */}
-              {mainCollections.map(({ name, color }) => {
+              {mainCollections.map(({ name }, index) => {
                 const collection = data.collections.find(
                   (col) => col.name.toLowerCase() === name.toLowerCase()
                 );
@@ -77,7 +77,12 @@ const CollectionInPasentage = async () => {
                   collection && (
                     <div
                       key={collection.name}
-                      className={cn("flex flex-col items-center ", `text-${color}`)}
+                      className={cn("flex flex-col items-center ")}
+                      style={{
+                        color: `hsl(${
+                          (index * 360) / data.collections.length
+                        }, 70%, 60%)`,
+                      }}
                     >
                       <h4 className="font-semibold text-lg capitalize">
                         {collection.name}
@@ -86,7 +91,9 @@ const CollectionInPasentage = async () => {
                         <span className="text-xl font-bold">
                           {calculatePercentage(collection.document_count)}%
                         </span>
-                        <span className="text-sm">{collection.document_count}</span>
+                        <span className="text-sm">
+                          {collection.document_count}
+                        </span>
                       </div>
                     </div>
                   )
@@ -123,7 +130,7 @@ const CollectionInPasentage = async () => {
             {/* Bar Chart */}
             <div className="h-8 w-full mt-4 flex">
               {/* Main Collections */}
-              {mainCollections.map(({ name, color }) => {
+              {mainCollections.map(({ name, color }, index) => {
                 const collection = data.collections.find(
                   (col) => col.name.toLowerCase() === name.toLowerCase()
                 );
@@ -136,13 +143,15 @@ const CollectionInPasentage = async () => {
                         width: `${calculatePercentage(
                           collection.document_count
                         )}%`,
+                        backgroundColor: `hsl(${
+                          (index * 360) / data.collections.length
+                        }, 70%, 60%)`,
                       }}
                       className={cn(
-                        `h-full bg-${color}`, 
+                        `h-full bg-${color}`,
                         mainCollections[0].name === name && " rounded-l-full"
                       )}
-                    >
-                    </button>
+                    ></button>
                   )
                 );
               })}
@@ -159,7 +168,7 @@ const CollectionInPasentage = async () => {
                       )
                     )}%`,
                   }}
-                  className="h-full bg-gray-300 rounded-r-full" 
+                  className="h-full bg-gray-300 rounded-r-full"
                 />
               )}
             </div>

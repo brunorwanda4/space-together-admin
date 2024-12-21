@@ -1,4 +1,4 @@
-import CollectionsCharts from "@/components/site/database/collections_charts";
+import CollectionsCharts from "@/components/site/database/collections_cards";
 import DatabaseHeader from "@/components/site/database/databaseHeader";
 import { fetchDatabaseStatus } from "@/services/databaseStatusService";
 import { DatabaseStats } from "@/types/databaseStatus";

@@ -116,9 +116,12 @@ const CollectionInDBMain = async () => {
             href={`/${collection.name.toLowerCase()}`}
             className={cn(
               "btn btn-sm mt-2",
-              !collection.role && "mt-8",
-              collection.color ? `btn-${collection.color}` : "btn-warning"
             )}
+            style={{
+              backgroundColor: `hsl(${
+                (index * 360) / data.collections.length
+              }, 70%, 60%)`,
+            }}
           >
             All {collection.name}
           </Link>

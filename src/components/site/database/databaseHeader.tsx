@@ -21,21 +21,22 @@ const DatabaseHeader = ({ data, error }: DbProps) => {
         <div>
           <div className=" flex justify-between">
             <h3 className=" font-medium">Total Size</h3>
-            <div>
-              <FcFilingCabinet size={20} />
+            <div className="">
+              <FcFilingCabinet size={32} />
             </div>
           </div>
           <div className=" mt-3">
             <span className="font-bold text-3xl">{data?.total_size_bytes}</span>
           </div>
         </div>
+        
       </div>
       <div className={cn(className.childDiv)}>
         <div>
         <div className=" flex justify-between">
             <h3 className=" font-medium">Total Collections</h3>
             <div>
-              <FcPackage size={20} />
+              <FcPackage size={32} />
             </div>
           </div>
           <div className=" mt-3">
@@ -48,7 +49,7 @@ const DatabaseHeader = ({ data, error }: DbProps) => {
         <div className=" flex justify-between">
             <h3 className=" font-medium">Total Documents</h3>
             <div>
-              <FcRules size={20} />
+              <FcRules size={32} />
             </div>
           </div>
           <div className=" mt-3">

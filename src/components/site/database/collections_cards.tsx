@@ -1,6 +1,7 @@
 "use client";
 
 import { DbProps } from "@/types/databaseStatus";
+import Link from "next/link";
 
 const CollectionsCharts = ({
   data,
@@ -37,23 +38,23 @@ const CollectionsCharts = ({
       <div className="p-6">
         <div className="grid grid-cols-2 gap-4">
           {data.collections.map((collection, index) => (
-            <div
+            <Link href={`/collection/${collection.name}`}
               key={index}
-              className="bg-base-100 p-4 rounded-lg shadow-sm flex items-center justify-between"
+              className=" bg-base-100/50 rounded-lg shadow-sm flex items-center justify-between btn h-28 btn-ghost p-0"
             >
-              <div>
-                <h3 className="text-lg font-bold text-gray-700">
+              <div className=" p-4">
+                <h3 className="text-lg font-bold">
                   {collection.name}
                 </h3>
-                <div className="text-sm text-gray-500">
-                  <div>
-                    Documents:
+                <div className="text-sm ">
+                  <div className=" flex gap-2">
+                    <strong>Documents:</strong>
                     <span className=" font-medium ">
                       {collection.document_count.toLocaleString()}
                     </span>
                   </div>
-                  <div>
-                    Size:
+                  <div className=" flex gap-2">
+                    <strong>Size:</strong>
                     <span className=" font-medium ">
                       {collection.size_bytes.toLocaleString()}
                     </span>
@@ -61,14 +62,14 @@ const CollectionsCharts = ({
                 </div>
               </div>
               <div
-                className="w-4 h-4 rounded-full"
+                className="h-full btn rounded-l-none w-1 btn-xs"
                 style={{
                   backgroundColor: `hsl(${
                     (index * 360) / data.collections.length
                   }, 70%, 60%)`,
                 }}
               ></div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
