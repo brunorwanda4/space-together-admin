@@ -54,9 +54,9 @@ const sidebarGroups: { label: string; items: SidebarItem[] }[] = [
         url: "/",
       },
       {
-        title: "Collections",
+        title: "Database",
         icon: BsCollection,
-        url: "/collections",
+        url: "/database",
       },
     ],
   },
