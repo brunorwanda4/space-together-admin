@@ -1,20 +1,39 @@
-import { FaGreaterThan } from "react-icons/fa6";
+import { ApiClient } from "@/services/class/fetchingAPIClient";
+import { UserModel } from "@/types/userModel";
+import { FetchError } from "@/types/fetchErr";
 
-interface Props {
-    params: { collectionName: string };
-}
+const apiClient = new ApiClient();
 
-// Mark the function as async to properly await params.
-const CollectionPage = async ({ params: {collectionName} }: Props) => {
+export default async function CollectionPage(
+  props: {
+    params: Promise<{ collectionName: string }>;
+  }
+) {
+  const params = await props.params;
+  const { collectionName } = params;
+
+  const data: UserModel[] | FetchError = await apiClient.allData<UserModel[]>(
+    process.env.BASE_API_URL || "users",
+    "users"
+  );
+
+
+  if (Array.isArray(data)) {
+    // Render the data if it's a valid UserModel[]
     return (
-        <div className="happy-page">
-            <div className="happy-title-head flex items-center gap-2">
-                <h1>Collection</h1>
-                <FaGreaterThan size={16} />
-                <span>{collectionName}</span>
-            </div>
-        </div>
+      <div>
+        <h1>Collection: {collectionName}</h1>
+        <ul>
+          {data.map((user) => (
+            <li key={user.id}>
+              {user.nm} ({user.em})
+            </li>
+          ))}
+        </ul>
+      </div>
     );
-};
-
-export default CollectionPage;
+  } else {
+    // Render error message if data is a FetchError
+    return <div>Error: {data.message}</div>;
+  }
+}

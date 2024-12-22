@@ -4,7 +4,7 @@ import { FetchError } from "@/types/fetchErr";
 
 export const fetchUserData = async (): Promise<UserModel | FetchError | null> => {
   try {
-    const res = await axios.get<UserModel>(`${process.env.ST_API}/user/user`, {
+    const res = await axios.get<UserModel>(`${process.env.ST_API}/users`, {
       headers: {
         "Cache-Control": "no-store", // Ensures fresh data
       },
