@@ -1,10 +1,11 @@
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { DbProps } from "@/types/databaseStatus";
-import { FcFilingCabinet,FcPackage,FcRules } from "react-icons/fc";
+import { FcFilingCabinet, FcPackage, FcRules } from "react-icons/fc";
 const DatabaseHeader = ({ data, error }: DbProps) => {
   const className = {
     parentDiv: "h-32 happy-card p-0 w-full flex flex-row",
-    childDiv: "p-6 w-1/4 border-r border-base-200</border-base-2> h-full",
+    childDiv: "p-6 w-1/4 h-full",
   };
 
   if (error) {
@@ -29,11 +30,11 @@ const DatabaseHeader = ({ data, error }: DbProps) => {
             <span className="font-bold text-3xl">{data?.total_size_bytes}</span>
           </div>
         </div>
-        
       </div>
+      <Separator orientation="vertical"/>
       <div className={cn(className.childDiv)}>
         <div>
-        <div className=" flex justify-between">
+          <div className=" flex justify-between">
             <h3 className=" font-medium">Total Collections</h3>
             <div>
               <FcPackage size={32} />
@@ -44,9 +45,10 @@ const DatabaseHeader = ({ data, error }: DbProps) => {
           </div>
         </div>
       </div>
+      <Separator orientation="vertical"/>
       <div className={cn(className.childDiv)}>
         <div>
-        <div className=" flex justify-between">
+          <div className=" flex justify-between">
             <h3 className=" font-medium">Total Documents</h3>
             <div>
               <FcRules size={32} />
@@ -57,6 +59,7 @@ const DatabaseHeader = ({ data, error }: DbProps) => {
           </div>
         </div>
       </div>
+      <Separator orientation="vertical"/>
       <div className={cn(className.childDiv)}>
         <div>
           <h3 className=" font-medium">Date </h3>

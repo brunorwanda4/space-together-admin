@@ -4,7 +4,6 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { LiaUsersSolid } from "react-icons/lia";
 import { MdClass } from "react-icons/md";
 import { CiGrid31 } from "react-icons/ci";
-import { BsCollection} from "react-icons/bs";
 
 import {
   Sidebar,
@@ -34,6 +33,7 @@ import ProfileButton from "./profile-button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { AiFillDatabase } from "react-icons/ai";
 
 // Define type for sidebar items
 type SidebarItem = {
@@ -55,7 +55,7 @@ const sidebarGroups: { label: string; items: SidebarItem[] }[] = [
       },
       {
         title: "Database",
-        icon: BsCollection,
+        icon: AiFillDatabase,
         url: "/database",
       },
     ],
