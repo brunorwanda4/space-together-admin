@@ -1,6 +1,13 @@
 "use client";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LoginModel, loginModelTypes } from "@/models/auth/login-model";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +24,7 @@ export const LoginForm = () => {
     resolver: zodResolver(LoginModel),
     defaultValues: {
       email: "",
-      password: ""
+      password: "",
     },
   });
 

@@ -24,7 +24,7 @@ const CollectionUserRole = ({ roles }: props) => {
           }
           return (
             <div key={item.id} className=" flex justify-between">
-              <span className="  text-muted-foreground">{item.rl}</span>
+              <span className="  text-muted-foreground capitalize">{item.rl}</span>
               <div>
                 {Array.isArray(getUsers) ? (
                   <DeleteUserRoleDialog totalUsers={totalUsers} role={item} />

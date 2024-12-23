@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,29 +11,82 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+import { Input } from "@/components/ui/input";
 import UseTheme from "@/context/theme/use-theme";
+import { userRoleSchema, userRoleSchemeType } from "@/utils/schema/user-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import React from "react";
+import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
 
 const CollectionUserRoleNew = () => {
+  const form = useForm<userRoleSchemeType>({
+    resolver: zodResolver(userRoleSchema),
+    defaultValues: {
+      rl: "",
+    },
+  });
+
+  const handleSubmit = (values: userRoleSchemeType) => {
+    console.log(values);
+  };
   return (
     <AlertDialog>
-      <AlertDialogTrigger className=" btn btn-info btn-sm">
-        <BsPlus /> Add user role
+      {/* Trigger Button */}
+      <AlertDialogTrigger className="btn btn-info btn-sm">
+        <BsPlus /> Add User Role
       </AlertDialogTrigger>
-      <AlertDialogContent data-theme={UseTheme()}>
+
+      {/* Dialog Content */}
+      <AlertDialogContent data-theme={UseTheme()} className="happy-card">
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Create a New User Role</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Add new user role where user have to choose he/she the roles!
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
-        </AlertDialogFooter>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <FormField
+              name="rl"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className=" font-semibold">New role</FormLabel>
+                  <FormControl>
+                    <div>
+                      <Input
+                      id="rl"
+                      {...field}
+                      className=" w-full"
+                      placeholder="User"
+                      type="test"
+                    />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <AlertDialogFooter className=" mt-4">
+              <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
+              <AlertDialogAction className="">
+                Confirm
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </form>
+        </Form>
       </AlertDialogContent>
     </AlertDialog>
   );
