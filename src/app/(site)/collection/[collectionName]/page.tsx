@@ -1,39 +1,49 @@
 import { ApiClient } from "@/services/class/fetchingAPIClient";
-import { UserModel } from "@/types/userModel";
+import { UserModel, UserRoleModel } from "@/types/userModel";
 import { FetchError } from "@/types/fetchErr";
+import CollectionPageStatic, {
+  CollectionPageErrorStatic,
+} from "@/utils/static/page/collectionPageStatic";
+import CollectionUserRole from "@/components/site/collection/users/collectionUserRole";
 
 const apiClient = new ApiClient();
 
-export default async function CollectionPage(
-  props: {
-    params: Promise<{ collectionName: string }>;
-  }
-) {
+export default async function CollectionPage(props: {
+  params: Promise<{ collectionName: string }>;
+}) {
   const params = await props.params;
   const { collectionName } = params;
 
-  const data: UserModel[] | FetchError = await apiClient.allData<UserModel[]>(
-    process.env.BASE_API_URL || "users",
-    "users"
-  );
+  switch (collectionName) {
+    case "users":
+      const data: UserModel[] | FetchError = await apiClient.allData<
+        UserModel[]
+      >("users", "users");
 
+      const userRoles: UserRoleModel[] | FetchError = await apiClient.allData<
+        UserRoleModel[]
+      >("users/role", "user role");
 
-  if (Array.isArray(data)) {
-    // Render the data if it's a valid UserModel[]
-    return (
-      <div>
-        <h1>Collection: {collectionName}</h1>
-        <ul>
-          {data.map((user) => (
-            <li key={user.id}>
-              {user.nm} ({user.em})
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  } else {
-    // Render error message if data is a FetchError
-    return <div>Error: {data.message}</div>;
+      if (Array.isArray(data)) {
+        return (
+          <CollectionPageStatic collection={collectionName}>
+            <div>
+              {Array.isArray(userRoles) && (
+                <CollectionUserRole roles={userRoles} />
+              )}
+            </div>
+            <div>bruno</div>
+            {data.map((items) => (
+              <div key={items.id}>{items.id}</div>
+            ))}
+          </CollectionPageStatic>
+        );
+      } else {
+        return (
+          <CollectionPageErrorStatic error={data} collection={collectionName} />
+        );
+      }
+    default:
+      return <CollectionPageErrorStatic collection={collectionName} />;
   }
 }
