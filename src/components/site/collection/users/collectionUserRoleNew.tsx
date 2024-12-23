@@ -58,9 +58,7 @@ const CollectionUserRoleNew = () => {
       const result = await createUserRole(values);
 
       if ("message" in result) {
-        // It's an error
-        console.error("Error creating user role:", result);
-        setError(result.details);
+        setError(result.message);
         toast({
           title: "Uh oh! Something went wrong.",
           description: result.message,
@@ -68,7 +66,6 @@ const CollectionUserRoleNew = () => {
         });
       } else {
         // It's a success
-        console.log("User role created successfully:", result);
         setSuccess("User role created successfully!");
         toast({
           title: "User role created successfully",

@@ -66,6 +66,7 @@ const sidebarGroups: { label: string; items: SidebarItem[] }[] = [
       {
         title: "Users",
         icon: LiaUsersSolid,
+        url: "/collection/users",
         children: [
           { title: "Students", url: "/users/students" },
           { title: "Teachers", url: "/users/teachers" },

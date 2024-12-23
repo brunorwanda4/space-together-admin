@@ -9,9 +9,9 @@ type props = {
 };
 const CollectionUserRole = ({ roles }: props) => {
   return (
-    <div className=" happy-card w-1/2 min-h-32 p-0">
+    <div className=" happy-card w-1/2 p-0">
       <div className=" p-4 flex justify-between items-center">
-        <h2 className="happy-title-base">Collection Roles</h2>
+        <h2 className="happy-title-base">Collection Roles ({roles.length})</h2>
         <CollectionUserRoleNew />
       </div>
       <Separator />
