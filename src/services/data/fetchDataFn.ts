@@ -3,10 +3,11 @@ import { ApiClient } from "../class/fetchingAPIClient";
 import { UserModel, UserRoleModel, UserRoleModelNew } from "@/types/userModel";
 
 const apiClient = new ApiClient();
+
 export async function createUserRole(
   role: UserRoleModelNew
 ): Promise<UserRoleModel | FetchError> {
-  const endpoint = "users";
+  const endpoint = "users/role";
   return apiClient.postData(endpoint, role, "user role");
 }
 

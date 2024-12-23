@@ -60,7 +60,7 @@ const CollectionUserRoleNew = () => {
       if ("message" in result) {
         // It's an error
         console.error("Error creating user role:", result);
-        setError(result.message);
+        setError(result.details);
         toast({
           title: "Uh oh! Something went wrong.",
           description: result.message,
