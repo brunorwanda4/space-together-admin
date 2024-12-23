@@ -1,6 +1,10 @@
 "use client";
 
 import {
+  FormMessageError,
+  FormMessageSuccess,
+} from "@/components/form/formError";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -23,14 +27,21 @@ import {
 
 import { Input } from "@/components/ui/input";
 import UseTheme from "@/context/theme/use-theme";
+import { toast } from "@/hooks/use-toast";
+import { createUserRole } from "@/services/data/fetchDataFn";
 import { userRoleSchema, userRoleSchemeType } from "@/utils/schema/user-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderCircle } from "lucide-react";
+import { useState, useTransition } from "react";
 
-import React from "react";
 import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
 
 const CollectionUserRoleNew = () => {
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<userRoleSchemeType>({
     resolver: zodResolver(userRoleSchema),
     defaultValues: {
@@ -39,21 +50,55 @@ const CollectionUserRoleNew = () => {
   });
 
   const handleSubmit = (values: userRoleSchemeType) => {
+    setError("");
+    setSuccess("");
     console.log(values);
+
+    startTransition(async () => {
+      const result = await createUserRole(values);
+
+      if ("message" in result) {
+        // It's an error
+        console.error("Error creating user role:", result);
+        setError(result.message);
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: result.message,
+          variant: "destructive",
+        });
+      } else {
+        // It's a success
+        console.log("User role created successfully:", result);
+        setSuccess("User role created successfully!");
+        toast({
+          title: "User role created successfully",
+          description: `Role: ${result.rl}`,
+        });
+        form.reset(); // Clear the form after success
+      }
+    });
   };
+
   return (
     <AlertDialog>
       {/* Trigger Button */}
-      <AlertDialogTrigger className="btn btn-info btn-sm">
-        <BsPlus /> Add User Role
+      <AlertDialogTrigger disabled={isPending} className="btn btn-info btn-sm">
+        <BsPlus /> Add User Role{" "}
+        {isPending && (
+          <LoaderCircle
+            className="-ms-1 me-2 animate-spin"
+            size={16}
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+        )}
       </AlertDialogTrigger>
-
       {/* Dialog Content */}
       <AlertDialogContent data-theme={UseTheme()} className="happy-card">
         <AlertDialogHeader>
           <AlertDialogTitle>Create a New User Role</AlertDialogTitle>
           <AlertDialogDescription>
-            Add new user role where user have to choose he/she the roles!
+            Add a new user role where users must choose their roles!
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Form {...form}>
@@ -65,23 +110,26 @@ const CollectionUserRoleNew = () => {
                 <FormItem>
                   <FormLabel className=" font-semibold">New role</FormLabel>
                   <FormControl>
-                    <div>
-                      <Input
+                    <Input
                       id="rl"
                       {...field}
-                      className=" w-full"
+                      className="w-full"
                       placeholder="User"
-                      type="test"
+                      type="text"
+                      disabled={isPending}
                     />
-                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <AlertDialogFooter className=" mt-4">
+            <div className=" mt-2">
+              <FormMessageError message={error} />
+              <FormMessageSuccess message={success} />
+            </div>
+            <AlertDialogFooter className="mt-4">
               <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
-              <AlertDialogAction className="">
+              <AlertDialogAction disabled={isPending} type="submit">
                 Confirm
               </AlertDialogAction>
             </AlertDialogFooter>

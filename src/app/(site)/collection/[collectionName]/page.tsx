@@ -25,6 +25,7 @@ export default async function CollectionPage(props: {
       >("users/role", "user role");
 
       if (Array.isArray(data)) {
+        
         return (
           <CollectionPageStatic collection={collectionName}>
             <div>
@@ -32,9 +33,9 @@ export default async function CollectionPage(props: {
                 <CollectionUserRole roles={userRoles} />
               )}
             </div>
-            <div>bruno</div>
+            <div>---------------------</div>
             {data.map((items) => (
-              <div key={items.id}>{items.id}</div>
+              <div key={items.id}>{items.em}</div>
             ))}
           </CollectionPageStatic>
         );

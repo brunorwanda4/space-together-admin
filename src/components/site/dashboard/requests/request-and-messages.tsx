@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import { FaMessage } from "react-icons/fa6";
 import RequestAndMessagesCard from "./request-and-messages-card";
 import Link from "next/link";
@@ -13,7 +13,7 @@ const RequestAndMessagesDashboard = () => {
             <h2 className=" happy-title-base">Request and messages</h2>
           </div>
           <Link href={"/"} className=" btn btn-sm btn-ghost  happy-title-base">
-           See all <span  className="  ">38</span>
+            See all <span className="  ">38</span>
           </Link>
         </div>
         <div className="mt-6 grid grid-cols-2 w-full gap-4 max-h-[28rem] overflow-y-auto">
@@ -29,5 +29,3 @@ const RequestAndMessagesDashboard = () => {
 };
 
 export default RequestAndMessagesDashboard;
-
-

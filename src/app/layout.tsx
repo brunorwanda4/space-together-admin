@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/theme/themeProviders";
 import { ClientThemeWrapper } from "@/context/theme/clientTheme";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "space-together-admin",
@@ -25,6 +26,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ClientThemeWrapper>
             {children}
+            <Toaster />
           </ClientThemeWrapper>
         </ThemeProvider>
       </body>

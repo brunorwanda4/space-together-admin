@@ -1,10 +1,11 @@
-import CollectionInDatabase from "@/components/site/dashboard/collections/collection-in-database"
-import HeroDashboard from "@/components/site/dashboard/hero-dashboard"
-import RequestAndMessagesDashboard from "@/components/site/dashboard/requests/request-and-messages"
+import CollectionInDatabase from "@/components/site/dashboard/collections/collection-in-database";
+import HeroDashboard from "@/components/site/dashboard/hero-dashboard";
+import RequestAndMessagesDashboard from "@/components/site/dashboard/requests/request-and-messages";
 
-const page = () => {
+const Dashboard = () => {
+
   return (
-    <div  className=" happy-page">
+    <div className=" happy-page">
       <h1 className=" happy-title-head">Dashboard</h1>
       <div className=" happy-line gap-4">
         <HeroDashboard />
@@ -15,10 +16,9 @@ const page = () => {
         <RequestAndMessagesDashboard />
       </div>
       <div className=" h-screen ">
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Dashboard;
