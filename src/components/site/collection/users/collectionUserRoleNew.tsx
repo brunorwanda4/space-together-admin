@@ -52,7 +52,6 @@ const CollectionUserRoleNew = () => {
   const handleSubmit = (values: userRoleSchemeType) => {
     setError("");
     setSuccess("");
-    console.log(values);
 
     startTransition(async () => {
       const result = await createUserRole(values);

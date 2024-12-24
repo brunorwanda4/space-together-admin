@@ -5,12 +5,12 @@ import { cn } from "@/lib/utils";
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
-  variant?: "primary" | "secondary" | "accent" | "ghost" | "link" | "outline" | "error";
-  size?: "sm" | "md" | "lg";
+  variant?: "primary" | "secondary" | "accent" | "ghost" | "success"|"link" | "outline" | "error" | "info";
+  size?: "xs" |"sm" | "md" | "lg";
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", size = "md", asChild = false, ...props }, ref) => {
+  ({ className, variant = "", size = "md", asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
 
     // Map variant and size props to DaisyUI classes
@@ -19,13 +19,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       primary: "btn-primary",
       secondary: "btn-secondary",
       accent: "btn-accent",
+      info: "btn-info",
       ghost: "btn-ghost",
       link: "btn-link",
       outline: "btn-outline",
       error: "btn-error",
+      success: "btn-success",
     }[variant];
 
     const sizeClass = {
+      xs: "btn-xs",
       sm: "btn-sm",
       md: "btn-md",
       lg: "btn-lg",

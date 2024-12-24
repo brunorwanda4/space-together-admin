@@ -34,7 +34,7 @@ const UserPageCollection = async ({ collectionName }: props) => {
           <UserCollectionDetails totalUserRole={Array.isArray(userRoles) && userRoles.length} totalUser={data.length} />
           {Array.isArray(userRoles) && <CollectionUserRole roles={userRoles} />}
         </div>
-         <UsersTableCollection users={data}/>
+         <UsersTableCollection usersRole={userRoles} users={data}/>
       </CollectionPageStatic>
     );
   }

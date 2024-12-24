@@ -1,8 +1,19 @@
 // types/userModel.ts
+
 export interface Gender {
-  Male: "M";
-  Female: "F";
-  Other: "O";
+  Male: "M"; // Male gender representation
+  Female: "F"; // Female gender representation
+  Other: "O"; // Other gender representation
+}
+
+export interface UserModelNew {
+  nm: string; // Full name of the user
+  un?: string; // Username (optional)
+  rl: string; // Role ID associated with the user
+  em: string; // Email address of the user
+  ph?: string; // Phone number (optional)
+  pw: string; // Password for the user account
+  gd: keyof Gender; // Gender of the user, refers to the Gender interface
 }
 
 export interface UserModel {
@@ -19,9 +30,6 @@ export interface UserModel {
 }
 
 export type UserRoleModel = {
-  /**
- * id 
- */
   id: string; // id
   rl: string; // role
   co: string; // create date

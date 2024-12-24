@@ -51,7 +51,7 @@ const DeleteUserRoleDialog = ({ role, totalUsers }: Props) => {
         setSuccess("User role deleted successfully!");
         toast({
           title: "User role created successfully",
-          description: <p>You delete <strong>${deleteRole.rl}</strong> user have role are <strong>${totalUsers}</strong></p>,
+          description: <p>You delete <strong>{deleteRole.rl}</strong> user have role are <strong>{totalUsers}</strong></p>,
         });
       }
     });

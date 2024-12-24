@@ -29,6 +29,8 @@ import {
   DropdownMenuContent,
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
+import UseTheme from "@/context/theme/use-theme";
+import { CiViewColumn } from "react-icons/ci";
 
 type DataTableProps<T> = {
   data: T[];
@@ -38,8 +40,11 @@ type DataTableProps<T> = {
 
 export function DataTable<T>({ data, columns, searchKeys }: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
 
@@ -68,13 +73,12 @@ export function DataTable<T>({ data, columns, searchKeys }: DataTableProps<T>) {
         return String(value).toLowerCase().includes(filterValue.toLowerCase());
       });
     },
-    
   });
 
   return (
     <div className="w-full">
       {/* Search Input */}
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 justify-between">
         <Input
           placeholder="Search..."
           value={globalFilter ?? ""}
@@ -83,20 +87,21 @@ export function DataTable<T>({ data, columns, searchKeys }: DataTableProps<T>) {
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
+            <Button className=""><CiViewColumn /> Columns</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table.getAllColumns()
+          <DropdownMenuContent
+            align="end"
+            data-theme={UseTheme()}
+            className=" bg-base-200"
+          >
+            {table
+              .getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) => (
                 <DropdownMenuCheckboxItem
                   key={column.id}
                   checked={column.getIsVisible()}
-                  onCheckedChange={(value) =>
-                    column.toggleVisibility(!!value)
-                  }
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
                 >
                   {column.id}
                 </DropdownMenuCheckboxItem>
@@ -112,7 +117,7 @@ export function DataTable<T>({ data, columns, searchKeys }: DataTableProps<T>) {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -150,7 +155,7 @@ export function DataTable<T>({ data, columns, searchKeys }: DataTableProps<T>) {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-end py-4">
+      <div className="flex items-center justify-end py-4 gap-2">
         <Button
           variant="outline"
           size="sm"
