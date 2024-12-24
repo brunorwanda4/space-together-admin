@@ -6,12 +6,15 @@ import CollectionPageStatic, {
 } from "@/utils/static/page/collectionPageStatic";
 import CollectionUserRole from "./collectionUserRole";
 import UserCollectionDetails from "./userCollectionDetials";
+import UsersTableCollection from "./usersTableCollection";
 
 const apiClient = new ApiClient();
 
 interface props {
   collectionName: string;
 }
+
+
 
 const UserPageCollection = async ({ collectionName }: props) => {
   const data: UserModel[] | FetchError = await apiClient.allData<UserModel[]>(
@@ -26,15 +29,12 @@ const UserPageCollection = async ({ collectionName }: props) => {
 
   if (Array.isArray(data)) {
     return (
-      <CollectionPageStatic collection={collectionName}>
+      <CollectionPageStatic className=" overflow-x-hidden" collection={collectionName}>
         <div className="min-h-48 flex gap-4 justify-between">
           <UserCollectionDetails totalUserRole={Array.isArray(userRoles) && userRoles.length} totalUser={data.length} />
           {Array.isArray(userRoles) && <CollectionUserRole roles={userRoles} />}
         </div>
-        <div>---------------------</div>
-        {data.map((items) => (
-          <div key={items.id}>{items.em}</div>
-        ))}
+         <UsersTableCollection users={data}/>
       </CollectionPageStatic>
     );
   }
@@ -42,3 +42,4 @@ const UserPageCollection = async ({ collectionName }: props) => {
   return <CollectionPageErrorStatic error={data} collection={collectionName} />;
 };
 export default UserPageCollection;
+

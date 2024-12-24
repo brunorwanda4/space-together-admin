@@ -1,22 +1,25 @@
+import { cn } from "@/lib/utils";
 import { FetchError } from "@/types/fetchErr";
 import { FaGreaterThan } from "react-icons/fa6";
 
 type CollectionPageStaticProps = {
   children: React.ReactNode;
   collection: string;
+  className ?: string; 
 };
 const CollectionPageStatic = ({
   children,
   collection,
+  className
 }: CollectionPageStaticProps) => {
   return (
-    <div className=" happy-page">
+    <div className={cn("happy-page" , className)} >
       <div className="happy-title-head flex items-center gap-2">
         <h1>Collection</h1>
         <FaGreaterThan size={16} />
         <span>{collection}</span>
       </div>
-      <div>{children}</div>
+      <div className=" happy-page">{children}</div>
       <div className=" h-screen"></div>
     </div>
   );
