@@ -89,7 +89,7 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
         });
       } else {
         // It's a success
-        setSuccess("User role created successfully!");
+        setSuccess("User created successfully!");
         toast({
           title: "User created successfully 😁",
           description: <div>user: {result.nm}</div>,

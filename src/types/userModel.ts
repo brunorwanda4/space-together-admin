@@ -12,6 +12,7 @@ export interface UserModelNew {
   rl: string; // Role ID associated with the user
   em: string; // Email address of the user
   ph?: string; // Phone number (optional)
+  im ?: string; // Image
   pw: string; // Password for the user account
   gd: keyof Gender; // Gender of the user, refers to the Gender interface
 }
@@ -28,6 +29,7 @@ export interface UserModel {
   gd?: keyof Gender; // gender
   co: string; // create date
   uo?: string; // update date
+  im ?: string; // Image
 }
 
 export interface UserModelPut {
@@ -39,6 +41,7 @@ export interface UserModelPut {
   pw?: string; // Password
   gd?: Gender; // Gender
   ds?: boolean; // Disabled status
+  im ?: string; // Image 
 }
 
 export interface UserModelDeleteMany {

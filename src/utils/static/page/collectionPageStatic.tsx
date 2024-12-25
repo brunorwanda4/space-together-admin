@@ -1,3 +1,4 @@
+import CardError from "@/components/my-components/card-error";
 import { cn } from "@/lib/utils";
 import { FetchError } from "@/types/fetchErr";
 import { FaGreaterThan } from "react-icons/fa6";
@@ -38,16 +39,8 @@ export const CollectionPageErrorStatic = ({
 }: CollectionPageErrorStaticProps) => {
   return (
     <CollectionPageStatic collection={collection}>
-      {error ? (
-        <div className="text-red-500 bg-error/20 p-6 rounded-md border border-error">
-          <strong>Error:</strong> {error.message} <br />
-          <strong>Details:</strong> {error.details} <br />
-          {error.status && <div><strong>Status:</strong> {error.status} </div>}
-        </div>
-      ) : (<div className=" text-red-500 bg-error/20 p-6 rounded-md border border-error">
-        <strong>Error:</strong> Collection not found <br />
-        <strong>Details:</strong> Collection UI is not available try other 
-      </div>)}
+       {error ? <CardError error={error} /> : <CardError />}
     </CollectionPageStatic>
   );
 };
+

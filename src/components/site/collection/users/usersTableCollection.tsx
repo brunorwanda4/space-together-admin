@@ -79,11 +79,11 @@ const UsersTableCollection = ({ users, usersRole , collectionName}: props) => {
       accessorKey: "nm",
       header: "Name",
       cell: ({ row }) => {
-        const disabled = row.original.ds;
+        const user = row.original;
         return (
-          <span className={cn(disabled && "text-warning")}>
+          <Link href={`/collection/${collectionName}/${user.id}`} className={cn(" link-hover", user.ds && "text-warning")}>
             {row.getValue("nm")}
-          </span>
+          </Link>
         );
       },
     },
@@ -173,7 +173,6 @@ const UsersTableCollection = ({ users, usersRole , collectionName}: props) => {
         toast({
           title: `User ${result.nm} updated successfully`,
           description: <div>user: {result.nm}</div>,
-          variant: "success",
         });
       }
     });

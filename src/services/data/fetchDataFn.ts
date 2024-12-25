@@ -105,3 +105,25 @@ export async function updateUserAPI(
   const endpoint = `users/${id}`;
   return apiClient.updateData(endpoint,user, "users");
 }
+
+/**
+ * get document by id
+ * @returns T | FetchError
+ */
+
+export async function fetchDocumentById<T>(
+  endpoint: string,
+  name ?: string
+): Promise<T | FetchError> {
+  return apiClient.allData<T>(endpoint, name);
+}
+
+/**
+ * get all user roles
+ * @returns UserRoles[] | FetchError
+ */
+
+export async function fetchAllUserRoles(): Promise<UserRoleModel[] | FetchError> {
+  const endpoint = "users/role";
+  return apiClient.allData<UserRoleModel[]>(endpoint, "user roles");
+}

@@ -3,6 +3,7 @@ import { UserRoleModel } from "@/types/userModel";
 import CollectionUserRoleNew from "./collectionUserRoleNew";
 import DeleteUserRoleDialog from "./deleteUserRoleDialog";
 import { fetchUsersByRole } from "@/services/data/fetchDataFn";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type props = {
   roles: UserRoleModel[];
@@ -15,7 +16,7 @@ const CollectionUserRole = ({ roles }: props) => {
         <CollectionUserRoleNew />
       </div>
       <Separator />
-      <div className=" p-4 happy-line ">
+      <ScrollArea className=" h-36 p-4 happy-line ">
         {roles.map(async (item) => {
           let totalUsers: number = 0;
           const getUsers = await fetchUsersByRole(item.rl);
@@ -37,7 +38,7 @@ const CollectionUserRole = ({ roles }: props) => {
             </div>
           );
         })}
-      </div>
+      </ScrollArea>
     </div>
   );
 };

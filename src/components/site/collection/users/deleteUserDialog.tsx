@@ -22,6 +22,8 @@ import { FetchError } from "@/types/fetchErr";
 import { toast } from "@/hooks/use-toast";
 import { deleteUserAPI } from "@/services/data/fetchDataFn";
 import { LoaderCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CiTrash } from "react-icons/ci";
 
 interface Props {
   user: UserModel;
@@ -57,8 +59,8 @@ const DeleteUserDialog = ({ user }: Props) => {
   };
   return (
     <AlertDialog>
-      <AlertDialogTrigger disabled={isPending}>
-        Delete
+      <AlertDialogTrigger asChild>
+       <Button size="sm" variant="error"> <CiTrash /> Delete account
         {isPending && (
           <LoaderCircle
             className="-ms-1 me-2 animate-spin"
@@ -66,12 +68,12 @@ const DeleteUserDialog = ({ user }: Props) => {
             strokeWidth={2}
             aria-hidden="true"
           />
-        )}
+        )}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent data-theme={UseTheme()} className="happy-card">
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete {user.nm} account?
+            Are you sure you want to delete <strong className=" capitalize">{user.nm}</strong> account?
           </AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. It will permanently delete the user

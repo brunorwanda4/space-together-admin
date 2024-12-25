@@ -1,3 +1,4 @@
+import CardError from "@/components/my-components/card-error";
 import { cn } from "@/lib/utils";
 import { fetchDatabaseStatus } from "@/services/databaseStatusService";
 import { DatabaseStats, } from "@/types/databaseStatus";
@@ -58,10 +59,7 @@ const CollectionInDBMain = async () => {
 
   if (error) {
     return (
-      <div className="text-red-500">
-        <p>Error: {error.message}</p>
-        {error.details && <p>Details: {error.details}</p>}
-      </div>
+      <CardError error={error}/>
     );
   }
 
@@ -96,7 +94,7 @@ const CollectionInDBMain = async () => {
   );
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-4 w-1/2">
       {/* Main Collections */}
       {mainCollections.map((collection, index) => (
         <div key={index} className="h-full w-full happy-card">
@@ -133,13 +131,12 @@ const CollectionInDBMain = async () => {
         <div className="h-full w-full happy-card">
           <div className="flex gap-2 items-center">
             <FaGrip className="size-6" />
-            <h4 className="happy-title-base">Other Collections</h4>
+            <h4 className="happy-title-base">Other ({otherCollections.length})</h4>
           </div>
           <div className="flex justify-center items-center flex-col mt-1">
             <span className="font-bold text-4xl">
               {otherCollections.reduce((sum, col) => sum + col.document_count, 0)}
             </span>
-            <p className="font-medium">{otherCollections.length} collections</p>
           </div>
           <Link
             href="/others"
