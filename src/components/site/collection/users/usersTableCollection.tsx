@@ -26,12 +26,13 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import UserActionDialog from "./userActionDialog";
 
-interface Props {
+interface props {
   users: UserModel[];
   usersRole: UserRoleModel[] | FetchError;
+  collectionName : string
 }
 
-const UsersTableCollection = ({ users, usersRole }: Props) => {
+const UsersTableCollection = ({ users, usersRole , collectionName}: props) => {
   const [isPending, startTransition] = useTransition();
   const [SelectedUsers, setSelectedUsers] = useState<UserModel[]>([]);
 
@@ -138,7 +139,9 @@ const UsersTableCollection = ({ users, usersRole }: Props) => {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href={payment.id}>View account</Link>
+                <Link href={`/collection/${collectionName}/${payment.id}`}>
+                  View account
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
                 disabled={isPending}
@@ -182,7 +185,10 @@ const UsersTableCollection = ({ users, usersRole }: Props) => {
         <h1 className="happy-title-base">Users Table ({users.length})</h1>
         <div className="space-x-2">
           {SelectedUsers.length > 0 && (
-            <UserActionDialog setUsers={setSelectedUsers} users={SelectedUsers}/>
+            <UserActionDialog
+              setUsers={setSelectedUsers}
+              users={SelectedUsers}
+            />
           )}
           <CreateNewUserDialog usersRole={usersRole} />
           <Button variant="success" size="sm">
