@@ -1,11 +1,10 @@
 "use client";
 
 import { DataTable } from "@/components/my-components/data-table";
-import { UserModel, UserRoleModel } from "@/types/userModel";
+import { UserModel, UserModelPut, UserRoleModel } from "@/types/userModel";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   DropdownMenu,
-  // DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -20,30 +19,55 @@ import { Separator } from "@/components/ui/separator";
 import { FaCloudArrowDown } from "react-icons/fa6";
 import CreateNewUserDialog from "./createNewUserDialog";
 import { FetchError } from "@/types/fetchErr";
+import { useState, useTransition } from "react";
+import { updateUserAPI } from "@/services/data/fetchDataFn";
+import { toast } from "@/hooks/use-toast";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import UserActionDialog from "./userActionDialog";
 
 interface Props {
   users: UserModel[];
   usersRole: UserRoleModel[] | FetchError;
 }
 
-const UsersTableCollection = ({ users , usersRole}: Props) => {
+const UsersTableCollection = ({ users, usersRole }: Props) => {
+  const [isPending, startTransition] = useTransition();
+  const [SelectedUsers, setSelectedUsers] = useState<UserModel[]>([]);
+
   const columns: ColumnDef<UserModel>[] = [
     {
       id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
+      header: ({ table }) => {
+        return (
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) => {
+              table.toggleAllPageRowsSelected(!!value);
+              setSelectedUsers(
+                value
+                  ? table.getFilteredRowModel().rows.map((row) => row.original)
+                  : []
+              );
+            }}
+            aria-label="Select all"
+          />
+        );
+      },
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onCheckedChange={(value) => {
+            row.toggleSelected(!!value);
+            setSelectedUsers((prev) =>
+              value
+                ? [...prev, row.original]
+                : prev.filter((user) => user.id !== row.original.id)
+            );
+          }}
           aria-label="Select row"
         />
       ),
@@ -51,31 +75,36 @@ const UsersTableCollection = ({ users , usersRole}: Props) => {
       enableHiding: false,
     },
     {
-      accessorKey: "nm", // Correct accessor key for name
+      accessorKey: "nm",
       header: "Name",
-      cell: ({ row }) => <span>{row.getValue("nm")}</span>,
+      cell: ({ row }) => {
+        const disabled = row.original.ds;
+        return (
+          <span className={cn(disabled && "text-warning")}>
+            {row.getValue("nm")}
+          </span>
+        );
+      },
     },
     {
-      accessorKey: "em", // Correct accessor key for email
+      accessorKey: "em",
       header: "Email",
       cell: ({ row }) => (
         <span className="text-lowercase">{row.getValue("em")}</span>
       ),
     },
     {
-      accessorKey: "rl", // Correct accessor key for role
+      accessorKey: "rl",
       header: "Role",
       cell: ({ row }) => <span>{row.getValue("rl")}</span>,
     },
     {
-      accessorKey: "un", // Correct accessor key for username
+      accessorKey: "un",
       header: "Username",
-      cell: ({ row }) => (
-        <span>{row.getValue("un") || "N/A"}</span> // Handle optional username
-      ),
+      cell: ({ row }) => <span>{row.getValue("un") || "N/A"}</span>,
     },
     {
-      accessorKey: "co", // Correct accessor key for creation date
+      accessorKey: "co",
       header: "Created On",
       cell: ({ row }) => (
         <span>{new Date(row.getValue("co")).toLocaleDateString()}</span>
@@ -86,7 +115,8 @@ const UsersTableCollection = ({ users , usersRole}: Props) => {
       enableHiding: false,
       cell: ({ row }) => {
         const payment = row.original;
-
+        const disableUser: UserModelPut = { ds: true };
+        const Enable: UserModelPut = { ds: false };
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -104,12 +134,20 @@ const UsersTableCollection = ({ users , usersRole}: Props) => {
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(payment.id)}
               >
-                Copy {payment.nm} ID
+                Copy ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View {payment.nm}</DropdownMenuItem>
-              <DropdownMenuItem className=" text-error">
-                Delete {payment.nm}
+              <DropdownMenuItem>
+                <Link href={payment.id}>View account</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={isPending}
+                onClick={() =>
+                  handleSubmit(payment.ds ? Enable : disableUser, payment.id)
+                }
+                className=" text-warning"
+              >
+                {payment.ds ? "Enable" : "Disable"} account
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -118,19 +156,42 @@ const UsersTableCollection = ({ users , usersRole}: Props) => {
     },
   ];
 
+  const handleSubmit = (values: UserModelPut, id: string) => {
+    startTransition(async () => {
+      const result = await updateUserAPI(values, id);
+
+      if ("message" in result) {
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: result.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: `User ${result.nm} updated successfully`,
+          description: <div>user: {result.nm}</div>,
+          variant: "success",
+        });
+      }
+    });
+  };
+
   return (
     <div className="container overflow-x-auto happy-card p-0">
-      <div className=" flex justify-between p-4">
-        <h1 className=" happy-title-base">Users Table ({users.length})</h1>
-        <div className=" space-x-2">
+      <div className="flex justify-between p-4">
+        <h1 className="happy-title-base">Users Table ({users.length})</h1>
+        <div className="space-x-2">
+          {SelectedUsers.length > 0 && (
+            <UserActionDialog setUsers={setSelectedUsers} users={SelectedUsers}/>
+          )}
           <CreateNewUserDialog usersRole={usersRole} />
-          <Button variant="success" size="sm" className=" ">
+          <Button variant="success" size="sm">
             <FaCloudArrowDown /> Export
           </Button>
         </div>
       </div>
       <Separator />
-      <div className=" p-4 pt-0">
+      <div className="p-4 pt-0">
         <DataTable
           columns={columns}
           data={users}

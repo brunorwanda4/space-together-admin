@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
-  variant?: "primary" | "secondary" | "accent" | "ghost" | "success"|"link" | "outline" | "error" | "info";
+  variant?: "primary" | "secondary" | "accent" | "ghost" | "success"|"link" | "outline" | "error" | "info" | "warning";
   size?: "xs" |"sm" | "md" | "lg";
 }
 
@@ -24,6 +24,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       link: "btn-link",
       outline: "btn-outline",
       error: "btn-error",
+      warning: "btn-warning",
       success: "btn-success",
     }[variant];
 

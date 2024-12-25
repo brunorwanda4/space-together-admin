@@ -1,13 +1,13 @@
 "use client";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -91,7 +91,7 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
         // It's a success
         setSuccess("User role created successfully!");
         toast({
-          title: "User created successfully 🌳",
+          title: "User created successfully 😁",
           description: <div>user: {result.nm}</div>,
         });
         form.reset();
@@ -100,14 +100,16 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
+    <Dialog>
+      <DialogTrigger asChild>
         <Button variant="info" size="sm">
           <BsPlus /> Create new user
         </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent data-theme={UseTheme()}>
-        <AlertDialogTitle>Create new user</AlertDialogTitle>
+      </DialogTrigger>
+      <DialogContent data-theme={UseTheme()}>
+        <DialogHeader>
+          <DialogTitle>Create new user</DialogTitle>
+        </DialogHeader>
         <div>
           <Form {...form}>
             <form
@@ -125,7 +127,7 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className=" bg-base-100">
                           <SelectValue placeholder="Select User Role" />
                         </SelectTrigger>
                       </FormControl>
@@ -152,7 +154,7 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
                       <Input
                         id="rl"
                         {...field}
-                        className="w-full"
+                        className="w-full bg-base-100"
                         placeholder="User full name"
                         type="text"
                         disabled={isPending}
@@ -256,17 +258,19 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
                 <FormMessageError message={error} />
                 <FormMessageSuccess message={success} />
               </div>
-              <AlertDialogFooter className="mt-4">
-                <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
-                <AlertDialogAction disabled={isPending} type="submit">
+              <DialogFooter className="mt-4">
+                <DialogClose asChild>
+                  <Button size="sm" type="button">Cancel</Button>
+                </DialogClose>
+                <Button size="sm" variant="info" disabled={isPending} type="submit">
                   Create user
-                </AlertDialogAction>
-              </AlertDialogFooter>
+                </Button>
+              </DialogFooter>
             </form>
           </Form>
         </div>
-      </AlertDialogContent>
-    </AlertDialog>
+      </DialogContent>
+    </Dialog>
   );
 };
 

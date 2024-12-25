@@ -24,11 +24,36 @@ export interface UserModel {
   em: string; // email
   ph?: string; // phone number
   pw?: string; // password
+  ds ?: boolean; // disabled status 
   gd?: keyof Gender; // gender
   co: string; // create date
   uo?: string; // update date
 }
 
+export interface UserModelPut {
+  rl?: string; // Role
+  un?: string; // Username
+  nm?: string; // Name
+  em?: string; // Email
+  ph?: string; // Phone
+  pw?: string; // Password
+  gd?: Gender; // Gender
+  ds?: boolean; // Disabled status
+}
+
+export interface UserModelDeleteMany {
+  users : string[]; // Array of user ids
+}
+
+export interface UserModelUpdate {
+  id: string; // id
+  user: UserModelPut; // user object
+}
+export interface UserModelUpdateMany {
+  users : UserModelUpdate[]; // Array of user ids
+}
+
+// user role model
 export type UserRoleModel = {
   id: string; // id
   rl: string; // role

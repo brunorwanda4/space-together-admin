@@ -79,7 +79,7 @@ const CollectionUserRoleNew = () => {
     <AlertDialog>
       {/* Trigger Button */}
       <AlertDialogTrigger disabled={isPending} className="btn btn-info btn-sm">
-        <BsPlus /> Add User Role{" "}
+        <BsPlus /> Add User Role {" "}
         {isPending && (
           <LoaderCircle
             className="-ms-1 me-2 animate-spin"
