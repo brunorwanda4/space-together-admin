@@ -4,17 +4,17 @@ import {
   FormMessageError,
   FormMessageSuccess,
 } from "@/components/form/formError";
+import { Button } from "@/components/ui/button";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 import {
   Form,
@@ -76,9 +76,9 @@ const CollectionUserRoleNew = () => {
   };
 
   return (
-    <AlertDialog>
+    <Dialog>
       {/* Trigger Button */}
-      <AlertDialogTrigger disabled={isPending} className="btn btn-info btn-sm">
+      <DialogTrigger disabled={isPending} className="btn btn-info btn-sm">
         <BsPlus /> Add User Role {" "}
         {isPending && (
           <LoaderCircle
@@ -88,15 +88,15 @@ const CollectionUserRoleNew = () => {
             aria-hidden="true"
           />
         )}
-      </AlertDialogTrigger>
+      </DialogTrigger>
       {/* Dialog Content */}
-      <AlertDialogContent data-theme={UseTheme()} className="happy-card">
-        <AlertDialogHeader>
-          <AlertDialogTitle>Create a New User Role</AlertDialogTitle>
-          <AlertDialogDescription>
+      <DialogContent data-theme={UseTheme()} className="happy-card">
+        <DialogHeader>
+          <DialogTitle>Create a New User Role</DialogTitle>
+          <DialogDescription>
             Add a new user role where users must choose their roles!
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+          </DialogDescription>
+        </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
             <FormField
@@ -123,16 +123,16 @@ const CollectionUserRoleNew = () => {
               <FormMessageError message={error} />
               <FormMessageSuccess message={success} />
             </div>
-            <AlertDialogFooter className="mt-4">
-              <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
-              <AlertDialogAction disabled={isPending} type="submit">
+            <DialogFooter className="mt-4">
+              <DialogClose disabled={isPending} className=" btn btn-sm">Cancel</DialogClose>
+              <Button disabled={isPending} variant="info" size="sm" type="submit">
                 Confirm
-              </AlertDialogAction>
-            </AlertDialogFooter>
+              </Button>
+            </DialogFooter>
           </form>
         </Form>
-      </AlertDialogContent>
-    </AlertDialog>
+      </DialogContent>
+    </Dialog>
   );
 };
 
