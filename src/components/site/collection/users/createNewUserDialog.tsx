@@ -77,6 +77,11 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
     setError("");
     setSuccess("");
 
+    const validation = userSchema.safeParse(values);
+    if(!validation.success) {
+      return setError("Invalid Register Validation")
+    }
+
     startTransition(async () => {
       const result = await createUserAPI(values);
 
