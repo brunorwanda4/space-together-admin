@@ -52,7 +52,7 @@ const DeleteUserDialog = ({ user }: Props) => {
         setSuccess("User role deleted successfully!");
         toast({
           title: "User role created successfully",
-          description: <p>You delete <strong>{deleteUser.nm}</strong> account which created on {deleteUser.co} 😔</p>,
+          description: <p>You delete <strong>{deleteUser.name}</strong> account which created on {deleteUser.create_on} 😔</p>,
         });
       }
     });
@@ -73,7 +73,7 @@ const DeleteUserDialog = ({ user }: Props) => {
       <AlertDialogContent data-theme={UseTheme()} className="happy-card">
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete <strong className=" capitalize">{user.nm}</strong> account?
+            Are you sure you want to delete <strong className=" capitalize">{user.name}</strong> account?
           </AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. It will permanently delete the user

@@ -24,14 +24,14 @@ const UserDisableButton = ({ id, disable }: props) => {
         });
       } else {
         toast({
-          title: `User ${result.nm} updated successfully`,
-          description: <div>user: {result.nm}</div>,
+          title: `User ${result.name} updated successfully`,
+          description: <div>user: {result.name}</div>,
         });
       }
     });
   };
-  const disableUser: UserModelPut = { ds: true };
-  const Enable: UserModelPut = { ds: false };
+  const disableUser: UserModelPut = { disable: true };
+  const Enable: UserModelPut = { disable: false };
   return (
     <Button
       size="sm"

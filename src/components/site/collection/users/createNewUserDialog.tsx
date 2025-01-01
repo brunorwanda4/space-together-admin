@@ -60,11 +60,11 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
   const form = useForm<userSchemeType>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      nm: "",
-      em: "",
-      rl: "",
-      pw: "",
-      gd: undefined,
+      name: "",
+      email: "",
+      role: "",
+      password: "",
+      gender: undefined,
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -97,7 +97,7 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
         setSuccess("User created successfully!");
         toast({
           title: "User created successfully 😁",
-          description: <div>user: {result.nm}</div>,
+          description: <div>user: {result.name}</div>,
         });
         form.reset();
       }
@@ -123,7 +123,7 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
             >
               <FormField
                 control={form.control}
-                name="rl"
+                name="role"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>User role</FormLabel>
@@ -139,8 +139,8 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
                       <SelectContent data-theme={UseTheme()}>
                         {Array.isArray(usersRole) &&
                           usersRole.map((role) => (
-                            <SelectItem key={role.rl} value={role.id}>
-                              {role.rl}
+                            <SelectItem key={role.role} value={role.id}>
+                              {role.role}
                             </SelectItem>
                           ))}
                       </SelectContent>
@@ -150,14 +150,14 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
                 )}
               />
               <FormField
-                name="nm"
+                name="name"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className=" ">Full names</FormLabel>
                     <FormControl>
                       <Input
-                        id="rl"
+                        id="role"
                         {...field}
                         className="w-full bg-base-100"
                         placeholder="User full name"
@@ -170,14 +170,14 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
                 )}
               />
               <FormField
-                name="em"
+                name="email"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className=" ">Email</FormLabel>
                     <FormControl>
                       <Input
-                        id="rl"
+                        id="role"
                         {...field}
                         className="w-full"
                         placeholder="email@example.com"
@@ -191,7 +191,7 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
               />
               <FormField
                 control={form.control}
-                name="gd"
+                name="gender"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormLabel>Gender</FormLabel>
@@ -226,7 +226,7 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
                 )}
               />
               <FormField
-                name="pw"
+                name="password"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>

@@ -60,11 +60,11 @@ const UpdateUserDialog = ({ usersRole, user }: props) => {
   const form = useForm<userSchemeType>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      nm: user.nm ? user.nm : "",
-      em: user.em ? user.em : "",
-      rl: user.rl ? user.rl : "",
-      gd: (["M", "F", "O"] as const).includes(user.gd as "M" | "F" | "O")
-        ? (user.gd as "M" | "F" | "O")
+      name: user.name ? user.name : "",
+      email: user.email ? user.email : "",
+      role: user.role ? user.role : "",
+      gender: (["M", "F", "O"] as const).includes(user.gender as "M" | "F" | "O")
+        ? (user.gender as "M" | "F" | "O")
         : undefined,
     },
     shouldFocusError: true,
@@ -87,10 +87,10 @@ const UpdateUserDialog = ({ usersRole, user }: props) => {
 
     startTransition(async () => {
       const updateUserModel: UserModelPut = {
-        nm: values.nm,
-        em: values.em,
-        rl: values.rl,
-        gd: values.gd as unknown as Gender,
+        name: values.name,
+        email: values.email,
+        role: values.role,
+        gender: values.gender as unknown as Gender,
       };
 
       const result = await updateUserAPI(updateUserModel, user.id);
@@ -107,7 +107,7 @@ const UpdateUserDialog = ({ usersRole, user }: props) => {
         setSuccess("User account updated successfully!");
         toast({
           title: "User account updated successfully 😁",
-          description: <div>user: {result.nm}</div>,
+          description: <div>user: {result.name}</div>,
         });
         form.reset();
       }
@@ -125,7 +125,7 @@ const UpdateUserDialog = ({ usersRole, user }: props) => {
         <DialogHeader>
           <DialogTitle>
             Update account for{" "}
-            <strong className=" capitalize">{user.nm}</strong>
+            <strong className=" capitalize">{user.name}</strong>
           </DialogTitle>
         </DialogHeader>
         <div>
@@ -136,7 +136,7 @@ const UpdateUserDialog = ({ usersRole, user }: props) => {
             >
               <FormField
                 control={form.control}
-                name="rl"
+                name="role"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>User role</FormLabel>
@@ -152,8 +152,8 @@ const UpdateUserDialog = ({ usersRole, user }: props) => {
                       <SelectContent data-theme={UseTheme()}>
                         {Array.isArray(usersRole) &&
                           usersRole.map((role) => (
-                            <SelectItem key={role.rl} value={role.id}>
-                              {role.rl}
+                            <SelectItem key={role.role} value={role.id}>
+                              {role.role}
                             </SelectItem>
                           ))}
                       </SelectContent>
@@ -163,14 +163,14 @@ const UpdateUserDialog = ({ usersRole, user }: props) => {
                 )}
               />
               <FormField
-                name="nm"
+                name="name"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className=" ">Full names</FormLabel>
                     <FormControl>
                       <Input
-                        id="rl"
+                        id="name"
                         {...field}
                         className="w-full bg-base-100"
                         placeholder="User full name"
@@ -183,7 +183,7 @@ const UpdateUserDialog = ({ usersRole, user }: props) => {
                 )}
               />
               <FormField
-                name="em"
+                name="email"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
@@ -204,7 +204,7 @@ const UpdateUserDialog = ({ usersRole, user }: props) => {
               />
               <FormField
                 control={form.control}
-                name="gd"
+                name="gender"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormLabel>Gender</FormLabel>

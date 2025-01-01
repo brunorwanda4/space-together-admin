@@ -47,12 +47,12 @@ const UserPageDocument = async ({ collectionName, documentId }: props) => {
   }
 
   return (
-    <DocumentPageStatic collectionName={collectionName} documentName={data.nm}>
+    <DocumentPageStatic collectionName={collectionName} documentName={data.name}>
       <div className="happy-card p-0">
         <div className=" p-4 w-full flex">
           <div className=" w-1/2">
             <MyImage
-              src={data.im || "/profiles/b/17.png"}
+              src={(data.image && data.image[0]?.src) || "/profiles/b/17.png"}
               className="size-60"
             />
           </div>
@@ -61,27 +61,27 @@ const UserPageDocument = async ({ collectionName, documentId }: props) => {
               <h3
                 className={cn(
                   "card-title capitalize",
-                  data.ds && "text-warning"
+                  data.disable && "text-warning"
                 )}
               >
-                {data.nm}
+                {data.name}
               </h3>
               <div className=" flex gap-2 flex-col">
                 <div className=" flex gap-2">
-                  username: <p>{data.un}</p>
+                  username: <p>{data.username}</p>
                 </div>
-                <p>{data.em}</p>
-                <p className=" text-sm">{data.rl}</p>
-                {data.gd && <p>{formatGender(data.gd)}</p>}
-                <p>{formatDate(data.co)}</p>
-                {data.uo && (
-                  <p className=" text-warning">{formatDate(data.uo)}</p>
+                <p>{data.email}</p>
+                <p className=" text-sm">{data.role}</p>
+                {data.gender && <p>{formatGender(data.gender)}</p>}
+                <p>{formatDate(data.create_on)}</p>
+                {data.update_on && (
+                  <p className=" text-warning">{formatDate(data.update_on)}</p>
                 )}
               </div>
             </div>
             <div className=" py-2 items-center flex gap-2">
               <DeleteUserDialog user={data} />
-              <UserDisableButton id={data.id} disable={data.ds} />
+              <UserDisableButton id={data.id} disable={data.disable} />
               <UpdateUserDialog user={data} usersRole={userRoles} />
             </div>
             <Separator />

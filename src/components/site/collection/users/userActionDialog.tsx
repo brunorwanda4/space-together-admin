@@ -66,7 +66,7 @@ const UserActionDialog = ({ users, setUsers }: Props) => {
           description: (
             <div>
               you delete users accounts more than {result.length} include{" "}
-              <strong>{result[0].nm}</strong>
+              <strong>{result[0].name}</strong>
             </div>
           ),
         });
@@ -80,7 +80,7 @@ const UserActionDialog = ({ users, setUsers }: Props) => {
     setSuccess("");
 
     startTransition(async () => {
-      const disableBody: UserModelPut = { ds: true };
+      const disableBody: UserModelPut = { disable: true };
       const userModelUpdateManyBody: UserModelUpdateMany = {
         users: users.map((user) => {
           return {
@@ -106,7 +106,7 @@ const UserActionDialog = ({ users, setUsers }: Props) => {
           description: (
             <div>
               you updated users more than {result.length} include{" "}
-              <strong>{result[0].nm}</strong>
+              <strong>{result[0].name}</strong>
             </div>
           ),
         });

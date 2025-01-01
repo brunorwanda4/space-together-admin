@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const userRoleSchema = z.object({
-  rl: z
+  role: z
     .string()
     .min(1, {
       message: "Role name is required",
@@ -14,7 +14,7 @@ export const userRoleSchema = z.object({
 export type userRoleSchemeType = z.infer<typeof userRoleSchema>;
 
 export const userSchema = z.object({
-  nm: z
+  name: z
     .string()
     .min(1, {
       message: "Full name is required, please enter your full name",
@@ -25,16 +25,16 @@ export const userSchema = z.object({
     .refine((name) => name.trim().split(/\s+/).length > 1, {
       message: "Please enter your full name (e.g., First Last or more)",
     }),
-  em: z.string().email({
+  email: z.string().email({
     message: "Email is required",
   }),
-  rl: z.string().min(1, {
+  role: z.string().min(1, {
     message: "Role is required",
   }),
-  gd: z.enum(["M", "F", "O"], {
+  gender: z.enum(["M", "F", "O"], {
     message: "Gender must be one of 'M', 'F', or 'O'",
   }),
-  pw: z
+  password: z
     .string()
     .min(6, {
       message: "Password min characters are 6",

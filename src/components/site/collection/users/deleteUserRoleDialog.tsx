@@ -51,7 +51,7 @@ const DeleteUserRoleDialog = ({ role, totalUsers }: Props) => {
         setSuccess("User role deleted successfully!");
         toast({
           title: "User role created successfully",
-          description: <p>You delete <strong>{deleteRole.rl}</strong> user have role are <strong>{totalUsers}</strong></p>,
+          description: <p>You delete <strong>{deleteRole.role}</strong> user have role are <strong>{totalUsers}</strong></p>,
         });
       }
     });
@@ -76,7 +76,7 @@ const DeleteUserRoleDialog = ({ role, totalUsers }: Props) => {
           </AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. It will permanently delete the user
-            role <strong>{role.rl}</strong>, which is currently assigned to
+            role <strong>{role.role}</strong>, which is currently assigned to
             <strong> {totalUsers} </strong> users. Proceeding may cause errors
             in the database.
           </AlertDialogDescription>

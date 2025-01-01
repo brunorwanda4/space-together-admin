@@ -19,21 +19,17 @@ const CollectionUserRole = ({ roles }: props) => {
       <ScrollArea className=" h-36 p-4 happy-line ">
         {roles.map(async (item) => {
           let totalUsers: number = 0;
-          const getUsers = await fetchUsersByRole(item.rl);
-          if (Array.isArray(getUsers)) {
+          const getUsers = await fetchUsersByRole(item.role);
+          if (!("message" in getUsers)) {
             totalUsers = getUsers.length;
           }
           return (
             <div key={item.id} className=" flex justify-between">
-              <span className="  text-muted-foreground capitalize">{item.rl}</span>
+              <span className="  text-muted-foreground capitalize">
+                {item.role} ({totalUsers})
+              </span>
               <div>
-                {Array.isArray(getUsers) ? (
-                  <DeleteUserRoleDialog totalUsers={totalUsers} role={item} />
-                ) : (
-                  <button type="button" className=" btn btn-xs btn-disabled">
-                    Error
-                  </button>
-                )}
+                <DeleteUserRoleDialog totalUsers={totalUsers} role={item} />
               </div>
             </div>
           );

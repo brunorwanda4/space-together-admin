@@ -76,39 +76,39 @@ const UsersTableCollection = ({ users, usersRole , collectionName}: props) => {
       enableHiding: false,
     },
     {
-      accessorKey: "nm",
+      accessorKey: "name",
       header: "Name",
       cell: ({ row }) => {
         const user = row.original;
         return (
-          <Link href={`/collection/${collectionName}/${user.id}`} className={cn(" link-hover", user.ds && "text-warning")}>
-            {row.getValue("nm")}
+          <Link href={`/collection/${collectionName}/${user.id}`} className={cn(" link-hover", user.disable && "text-warning")}>
+            {row.getValue("name")}
           </Link>
         );
       },
     },
     {
-      accessorKey: "em",
+      accessorKey: "email",
       header: "Email",
       cell: ({ row }) => (
-        <span className="text-lowercase">{row.getValue("em")}</span>
+        <span className="text-lowercase">{row.getValue("email")}</span>
       ),
     },
     {
-      accessorKey: "rl",
+      accessorKey: "role",
       header: "Role",
-      cell: ({ row }) => <span>{row.getValue("rl")}</span>,
+      cell: ({ row }) => <span>{row.getValue("role")}</span>,
     },
     {
-      accessorKey: "un",
+      accessorKey: "username",
       header: "Username",
-      cell: ({ row }) => <span>{row.getValue("un") || "N/A"}</span>,
+      cell: ({ row }) => <span>{row.getValue("username") || "N/A"}</span>,
     },
     {
-      accessorKey: "co",
+      accessorKey: "create_on",
       header: "Created On",
       cell: ({ row }) => (
-        <span>{new Date(row.getValue("co")).toLocaleDateString()}</span>
+        <span>{new Date(row.getValue("create_on")).toLocaleDateString()}</span>
       ),
     },
     {
@@ -116,8 +116,8 @@ const UsersTableCollection = ({ users, usersRole , collectionName}: props) => {
       enableHiding: false,
       cell: ({ row }) => {
         const payment = row.original;
-        const disableUser: UserModelPut = { ds: true };
-        const Enable: UserModelPut = { ds: false };
+        const disableUser: UserModelPut = { disable: true };
+        const Enable: UserModelPut = { disable: false };
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -146,11 +146,11 @@ const UsersTableCollection = ({ users, usersRole , collectionName}: props) => {
               <DropdownMenuItem
                 disabled={isPending}
                 onClick={() =>
-                  handleSubmit(payment.ds ? Enable : disableUser, payment.id)
+                  handleSubmit(payment.disable ? Enable : disableUser, payment.id)
                 }
                 className=" text-warning"
               >
-                {payment.ds ? "Enable" : "Disable"} account
+                {payment.disable ? "Enable" : "Disable"} account
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -171,8 +171,8 @@ const UsersTableCollection = ({ users, usersRole , collectionName}: props) => {
         });
       } else {
         toast({
-          title: `User ${result.nm} updated successfully`,
-          description: <div>user: {result.nm}</div>,
+          title: `User ${result.name} updated successfully`,
+          description: <div>user: {result.name}</div>,
         });
       }
     });
@@ -200,7 +200,7 @@ const UsersTableCollection = ({ users, usersRole , collectionName}: props) => {
         <DataTable
           columns={columns}
           data={users}
-          searchKeys={["em", "nm", "rl"]}
+          searchKeys={["email", "name", "role"]}
         />
       </div>
     </div>

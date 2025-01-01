@@ -45,7 +45,7 @@ const CollectionUserRoleNew = () => {
   const form = useForm<userRoleSchemeType>({
     resolver: zodResolver(userRoleSchema),
     defaultValues: {
-      rl: "",
+      role: "",
     },
   });
 
@@ -68,7 +68,7 @@ const CollectionUserRoleNew = () => {
         setSuccess("User role created successfully!");
         toast({
           title: "User role created successfully",
-          description: `Role: ${result.rl}`,
+          description: `Role: ${result.role}`,
         });
         form.reset(); // Clear the form after success
       }
@@ -100,14 +100,14 @@ const CollectionUserRoleNew = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
             <FormField
-              name="rl"
+              name="role"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className=" font-semibold">New role</FormLabel>
                   <FormControl>
                     <Input
-                      id="rl"
+                      id="role"
                       {...field}
                       className="w-full"
                       placeholder="User"
