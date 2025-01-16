@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { DbProps } from "@/types/databaseStatus";
+import Link from "next/link";
 import { FcFilingCabinet, FcPackage, FcRules } from "react-icons/fc";
 const DatabaseHeader = ({ data, error }: DbProps) => {
   const className = {
@@ -36,12 +37,12 @@ const DatabaseHeader = ({ data, error }: DbProps) => {
         <div>
           <div className=" flex justify-between">
             <h3 className=" font-medium">Total Collections</h3>
-            <div>
+            <Link href={`/collections`}>
               <FcPackage size={32} />
-            </div>
+            </Link>
           </div>
-          <div className=" mt-3">
-            <span className="font-bold text-3xl">{data?.total_collection}</span>
+          <div className=" mt-3 items-center flex justify-center">
+            <Link href={`/collections`} className="font-bold text-3xl">{data?.total_collection}</Link>
           </div>
         </div>
       </div>

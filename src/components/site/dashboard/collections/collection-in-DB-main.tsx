@@ -38,7 +38,11 @@ const predefinedMainCollections: MainCollectionsTypes[] = [
   },
 ];
 
-const CollectionInDBMain = async () => {
+interface props {
+  className ?: string,
+}
+
+const CollectionInDBMain = async ({className} : props) => {
   let data: DatabaseStats | null = null;
   let error: FetchError | null = null;
 
@@ -94,7 +98,7 @@ const CollectionInDBMain = async () => {
   );
 
   return (
-    <div className="grid grid-cols-2 gap-4 w-1/2">
+    <div className={cn("grid grid-cols-2 gap-4 w-1/2" , className)}>
       {/* Main Collections */}
       {mainCollections.map((collection, index) => (
         <div key={index} className="h-full w-full happy-card">
@@ -111,7 +115,7 @@ const CollectionInDBMain = async () => {
             )}
           </div>
           <Link
-            href={`/${collection.name.toLowerCase()}`}
+            href={`/collection/${collection.name.toLowerCase()}`}
             className={cn(
               "btn btn-sm mt-2",
             )}
@@ -139,7 +143,7 @@ const CollectionInDBMain = async () => {
             </span>
           </div>
           <Link
-            href="/others"
+            href={`/collections`}
             className="btn btn-sm mt-8 btn-secondary"
           >
             View All
