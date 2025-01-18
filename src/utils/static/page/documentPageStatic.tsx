@@ -1,4 +1,5 @@
 import CardError from "@/components/my-components/card-error";
+import PageTitle from "@/components/my-components/page-title";
 import { cn } from "@/lib/utils";
 import { FetchError } from "@/types/fetchErr";
 import Link from "next/link";
@@ -21,8 +22,8 @@ const DocumentPageStatic = ({
   return (
     <div className={cn("happy-page", className)}>
       <div className=" flex gap-2 items-center happy-title-head">
-        Collection
-        <FaGreaterThan size={16} />{" "}
+        <PageTitle title="Collections" link="/collection"/>
+        <FaGreaterThan size={16} />
         <Link className=" link-hover" href={`/collection/${collectionName}`}>
           {collectionName}
         </Link>

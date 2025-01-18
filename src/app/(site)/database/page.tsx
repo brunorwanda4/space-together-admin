@@ -1,3 +1,4 @@
+import PageTitle from "@/components/my-components/page-title";
 import CollectionsCharts from "@/components/site/database/collections_cards";
 import DatabaseHeader from "@/components/site/database/databaseHeader";
 import { fetchDatabaseStatus } from "@/services/databaseStatusService";
@@ -25,8 +26,10 @@ const Home = async () => {
 
   return (
     <div className="happy-page">
-      <h1 className="happy-title-head">Collections</h1>
-      <DatabaseHeader data={data} error={error}/>
+      <div>
+        <PageTitle title="Database" />
+      </div>
+      <DatabaseHeader data={data} error={error} />
       <div>
         <CollectionsCharts data={data} error={error} />
       </div>

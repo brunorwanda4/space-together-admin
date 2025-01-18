@@ -18,7 +18,6 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   Accordion,
@@ -105,88 +104,88 @@ const SidebarGroupComponent = ({
   items: SidebarItem[];
 }) => {
   const path = usePathname();
-  return(<SidebarGroup>
-    <SidebarGroupLabel>{label}</SidebarGroupLabel>
-    <SidebarGroupContent>
-      <SidebarMenu>
-        {items.map((item, index) =>
-          item.children ? (
-            <Accordion
-              type="single"
-              collapsible
-              key={index}
-              className="group/accordion"
-            >
-              <AccordionItem value={item.title}>
-                <SidebarMenuItem>
-                  <AccordionTrigger className="hover:no-underline btn btn-sm btn-ghost py-0">
-                    <span className="flex items-center gap-2">
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {items.map((item, index) =>
+            item.children ? (
+              <Accordion
+                type="single"
+                collapsible
+                key={index}
+                className="group/accordion"
+              >
+                <AccordionItem value={item.title}>
+                  <SidebarMenuItem>
+                    <AccordionTrigger className="hover:no-underline btn btn-sm btn-ghost py-0">
+                      <span className="flex items-center gap-2">
+                        {item.icon && <item.icon className="w-5 h-5" />}
+                        {item.title}
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <SidebarMenuSub>
+                        {item.children.map((subItem, subIndex) => (
+                          <SidebarMenuSubItem key={subIndex}>
+                            {subItem.url ? (
+                              <Link
+                                href={subItem.url}
+                                className={cn(
+                                  "ml-8 flex items-center gap-2 btn-xs btn-ghost  rounded-md",
+                                  path === subItem.url && "btn-info"
+                                )}
+                              >
+                                {subItem.icon && (
+                                  <subItem.icon className="w-4 h-4" />
+                                )}
+                                {subItem.title}
+                              </Link>
+                            ) : (
+                              <button className="ml-8 flex items-center gap-2 btn-xs btn-ghost  rounded-md">
+                                {subItem.icon && (
+                                  <subItem.icon className="w-4 h-4" />
+                                )}
+                                {subItem.title}
+                              </button>
+                            )}
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </AccordionContent>
+                  </SidebarMenuItem>
+                </AccordionItem>
+              </Accordion>
+            ) : (
+              <SidebarMenuItem key={index}>
+                <SidebarMenuButton asChild>
+                  {item.url ? (
+                    <Link
+                      href={item.url}
+                      className={cn(
+                        "flex items-center gap-2 font-normal",
+                        path === item.url && "text-info"
+                      )}
+                    >
                       {item.icon && <item.icon className="w-5 h-5" />}
                       {item.title}
-                    </span>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <SidebarMenuSub>
-                      {item.children.map((subItem, subIndex) => (
-                        <SidebarMenuSubItem key={subIndex}>
-                          {subItem.url ? (
-                            <Link
-                              href={subItem.url}
-                              className={cn(
-                                "ml-8 flex items-center gap-2 btn-xs btn-ghost  rounded-md",
-                                path === subItem.url && "btn-info"
-                              )}
-                            >
-                              {subItem.icon && (
-                                <subItem.icon className="w-4 h-4" />
-                              )}
-                              {subItem.title}
-                            </Link>
-                          ) : (
-                            <button className="ml-8 flex items-center gap-2 btn-xs btn-ghost  rounded-md">
-                              {subItem.icon && (
-                                <subItem.icon className="w-4 h-4" />
-                              )}
-                              {subItem.title}
-                            </button>
-                          )}
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </AccordionContent>
-                </SidebarMenuItem>
-              </AccordionItem>
-            </Accordion>
-          ) : (
-            <SidebarMenuItem key={index}>
-              <SidebarMenuButton asChild>
-                {item.url ? (
-                  <Link
-                    href={item.url}
-                    className={cn(
-                      "flex items-center gap-2 font-normal",
-                      path === item.url && "text-info"
-                    )}
-                  >
-                    {item.icon && <item.icon className="w-5 h-5" />}
-                    {item.title}
-                  </Link>
-                ) : (
-                  <div className="flex items-center gap-2 font-normal">
-                    {item.icon && <item.icon className="w-5 h-5" />}
-                    {item.title}
-                  </div>
-                )}
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          )
-        )}
-      </SidebarMenu>
-    </SidebarGroupContent>
-  </SidebarGroup>
-)
-}
-  
+                    </Link>
+                  ) : (
+                    <div className="flex items-center gap-2 font-normal">
+                      {item.icon && <item.icon className="w-5 h-5" />}
+                      {item.title}
+                    </div>
+                  )}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )
+          )}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+};
 
 export function AppSidebar() {
   return (
@@ -195,9 +194,7 @@ export function AppSidebar() {
         {/* Sidebar Header */}
         <SidebarHeader className="flex  w-[16rem] justify-between gap-2 flex-row items-center fixed top-0 bg-gradient-to-b h-16 pb-4 from-base-300 via-base-300  to-transparent z-50">
           <SiteLogo />
-          {/* <AdminButton /> */}
-          <SidebarTrigger className=" size-12" />
-          <AuthChangeTheme />
+          {/* <AdminButton /> */} <AuthChangeTheme />
         </SidebarHeader>
 
         {/* Render Sidebar Groups */}
