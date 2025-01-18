@@ -100,6 +100,7 @@ const AllCollectionInCollection = async () => {
     return {
       ...main,
       items: collectionData?.document_count || 0,
+      size : collectionData?.size_bytes || 0,
       role: main.role
         ? {
             ...main.role,
@@ -123,7 +124,8 @@ const AllCollectionInCollection = async () => {
       collection.name.toLowerCase().startsWith(`${mainName}.role`)
     );
 
-    const isStandaloneRole = collection.name.endsWith(".role") &&
+    const isStandaloneRole =
+      collection.name.endsWith(".role") &&
       !mainCollectionNames.includes(
         collection.name.replace(".role", "").toLowerCase()
       );
@@ -134,11 +136,17 @@ const AllCollectionInCollection = async () => {
   return (
     <div className=" space-y-2">
       <h2 className=" happy-title-base">Main collects</h2>
-      <div className="w-full grid grid-cols-4 gap-4">
+      <div className="w-full grid grid-cols-4 gap-2">
         {mainCollections.map((collection, index) => (
-          <div key={index} className="h-full w-full happy-card flex flex-col justify-between">
+          <div
+            key={index}
+            className="h-full w-full happy-card flex flex-col justify-between"
+          >
             <div>
-              <Link href={`/collection/${collection.name}`} className="gap-2 flex flex-col justify-center items-center">
+              <Link
+                href={`/collection/${collection.name}`}
+                className="gap-2 flex flex-col justify-center items-center"
+              >
                 <MyImage
                   className="size-10"
                   src={collection.icon || "/icons/data-collection.png"}
@@ -154,13 +162,19 @@ const AllCollectionInCollection = async () => {
                   <span className="font-medium">size: {collection.size}</span>
                   {collection.role && (
                     <span>
-                      {collection.role.name} ({collection.role.items})
+                      {collection.role.name} :{collection.role.items}
                     </span>
                   )}
                 </div>
               </div>
             </div>
-            <Link href={`/collection/${collection.name}`} className=" btn btn-info btn-sm mt-3 items-center flex justify-center group ">See data <FaArrowRight className=" group-hover:scale-x-105 duration-200"/></Link>
+            <Link
+              href={`/collection/${collection.name}`}
+              className=" btn btn-outline btn-sm mt-3 items-center flex justify-center group "
+            >
+              See data
+              <FaArrowRight className=" group-hover:scale-x-105 duration-200" />
+            </Link>
           </div>
         ))}
       </div>
@@ -168,7 +182,7 @@ const AllCollectionInCollection = async () => {
       {/* other collections */}
       <div>
         <h3 className="happy-title-base">Other Collections</h3>
-        <div className="w-full grid grid-cols-4 gap-4 mt-2">
+        <div className="w-full grid grid-cols-4 gap-2 mt-2">
           {otherCollections.map((collection, index) => (
             <div key={index} className="h-full w-full happy-card">
               <div>
@@ -178,13 +192,18 @@ const AllCollectionInCollection = async () => {
                     src={"/icons/data-collection.png"}
                   />
                   <div className="flex flex-col justify-center w-full items-center">
-                    <h4 className="font-semibold text-lg">
-                      {collection.name}
-                    </h4>
+                    <h4 className="font-semibold text-lg">{collection.name}</h4>
                     <p>Items: {collection.document_count}</p>
                   </div>
                 </div>
               </div>
+              <Link
+                href={`/collection/${collection.name}`}
+                className=" btn btn-outline btn-sm mt-3 items-center flex justify-center group "
+              >
+                See data
+                <FaArrowRight className=" group-hover:scale-x-105 duration-200" />
+              </Link>
             </div>
           ))}
         </div>
