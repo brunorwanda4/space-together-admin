@@ -33,6 +33,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { AiFillDatabase } from "react-icons/ai";
+import { TfiLayoutGrid3 } from "react-icons/tfi";
 
 // Define type for sidebar items
 type SidebarItem = {
@@ -56,6 +57,11 @@ const sidebarGroups: { label: string; items: SidebarItem[] }[] = [
         title: "Database",
         icon: AiFillDatabase,
         url: "/database",
+      },
+      {
+        title: "Collections",
+        icon: TfiLayoutGrid3,
+        url: "/collections",
       },
     ],
   },
