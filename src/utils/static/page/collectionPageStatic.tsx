@@ -1,4 +1,5 @@
 import CardError from "@/components/my-components/card-error";
+import PageTitle from "@/components/my-components/page-title";
 import { cn } from "@/lib/utils";
 import { FetchError } from "@/types/fetchErr";
 import { FaGreaterThan } from "react-icons/fa6";
@@ -16,7 +17,7 @@ const CollectionPageStatic = ({
   return (
     <div className={cn("happy-page" , className)} >
       <div className="happy-title-head flex items-center gap-2">
-        <h1>Collection</h1>
+        <PageTitle title="Collections" link="/collections"/>
         <FaGreaterThan size={16} />
         <span>{collection}</span>
       </div>

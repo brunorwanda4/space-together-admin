@@ -22,7 +22,7 @@ const DocumentPageStatic = ({
   return (
     <div className={cn("happy-page", className)}>
       <div className=" flex gap-2 items-center happy-title-head">
-        <PageTitle title="Collections" link="/collection"/>
+        <PageTitle title="Collections" link="/collections"/>
         <FaGreaterThan size={16} />
         <Link className=" link-hover" href={`/collection/${collectionName}`}>
           {collectionName}
