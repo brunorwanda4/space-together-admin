@@ -7,7 +7,7 @@ import Link from "next/link";
 import { FaGrip, FaPeopleGroup } from "react-icons/fa6";
 import { MdClass } from "react-icons/md";
 
-interface MainCollectionsTypes {
+export interface MainCollectionsTypes {
   name: string;
   color?: string;
   icon?: React.ComponentType<{ className?: string }>;
@@ -17,7 +17,7 @@ interface MainCollectionsTypes {
   };
 }
 
-const predefinedMainCollections: MainCollectionsTypes[] = [
+export const predefinedMainCollections: MainCollectionsTypes[] = [
   {
     name: "classes",
     color: "info",
@@ -143,7 +143,7 @@ const CollectionInDBMain = async ({className} : props) => {
             </span>
           </div>
           <Link
-            href={`/collections`}
+            href={`/collections/all`}
             className="btn btn-sm mt-8 btn-secondary"
           >
             View All
