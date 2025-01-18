@@ -1,22 +1,23 @@
+// File: AllCollectionInCollection.tsx
+
 import CardError from "@/components/my-components/card-error";
-import { cn } from "@/lib/utils";
+import MyImage from "@/components/my-components/myImage";
 import { fetchDatabaseStatus } from "@/services/databaseStatusService";
 import { DatabaseStats } from "@/types/databaseStatus";
 import { FetchError } from "@/types/fetchErr";
-import Link from "next/link";
 import React from "react";
-import { FaPeopleGroup } from "react-icons/fa6";
-import { MdClass } from "react-icons/md";
+
+interface RoleType {
+  name: string;
+  items: number;
+}
 
 interface MainCollectionsTypes {
   name: string;
   color?: string;
   description?: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  role?: {
-    name: string;
-    items: number;
-  };
+  icon?: string;
+  role?: RoleType;
 }
 
 const predefinedMainCollections: MainCollectionsTypes[] = [
@@ -24,22 +25,26 @@ const predefinedMainCollections: MainCollectionsTypes[] = [
     name: "schools",
     color: "info",
     description: "All Class in class collection",
-    icon: MdClass,
+    icon: "/icons/school.png",
   },
   {
     name: "classes",
     color: "info",
     description: "All Class in class collection",
-    icon: MdClass,
+    icon: "/icons/teacher.png",
+    role: {
+      name: "Teacher Role",
+      items: 0,
+    },
   },
   {
     name: "users",
     color: "success",
     description: "User in school",
-    icon: FaPeopleGroup,
+    icon: "/icons/ancestors.png",
     role: {
-      name: "role",
-      items: 0, // Placeholder, will be updated dynamically
+      name: "User Role",
+      items: 0,
     },
   },
   {
@@ -47,7 +52,6 @@ const predefinedMainCollections: MainCollectionsTypes[] = [
     color: "warning",
   },
 ];
-
 const AllCollectionInCollection = async () => {
   let data: DatabaseStats | null = null;
   let error: FetchError | null = null;
@@ -76,8 +80,15 @@ const AllCollectionInCollection = async () => {
   }
 
   const mainCollections = predefinedMainCollections.map((main) => {
+    // Find the main collection data
     const collectionData = data.collections.find(
       (col) => col.name.toLowerCase() === main.name.toLowerCase()
+    );
+
+    // Find the role collection data
+    const roleCollectionName = `${main.name.toLowerCase()}.role`;
+    const roleCollectionData = data.collections.find(
+      (col) => col.name.toLowerCase() === roleCollectionName
     );
 
     return {
@@ -86,54 +97,50 @@ const AllCollectionInCollection = async () => {
       role: main.role
         ? {
             ...main.role,
-            items: collectionData?.document_count || 0, // Dynamically set role items
+            items: roleCollectionData?.document_count || 0, // Get document count for the role
           }
         : undefined,
     };
   });
 
-  // Filter other collections
-  // const otherCollections = data.collections.filter(
-  //   (col) =>
-  //     !predefinedMainCollections.some(
-  //       (main) => main.name.toLowerCase() === col.name.toLowerCase()
-  //     )
-  // );
   return (
     <div>
-      <div>
+      <div className="w-full grid grid-cols-4 gap-4">
         {mainCollections.map((collection, index) => (
           <div key={index} className="h-full w-full happy-card">
-            <div className="flex gap-2 items-center">
-              {collection.icon && <collection.icon className="size-6" />}
-              <h4 className="happy-title-base capitalize">{collection.name}</h4>
+            <div>
+              <div className="gap-2 flex flex-col justify-center items-center">
+                <MyImage
+                  className="size-10"
+                  src={collection.icon || "/icons/data-collection.png"}
+                />
+                <div className="flex flex-col justify-center w-full items-center">
+                  <h4 className="font-semibold text-lg">{collection.name}</h4>
+                  <p>{collection.description}</p>
+                </div>
+              </div>
+              <div>
+                <div className="flex flex-col gap-2">
+                  <span className="font-medium text-lg">
+                    Items: {collection.items}
+                  </span>
+                  {collection.role ? (
+                    <span>
+                      {collection.role.name} ({collection.role.items})
+                    </span>
+                  ) : (
+                    <span>Roles: N/A</span>
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="flex justify-center items-center flex-col mt-1">
-              <span className="font-bold text-4xl">{collection.items}</span>
-              {collection.role && (
-                <p className="font-medium">
-                  {collection.role.name}: {collection.role.items}
-                </p>
-              )}
-            </div>
-            <Link
-              href={`/collection/${collection.name.toLowerCase()}`}
-              className={cn("btn btn-sm mt-2")}
-              style={{
-                backgroundColor: `hsl(${
-                  (index * 360) / data.collections.length
-                }, 70%, 60%)`,
-              }}
-            >
-              All {collection.name}
-            </Link>
           </div>
         ))}
       </div>
       <div>
-        {data.collections.map((item) => {
-          return <div key={item.name}>{item.name}</div>;
-        })}
+        {data.collections.map((item) => (
+          <div key={item.name}>{item.name} <div>{item.document_count}</div></div>
+        ))}
       </div>
     </div>
   );

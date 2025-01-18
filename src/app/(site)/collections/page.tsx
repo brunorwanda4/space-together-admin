@@ -8,12 +8,7 @@ const CollectionPage = () => {
       <h1 className="happy-title-head">Collections</h1>
       <div className=" w-full space-y-4">
         <CollectionInDBMain className=" grid-cols-4 w-full" />{" "}
-        <Link
-          href={`/collections/all`}
-          className=" happy-card link justify-center flex items-center"
-        >
-          View all collections
-        </Link>
+        <h2 className="  happy-title-base">All collections</h2>
       </div>
       <div>
         <AllCollectionInCollection />
