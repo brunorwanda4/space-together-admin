@@ -46,7 +46,7 @@ const predefinedMainCollections: MainCollectionsTypes[] = [
     name: "users",
     color: "success",
     size: "",
-    description: "User in school",
+    description: "Client users",
     icon: "/icons/ancestors.png",
     role: {
       name: "User Role",
@@ -54,9 +54,15 @@ const predefinedMainCollections: MainCollectionsTypes[] = [
     },
   },
   {
-    name: "messages",
-    color: "warning",
+    name: "subjects",
+    color: "success",
     size: "",
+    description: "Subjects for reasons",
+    icon: "/icons/math-book.png",
+    role: {
+      name: "Subject Role",
+      items: 0,
+    },
   },
 ];
 const AllCollectionInCollection = async () => {
@@ -135,7 +141,7 @@ const AllCollectionInCollection = async () => {
 
   return (
     <div className=" space-y-2">
-      <h2 className=" happy-title-base">Main collects</h2>
+      <h2 className=" happy-title-base">Main collects ({mainCollections.length})</h2>
       <div className="w-full grid grid-cols-4 gap-2">
         {mainCollections.map((collection, index) => (
           <div
@@ -181,7 +187,7 @@ const AllCollectionInCollection = async () => {
 
       {/* other collections */}
       <div>
-        <h3 className="happy-title-base">Other Collections</h3>
+        <h3 className="happy-title-base">Other Collections ({otherCollections.length})</h3>
         <div className="w-full grid grid-cols-4 gap-2 mt-2">
           {otherCollections.map((collection, index) => (
             <div key={index} className="h-full w-full happy-card">

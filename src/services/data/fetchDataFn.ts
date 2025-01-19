@@ -248,6 +248,6 @@ export async function deleteSectorAPI(
 export async function updateSectorAPI(
   education: SectorModelPut , id : string
 ): Promise<SectorModelGet | FetchError> {
-  const endpoint = `education/${id}`;
+  const endpoint = `school/sector/${id}`;
   return apiClient.updateData(endpoint, education, "educations");
 }

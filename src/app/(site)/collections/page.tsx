@@ -4,11 +4,9 @@ import AllCollectionInCollection from "@/components/site/dashboard/collections/a
 const CollectionPage = () => {
   return (
     <div className=" happy-page">
-      <PageTitle title="Collections"/>
+      <PageTitle title="Collections" />
       <div className=" w-full space-y-4">
         <AllCollectionInCollection />
-      </div>
-      <div>
       </div>
     </div>
   );
