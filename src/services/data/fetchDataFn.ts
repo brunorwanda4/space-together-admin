@@ -4,6 +4,7 @@ import { ApiClient } from "../class/fetchingAPIClient";
 import { UserModel, UserModelDeleteMany, UserModelPut, UserModelUpdateMany, UserRoleModel, UserRoleModelNew } from "@/types/userModel";
 import { userSchemeType } from "@/utils/schema/user-schema";
 import { EducationModelNew } from "@/types/educationModel";
+import { SectorModelGet } from '@/types/sectorModel';
 
 const apiClient = new ApiClient();
 
@@ -174,4 +175,15 @@ export async function fetchAllEducation(): Promise<EducationModelGet[] | FetchEr
 export async function fetchAllSector(): Promise<EducationModelGet[] | FetchError> {
   const endpoint = "education";
   return apiClient.allData<EducationModelGet[]>(endpoint, "user roles");
+}
+
+/**
+ * get all sector by education
+ * @param sector
+ * @returns SectorModelGet[] | FetchError
+ */
+
+export async function fetchAllSectorByEducation(id : string): Promise<SectorModelGet[] | FetchError> {
+  const endpoint = `school/sector/education/${id}`;
+  return apiClient.allData<SectorModelGet[]>(endpoint, "user roles");
 }
