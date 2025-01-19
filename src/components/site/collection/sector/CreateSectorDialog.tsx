@@ -4,7 +4,6 @@ import {
   FormMessageError,
   FormMessageSuccess,
 } from "@/components/form/formError";
-import MyImage from "@/components/my-components/myImage";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,33 +22,36 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
 // import { cn } from "@/lib/utils";
-import { createEducationAPI } from "@/services/data/fetchDataFn";
-import {
-  educationSchema,
-  educationSchemaType,
-} from "@/utils/schema/educationSchema";
+import { createSectorAPI } from "@/services/data/fetchDataFn";
+import { EducationModelGet } from "@/types/educationModel";
+import { sectorSchema, sectorSchemaType } from "@/utils/schema/sectorSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
-import { ChangeEvent, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
 
-const CreateEducationDialog = () => {
+interface props {
+  education: EducationModelGet[];
+}
+
+const CreateSectorDialog = ({ education }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<educationSchemaType>({
-    resolver: zodResolver(educationSchema),
+  const form = useForm<sectorSchemaType>({
+    resolver: zodResolver(sectorSchema),
     defaultValues: {
       name: "",
       username: "",
+      education: "",
       description: "",
-      logo: "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -58,39 +60,11 @@ const CreateEducationDialog = () => {
     mode: "onChange",
   });
 
-  const handleImage = (
-    e: ChangeEvent<HTMLInputElement>,
-    fieldChange: (value: string) => void
-  ) => {
-    setError("");
-    e.preventDefault();
-
-    if (e.target.files?.[0]) {
-      const file = e.target.files[0];
-
-      if (!file.type.includes("image")) {
-        return setError("Please select an image file.");
-      }
-
-      if (file.size > 2 * 1024 * 1024) {
-        return setError("Image size exceeds 2MB.");
-      }
-
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const imageDataUrl = event.target?.result as string;
-        fieldChange(imageDataUrl);
-      };
-      reader.onerror = () => setError("Failed to read image file.");
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSubmit = (values: educationSchemaType) => {
+  const handleSubmit = (values: sectorSchemaType) => {
     setError("");
     setSuccess("");
 
-    const validation = educationSchema.safeParse(values);
+    const validation = sectorSchema.safeParse(values);
 
     if (!validation.success) {
       return setError("Invalid Register Validation");
@@ -98,7 +72,7 @@ const CreateEducationDialog = () => {
 
     startTransition(async () => {
       try {
-        const result = await createEducationAPI(validation.data);
+        const result = await createSectorAPI(validation.data);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -124,7 +98,7 @@ const CreateEducationDialog = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="info" size="sm">
-          <BsPlus /> Add new education
+          <BsPlus /> Add new sector
           {isPending && (
             <LoaderCircle
               className="-ms-1 me-2 animate-spin"
@@ -144,35 +118,6 @@ const CreateEducationDialog = () => {
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-3"
           >
-            <FormField
-              control={form.control}
-              name="logo"
-              render={({ field }) => (
-                <FormItem className="flex gap-2 items-center">
-                  <FormLabel
-                    htmlFor="image"
-                    className="flex gap-3 items-center"
-                  >
-                    <MyImage
-                      src={field.value || "/default.jpg"}
-                      className="size-24 min-h-24 min-w-24 rounded-full"
-                      alt="Profile"
-                    />
-                    <span className="cursor-pointer">Education Symbol</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      id="image"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => handleImage(e, field.onChange)}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               name="name"
               control={form.control}
@@ -208,6 +153,39 @@ const CreateEducationDialog = () => {
               )}
             />
             <FormField
+              control={form.control}
+              name="education"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Educations</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      {education.map((item) => {
+                        return (
+                          <FormItem
+                            key={item.id}
+                            className="flex items-center space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <RadioGroupItem value={item.id} />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {item.username ? item.username : item.name}
+                            </FormLabel>
+                          </FormItem>
+                        );
+                      })}
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
               name="description"
               control={form.control}
               render={({ field }) => (
@@ -237,7 +215,7 @@ const CreateEducationDialog = () => {
                 className="w-full sm:w-auto"
                 disabled={isPending}
               >
-                Add Education{" "}
+                Add Sector{" "}
                 {isPending && (
                   <LoaderCircle
                     className="-ms-1 me-2 animate-spin"
@@ -255,4 +233,4 @@ const CreateEducationDialog = () => {
   );
 };
 
-export default CreateEducationDialog;
+export default CreateSectorDialog;

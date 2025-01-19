@@ -1,10 +1,10 @@
 import z from "zod";
 
-export const educationSchema = z.object({
+export const sectorSchema = z.object({
   name: z
     .string()
     .min(1, {
-      message: "Education name is required",
+      message: "sector name is required",
     })
     .max(50, {
       message: "Maximum character is 50",
@@ -17,6 +17,7 @@ export const educationSchema = z.object({
     .max(50, {
       message: "Maximum character is 50",
     }),
+  education: z.string(),
   description: z
     .string()
     .min(1, {
@@ -25,7 +26,6 @@ export const educationSchema = z.object({
     .max(200, {
       message: "Maximum character is 200",
     }),
-  logo: z.string(),
 });
 
-export type educationSchemaType = z.infer<typeof educationSchema>;
+export type sectorSchemaType = z.infer<typeof sectorSchema>;

@@ -4,7 +4,7 @@ import { ApiClient } from "../class/fetchingAPIClient";
 import { UserModel, UserModelDeleteMany, UserModelPut, UserModelUpdateMany, UserRoleModel, UserRoleModelNew } from "@/types/userModel";
 import { userSchemeType } from "@/utils/schema/user-schema";
 import { EducationModelNew } from "@/types/educationModel";
-import { SectorModelGet } from '@/types/sectorModel';
+import { SectorModelGet, SectorModelNew } from '@/types/sectorModel';
 
 const apiClient = new ApiClient();
 
@@ -188,7 +188,7 @@ export async function deleteEducationAPI(
 
 export async function fetchAllEducation(): Promise<EducationModelGet[] | FetchError> {
   const endpoint = "education";
-  return apiClient.allData<EducationModelGet[]>(endpoint, "user roles");
+  return apiClient.allData<EducationModelGet[]>(endpoint, "Education");
 }
 
 /**
@@ -197,9 +197,9 @@ export async function fetchAllEducation(): Promise<EducationModelGet[] | FetchEr
  * @returns EducationModelGet[] | FetchError
  */
 
-export async function fetchAllSector(): Promise<EducationModelGet[] | FetchError> {
-  const endpoint = "education";
-  return apiClient.allData<EducationModelGet[]>(endpoint, "user roles");
+export async function fetchAllSector(): Promise<SectorModelGet[] | FetchError> {
+  const endpoint = "school/sector";
+  return apiClient.allData(endpoint, "user roles");
 }
 
 /**
@@ -211,4 +211,16 @@ export async function fetchAllSector(): Promise<EducationModelGet[] | FetchError
 export async function fetchAllSectorByEducation(id : string): Promise<SectorModelGet[] | FetchError> {
   const endpoint = `school/sector/education/${id}`;
   return apiClient.allData<SectorModelGet[]>(endpoint, "user roles");
+}
+
+/**
+ *  Create a sector
+ * @param sector 
+ * @returns SectorModelGet | FetchError
+ */
+export async function createSectorAPI(
+  sector: SectorModelNew
+): Promise<SectorModelGet | FetchError> {
+  const endpoint = "school/sector";
+  return apiClient.postData(endpoint, sector, "educations");
 }
