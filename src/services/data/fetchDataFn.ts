@@ -1,3 +1,4 @@
+import { EducationModelGet } from './../../types/educationModel';
 import { FetchError } from "@/types/fetchErr";
 import { ApiClient } from "../class/fetchingAPIClient";
 import { UserModel, UserModelDeleteMany, UserModelPut, UserModelUpdateMany, UserRoleModel, UserRoleModelNew } from "@/types/userModel";
@@ -142,12 +143,35 @@ export async function fetchAllUserRoles(): Promise<UserRoleModel[] | FetchError>
 
 /**
  *  Create a new users
- * @param user 
- * @returns UserModel | FetchError
+ * @param education 
+ * @returns EducationModelGet | FetchError
  */
 export async function createEducationAPI(
   education: EducationModelNew
-): Promise<UserModel | FetchError> {
+): Promise<EducationModelGet | FetchError> {
   const endpoint = "education";
   return apiClient.postData(endpoint, education, "educations");
+}
+
+
+/**
+ * get all education
+ * @param education
+ * @returns EducationModelGet[] | FetchError
+ */
+
+export async function fetchAllEducation(): Promise<EducationModelGet[] | FetchError> {
+  const endpoint = "education";
+  return apiClient.allData<EducationModelGet[]>(endpoint, "user roles");
+}
+
+/**
+ * get all education
+ * @param education
+ * @returns EducationModelGet[] | FetchError
+ */
+
+export async function fetchAllSector(): Promise<EducationModelGet[] | FetchError> {
+  const endpoint = "education";
+  return apiClient.allData<EducationModelGet[]>(endpoint, "user roles");
 }
