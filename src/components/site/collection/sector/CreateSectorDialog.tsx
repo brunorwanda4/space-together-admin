@@ -4,6 +4,7 @@ import {
   FormMessageError,
   FormMessageSuccess,
 } from "@/components/form/formError";
+import MyImage from "@/components/my-components/myImage";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -32,7 +33,7 @@ import { EducationModelGet } from "@/types/educationModel";
 import { sectorSchema, sectorSchemaType } from "@/utils/schema/sectorSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
-import { useState, useTransition } from "react";
+import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
 
@@ -44,6 +45,34 @@ const CreateSectorDialog = ({ education }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+
+   const handleImage = (
+      e: ChangeEvent<HTMLInputElement>,
+      fieldChange: (value: string) => void
+    ) => {
+      setError("");
+      e.preventDefault();
+  
+      if (e.target.files?.[0]) {
+        const file = e.target.files[0];
+  
+        if (!file.type.includes("image")) {
+          return setError("Please select an image file.");
+        }
+  
+        if (file.size > 2 * 1024 * 1024) {
+          return setError("Image size exceeds 2MB.");
+        }
+  
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const imageDataUrl = event.target?.result as string;
+          fieldChange(imageDataUrl);
+        };
+        reader.onerror = () => setError("Failed to read image file.");
+        reader.readAsDataURL(file);
+      }
+    };
 
   const form = useForm<sectorSchemaType>({
     resolver: zodResolver(sectorSchema),
@@ -118,6 +147,35 @@ const CreateSectorDialog = ({ education }: props) => {
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-3"
           >
+            <FormField
+              control={form.control}
+              name="logo"
+              render={({ field }) => (
+                <FormItem className="flex gap-2 items-center">
+                  <FormLabel
+                    htmlFor="image"
+                    className="flex gap-3 items-center"
+                  >
+                    <MyImage
+                      src={field.value || "/default.jpg"}
+                      className="size-24 min-h-24 min-w-24 rounded-full"
+                      alt="Profile"
+                    />
+                    <span className="cursor-pointer">Education Symbol</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      id="image"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleImage(e, field.onChange)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               name="name"
               control={form.control}

@@ -26,6 +26,7 @@ export const sectorSchema = z.object({
     .max(200, {
       message: "Maximum character is 200",
     }),
+  logo: z.string(),
 });
 
 export type sectorSchemaType = z.infer<typeof sectorSchema>;
