@@ -33,6 +33,7 @@ import {
   educationSchemaType,
 } from "@/utils/schema/educationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderCircle } from "lucide-react";
 import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
@@ -126,12 +127,20 @@ const UpdateEducationDialog = ({ education }: props) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button type="button" variant="warning" size="sm">
-          Update
+          Update{" "}
+          {isPending && (
+            <LoaderCircle
+              className="-ms-1 me-2 animate-spin"
+              size={12}
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent data-theme={UseTheme()}>
         <DialogHeader>
-          <DialogTitle>Add New Education</DialogTitle>
+          <DialogTitle>Update Education</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -231,7 +240,15 @@ const UpdateEducationDialog = ({ education }: props) => {
                 className="w-full sm:w-auto"
                 disabled={isPending}
               >
-                Add Education
+                Add Education{" "}
+                {isPending && (
+                  <LoaderCircle
+                    className="-ms-1 me-2 animate-spin"
+                    size={12}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                )}
               </Button>
             </DialogFooter>
           </form>

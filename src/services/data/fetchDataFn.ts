@@ -143,7 +143,7 @@ export async function fetchAllUserRoles(): Promise<UserRoleModel[] | FetchError>
 
 
 /**
- *  Create a new users
+ *  Create a education
  * @param education 
  * @returns EducationModelGet | FetchError
  */
@@ -155,7 +155,7 @@ export async function createEducationAPI(
 }
 
 /**
- *  update
+ *  update education
  * @param education 
  * @returns EducationModelGet | FetchError
  */
@@ -165,6 +165,19 @@ export async function updateEducationAPI(
   const endpoint = `education/${id}`;
   return apiClient.updateData(endpoint, education, "educations");
 }
+
+/**
+ * delete education
+ * @param education
+ * @returns EducationModelGet | FetchError
+ */
+export async function deleteEducationAPI(
+  id: string
+): Promise<EducationModelGet | FetchError> {
+  const endpoint = `education/${id}`;
+  return apiClient.deleteData(endpoint, "education");
+}
+
 
 
 /**

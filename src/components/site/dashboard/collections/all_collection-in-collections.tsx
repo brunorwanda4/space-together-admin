@@ -152,7 +152,7 @@ const AllCollectionInCollection = async () => {
                   src={collection.icon || "/icons/data-collection.png"}
                 />
                 <div className="flex flex-col justify-center w-full items-center">
-                  <h4 className="font-semibold text-lg">{collection.name}</h4>
+                  <h4 className="font-semibold text-lg capitalize">{collection.name}</h4>
                   <p>{collection.description}</p>
                 </div>
               </Link>

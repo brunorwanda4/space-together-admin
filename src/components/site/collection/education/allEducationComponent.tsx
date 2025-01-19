@@ -8,6 +8,7 @@ import {
 import { CollectionPageErrorStatic } from "@/utils/static/page/collectionPageStatic";
 import { BsDot } from "react-icons/bs";
 import Link from "next/link";
+import DeleteEducationDialog from "./deleteEducationDialog";
 
 const AllEducationComponent = async () => {
   const getEducations = await fetchAllEducation();
@@ -68,9 +69,7 @@ const AllEducationComponent = async () => {
                       </Button>
                       <UpdateEducationDialog education={item}/>
                       {getSector.length == 0 && (
-                        <Button type="button" size="sm">
-                          Delete
-                        </Button>
+                        <DeleteEducationDialog education={item}/>
                       )}
                     </div>
                   </div>
