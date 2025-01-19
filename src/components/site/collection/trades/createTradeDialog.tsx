@@ -81,6 +81,7 @@ const CreateTradeDialog = ({ sectors}: props) => {
       username: "",
       sector: "",
       description: "",
+      logo : "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -127,7 +128,7 @@ const CreateTradeDialog = ({ sectors}: props) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="info" size="sm">
-          <BsPlus /> Add new sector
+          <BsPlus /> Add new trade
           {isPending && (
             <LoaderCircle
               className="-ms-1 me-2 animate-spin"
@@ -273,7 +274,7 @@ const CreateTradeDialog = ({ sectors}: props) => {
                 className="w-full sm:w-auto"
                 disabled={isPending}
               >
-                Add Sector{" "}
+                Create trade
                 {isPending && (
                   <LoaderCircle
                     className="-ms-1 me-2 animate-spin"

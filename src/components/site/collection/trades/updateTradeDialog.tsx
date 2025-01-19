@@ -82,6 +82,7 @@ const UpdateTradeDialog = ({ sectors , trade}: props) => {
       username: trade.username ? trade.username : "",
       sector: trade.sector ? trade.sector : "",
       description: trade.description ? trade.description : "",
+      logo : "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -111,10 +112,10 @@ const UpdateTradeDialog = ({ sectors , trade}: props) => {
             variant: "destructive",
           });
         } else {
-          setSuccess("Trade entry created successfully!");
+          setSuccess("Trade entry update successfully!");
           toast({
             title: "Success",
-            description: `Created: ${result.name}`,
+            description: `update: ${result.name}`,
           });
           form.reset();
         }
@@ -274,7 +275,7 @@ const UpdateTradeDialog = ({ sectors , trade}: props) => {
                 className="w-full sm:w-auto"
                 disabled={isPending}
               >
-                Add Sector{" "}
+                Update Trade{" "}
                 {isPending && (
                   <LoaderCircle
                     className="-ms-1 me-2 animate-spin"
