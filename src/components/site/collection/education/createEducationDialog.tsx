@@ -1,4 +1,5 @@
 "use client";
+
 import {
   FormMessageError,
   FormMessageSuccess,
@@ -25,7 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 import { createEducationAPI } from "@/services/data/fetchDataFn";
 import {
   educationSchema,
@@ -37,8 +38,8 @@ import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
 
 const CreateEducationDialog = () => {
-  const [error, setError] = useState<undefined | string>("");
-  const [success, setSuccess] = useState<undefined | string>("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<educationSchemaType>({
@@ -63,63 +64,59 @@ const CreateEducationDialog = () => {
     setError("");
     e.preventDefault();
 
-    const fileReader = new FileReader();
-
-    if (e.target.files && e.target.files.length > 0) {
+    if (e.target.files?.[0]) {
       const file = e.target.files[0];
 
-      // Check if the file is an image
       if (!file.type.includes("image")) {
-        return setError("Please select an image file");
+        return setError("Please select an image file.");
       }
 
-      // Check if the file size is greater than 2MB (2MB = 2 * 1024 * 1024 bytes)
-      const maxSizeInBytes = 2 * 1024 * 1024;
-      if (file.size > maxSizeInBytes) {
-        return setError(
-          "Sorry your image it to high try other image which is not less than 2MB!."
-        );
+      if (file.size > 2 * 1024 * 1024) {
+        return setError("Image size exceeds 2MB.");
       }
 
-      fileReader.onload = async (event) => {
-        const imageDataUrl = event.target?.result?.toString() || "";
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageDataUrl = event.target?.result as string;
         fieldChange(imageDataUrl);
       };
-
-      fileReader.readAsDataURL(file);
+      reader.onerror = () => setError("Failed to read image file.");
+      reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = (values: educationSchemaType) => {
     setError("");
     setSuccess("");
+
     const validation = educationSchema.safeParse(values);
+
     if (!validation.success) {
       return setError("Invalid Register Validation");
     }
 
     startTransition(async () => {
-        const result = await createEducationAPI(values);
-
-      if ("message" in result) {
-        setError(result.message);
-        toast({
-          title: "Uh oh! Something went wrong.",
-          description: result.message,
-          variant: "destructive",
-        });
-      } else {
-        // It's a success
-        setSuccess("User created successfully!");
-        toast({
-          title: "User created successfully 😁",
-          description: <div>user: {result.name}</div>,
-        });
-        form.reset();
+      try {
+        const result = await createEducationAPI(validation.data);
+        if ("message" in result) {
+          setError(result.message);
+          toast({
+            title: "Error",
+            description: result.message,
+            variant: "destructive",
+          });
+        } else {
+          setSuccess("Education entry created successfully!");
+          toast({
+            title: "Success",
+            description: `Created: ${result.name}`,
+          });
+          form.reset();
+        }
+      } catch (err) {
+        setError(`Unexpected error occurred [${err}]. Please try again.`);
       }
-    })
-
-    console.log(values);
+    });
   };
 
   return (
@@ -131,46 +128,37 @@ const CreateEducationDialog = () => {
       </DialogTrigger>
       <DialogContent data-theme={UseTheme()}>
         <DialogHeader>
-          <DialogTitle>Add new education</DialogTitle>
+          <DialogTitle>Add New Education</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="  space-y-3"
+            className="space-y-3"
           >
             <FormField
               control={form.control}
               name="logo"
               render={({ field }) => (
-                <FormItem className={cn("flex gap-2 items-center")}>
+                <FormItem className="flex gap-2 items-center">
                   <FormLabel
                     htmlFor="image"
-                    className={cn("flex gap-3 items-center")}
+                    className="flex gap-3 items-center"
                   >
                     <MyImage
-                      src={field.value ? field.value : "/1.jpg"}
-                      className={cn("size-24 min-h-24 min-w-24 rounded-full")}
-                      classname=" rounded-full"
+                      src={field.value || "/default.jpg"}
+                      className="size-24 min-h-24 min-w-24 rounded-full"
                       alt="Profile"
                     />
-                    <span className={cn("cursor-pointer")}>
-                      education symbol
-                    </span>
+                    <span className="cursor-pointer">Education Symbol</span>
                   </FormLabel>
                   <FormControl>
-                    <div className={cn("flex flex-col")}>
-                      <Input
-                        disabled={isPending}
-                        type="file"
-                        id="image"
-                        accept="image/*"
-                        placeholder="Add profile photo"
-                        className={cn(
-                          "border-none outline-none bg-transparent hidden"
-                        )}
-                        onChange={(e) => handleImage(e, field.onChange)}
-                      />
-                    </div>
+                    <Input
+                      type="file"
+                      id="image"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleImage(e, field.onChange)}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -181,14 +169,11 @@ const CreateEducationDialog = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className=" ">name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      id="role"
                       {...field}
-                      className="w-full bg-base-100"
-                      placeholder="education name"
-                      type="text"
+                      placeholder="Education name"
                       disabled={isPending}
                     />
                   </FormControl>
@@ -197,18 +182,15 @@ const CreateEducationDialog = () => {
               )}
             />
             <FormField
-              name="name"
+              name="username"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className=" ">Username</FormLabel>
+                  <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input
-                      id="username"
                       {...field}
-                      className="w-full bg-base-100"
-                      placeholder="username"
-                      type="text"
+                      placeholder="Username"
                       disabled={isPending}
                     />
                   </FormControl>
@@ -221,35 +203,33 @@ const CreateEducationDialog = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className=" ">Description</FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      id="description"
                       {...field}
-                      className="w-full bg-base-100 resize-none"
-                      placeholder="description"
+                      placeholder="Description"
                       disabled={isPending}
+                      className=" resize-none"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <DialogFooter>
-              <div className=" mt-2">
-                <FormMessageError message={error} />
-                <FormMessageSuccess message={success} />
-              </div>
-              <div className=" flex justify-center sm:justify-end w-full">
-                <Button
-                  type="submit"
-                  variant="info"
-                  size="sm"
-                  className=" sm:btn-sm btn-md w-full sm:w-auto"
-                >
-                  Add education
-                </Button>
-              </div>
+            <div>
+              <FormMessageError message={error} />
+              <FormMessageSuccess message={success} />
+            </div>
+            <DialogFooter className="">
+              <Button
+                type="submit"
+                variant="info"
+                size="sm"
+                className="w-full sm:w-auto"
+                disabled={isPending}
+              >
+                Add Education
+              </Button>
             </DialogFooter>
           </form>
         </Form>

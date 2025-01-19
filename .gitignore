@@ -63,6 +63,9 @@ node_modules
 # *.png
 *.bmp
 
+# Exception for default.jpg
+!default.jpg
+
 # -- Nodejs
 node_modules/
 !.mocharc.yaml
