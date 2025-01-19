@@ -5,6 +5,7 @@ import { UserModel, UserModelDeleteMany, UserModelPut, UserModelUpdateMany, User
 import { userSchemeType } from "@/utils/schema/user-schema";
 import { EducationModelNew } from "@/types/educationModel";
 import { SectorModelGet, SectorModelNew, SectorModelPut } from '@/types/sectorModel';
+import { TradeModelGet, TradeModelNew } from '@/types/tradeModel';
 
 const apiClient = new ApiClient();
 
@@ -202,7 +203,7 @@ export async function fetchAllEducation(): Promise<EducationModelGet[] | FetchEr
 
 export async function fetchAllSector(): Promise<SectorModelGet[] | FetchError> {
   const endpoint = "school/sector";
-  return apiClient.allData(endpoint, "user roles");
+  return apiClient.allData(endpoint, "sector");
 }
 
 /**
@@ -213,7 +214,7 @@ export async function fetchAllSector(): Promise<SectorModelGet[] | FetchError> {
 
 export async function fetchAllSectorByEducation(id : string): Promise<SectorModelGet[] | FetchError> {
   const endpoint = `school/sector/education/${id}`;
-  return apiClient.allData<SectorModelGet[]>(endpoint, "user roles");
+  return apiClient.allData<SectorModelGet[]>(endpoint, "sector");
 }
 
 /**
@@ -225,7 +226,7 @@ export async function createSectorAPI(
   sector: SectorModelNew
 ): Promise<SectorModelGet | FetchError> {
   const endpoint = "school/sector";
-  return apiClient.postData(endpoint, sector, "educations");
+  return apiClient.postData(endpoint, sector, "sector");
 }
 
 /**
@@ -249,5 +250,20 @@ export async function updateSectorAPI(
   education: SectorModelPut , id : string
 ): Promise<SectorModelGet | FetchError> {
   const endpoint = `school/sector/${id}`;
-  return apiClient.updateData(endpoint, education, "educations");
+  return apiClient.updateData(endpoint, education, "sector");
+}
+
+
+/////////////////////////////////////---TRADE---///////////////////////////////////////////
+
+/**
+ *  Create a trade
+ * @param trade 
+ * @returns TradeModelGet | FetchError
+ */
+export async function createTradeAPI(
+  trade: TradeModelNew
+): Promise<TradeModelGet | FetchError> {
+  const endpoint = "school/trade";
+  return apiClient.postData(endpoint, trade, "trade");
 }

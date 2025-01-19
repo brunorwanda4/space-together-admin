@@ -28,9 +28,10 @@ import { Textarea } from "@/components/ui/textarea";
 import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
 // import { cn } from "@/lib/utils";
-import { createSectorAPI } from "@/services/data/fetchDataFn";
+import { createTradeAPI } from "@/services/data/fetchDataFn";
 import { EducationModelGet } from "@/types/educationModel";
-import { sectorSchema, sectorSchemaType } from "@/utils/schema/sectorSchema";
+import { SectorModelGet } from "@/types/sectorModel";
+import { tradeSchema, tradeSchemaType } from "@/utils/schema/tradeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
 import { ChangeEvent, useState, useTransition } from "react";
@@ -38,48 +39,49 @@ import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
 
 interface props {
+  sectors: SectorModelGet[];
   education: EducationModelGet[];
 }
 
-const CreateSectorDialog = ({ education }: props) => {
+const CreateTradeDialog = ({ sectors}: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
-   const handleImage = (
-      e: ChangeEvent<HTMLInputElement>,
-      fieldChange: (value: string) => void
-    ) => {
-      setError("");
-      e.preventDefault();
-  
-      if (e.target.files?.[0]) {
-        const file = e.target.files[0];
-  
-        if (!file.type.includes("image")) {
-          return setError("Please select an image file.");
-        }
-  
-        if (file.size > 2 * 1024 * 1024) {
-          return setError("Image size exceeds 2MB.");
-        }
-  
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const imageDataUrl = event.target?.result as string;
-          fieldChange(imageDataUrl);
-        };
-        reader.onerror = () => setError("Failed to read image file.");
-        reader.readAsDataURL(file);
-      }
-    };
+  const handleImage = (
+    e: ChangeEvent<HTMLInputElement>,
+    fieldChange: (value: string) => void
+  ) => {
+    setError("");
+    e.preventDefault();
 
-  const form = useForm<sectorSchemaType>({
-    resolver: zodResolver(sectorSchema),
+    if (e.target.files?.[0]) {
+      const file = e.target.files[0];
+
+      if (!file.type.includes("image")) {
+        return setError("Please select an image file.");
+      }
+
+      if (file.size > 2 * 1024 * 1024) {
+        return setError("Image size exceeds 2MB.");
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageDataUrl = event.target?.result as string;
+        fieldChange(imageDataUrl);
+      };
+      reader.onerror = () => setError("Failed to read image file.");
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const form = useForm<tradeSchemaType>({
+    resolver: zodResolver(tradeSchema),
     defaultValues: {
       name: "",
       username: "",
-      education: "",
+      sector: "",
       description: "",
     },
     shouldFocusError: true,
@@ -89,11 +91,11 @@ const CreateSectorDialog = ({ education }: props) => {
     mode: "onChange",
   });
 
-  const handleSubmit = (values: sectorSchemaType) => {
+  const handleSubmit = (values: tradeSchemaType) => {
     setError("");
     setSuccess("");
 
-    const validation = sectorSchema.safeParse(values);
+    const validation = tradeSchema.safeParse(values);
 
     if (!validation.success) {
       return setError("Invalid Register Validation");
@@ -101,7 +103,7 @@ const CreateSectorDialog = ({ education }: props) => {
 
     startTransition(async () => {
       try {
-        const result = await createSectorAPI(validation.data);
+        const result = await createTradeAPI(validation.data);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -110,7 +112,7 @@ const CreateSectorDialog = ({ education }: props) => {
             variant: "destructive",
           });
         } else {
-          setSuccess("Sector entry created successfully!");
+          setSuccess("Trade entry created successfully!");
           toast({
             title: "Success",
             description: `Created: ${result.name}`,
@@ -212,17 +214,17 @@ const CreateSectorDialog = ({ education }: props) => {
             />
             <FormField
               control={form.control}
-              name="education"
+              name="sector"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Educations</FormLabel>
+                  <FormLabel>Sector</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
                     >
-                      {education.map((item) => {
+                      {sectors.map((item) => {
                         return (
                           <FormItem
                             key={item.id}
@@ -291,4 +293,4 @@ const CreateSectorDialog = ({ education }: props) => {
   );
 };
 
-export default CreateSectorDialog;
+export default CreateTradeDialog;
