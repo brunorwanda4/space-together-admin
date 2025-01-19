@@ -267,3 +267,28 @@ export async function createTradeAPI(
   const endpoint = "school/trade";
   return apiClient.postData(endpoint, trade, "trade");
 }
+
+
+/**
+ * get all trade
+ * @param trade
+ * @returns TradeModelGet[] | FetchError
+ */
+
+export async function fetchAllTrade(): Promise<TradeModelGet[] | FetchError> {
+  const endpoint =  "school/trade";
+  return apiClient.allData(endpoint, "Education");
+}
+
+
+/**
+ * delete trade
+ * @param trade
+ * @returns TradeModelGet | FetchError
+ */
+export async function deleteTradeAPI(
+  id: string
+): Promise<TradeModelGet | FetchError> {
+  const endpoint = `school/trade/${id}`;
+  return apiClient.deleteData(endpoint, "sector");
+}

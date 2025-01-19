@@ -30,18 +30,19 @@ import { toast } from "@/hooks/use-toast";
 // import { cn } from "@/lib/utils";
 import { createTradeAPI } from "@/services/data/fetchDataFn";
 import { SectorModelGet } from "@/types/sectorModel";
+import { TradeModelGet } from "@/types/tradeModel";
 import { tradeSchema, tradeSchemaType } from "@/utils/schema/tradeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
 import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { BsPlus } from "react-icons/bs";
 
 interface props {
   sectors: SectorModelGet[];
+  trade : TradeModelGet;
 }
 
-const CreateTradeDialog = ({ sectors}: props) => {
+const UpdateTradeDialog = ({ sectors , trade}: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
@@ -77,10 +78,10 @@ const CreateTradeDialog = ({ sectors}: props) => {
   const form = useForm<tradeSchemaType>({
     resolver: zodResolver(tradeSchema),
     defaultValues: {
-      name: "",
-      username: "",
-      sector: "",
-      description: "",
+      name: trade.name ? trade.name : "",
+      username: trade.username ? trade.username : "",
+      sector: trade.sector ? trade.sector : "",
+      description: trade.description ? trade.description : "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -126,8 +127,8 @@ const CreateTradeDialog = ({ sectors}: props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="info" size="sm">
-          <BsPlus /> Add new sector
+        <Button variant="warning" size="xs">
+          update
           {isPending && (
             <LoaderCircle
               className="-ms-1 me-2 animate-spin"
@@ -291,4 +292,4 @@ const CreateTradeDialog = ({ sectors}: props) => {
   );
 };
 
-export default CreateTradeDialog;
+export default UpdateTradeDialog;

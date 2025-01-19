@@ -1,37 +1,43 @@
 import CollectionPageStatic, {
-    CollectionPageErrorStatic,
-  } from "@/utils/static/page/collectionPageStatic";
-  import { fetchAllEducation, fetchAllSector } from "@/services/data/fetchDataFn";
+  CollectionPageErrorStatic,
+} from "@/utils/static/page/collectionPageStatic";
+import { fetchAllEducation, fetchAllSector, fetchAllTrade } from "@/services/data/fetchDataFn";
 import CreateTradeDialog from "./createTradeDialog";
-  // import AllEducationComponent from "./allEducationComponent"
-  
-  interface props {
-    collection: string;
+import AllTradeTable from "./AllTradeTable";
+// import AllEducationComponent from "./allEducationComponent"
+
+interface props {
+  collection: string;
+}
+const TradePageDocument = async ({ collection }: props) => {
+  const getSectors = await fetchAllSector();
+  if ("message" in getSectors) {
+    return <CollectionPageErrorStatic collection="Sector" error={getSectors} />;
   }
-  const TradePageDocument = async ({ collection }: props) => {
-    const getSectors = await fetchAllSector();
-  
-    if ("message" in getSectors) {
-      return <CollectionPageErrorStatic collection="Sector" error={getSectors} />;
-    }
-  
-    const getEducation = await fetchAllEducation();
-  
-    if ("message" in getEducation) {
-      return (
-        <CollectionPageErrorStatic collection="education" error={getEducation} />
-      );
-    }
-  
+
+  const getEducation = await fetchAllEducation();
+  if ("message" in getEducation) {
     return (
-      <CollectionPageStatic collection={collection}>
-        <div className=" flex justify-between items-center">
-          <h2 className=" happy-title-base">Trades for sectors</h2>
-          <CreateTradeDialog sectors={getSectors} education={getEducation} />
-        </div>
-      </CollectionPageStatic>
+      <CollectionPageErrorStatic collection="education" error={getEducation} />
     );
-  };
-  
-  export default TradePageDocument;
-  
+  }
+
+  const getTrades = await fetchAllTrade();
+  if ("message" in getTrades) {
+    return (
+      <CollectionPageErrorStatic collection="education" error={getTrades} />
+    );
+  }
+
+  return (
+    <CollectionPageStatic collection={collection}>
+      <div className=" flex justify-between items-center">
+        <h2 className=" happy-title-base">Trades for sectors</h2>
+        <CreateTradeDialog sectors={getSectors} />
+      </div>
+      <AllTradeTable collectionName={collection} trades={getTrades} sectors={getSectors}/>
+    </CollectionPageStatic>
+  );
+};
+
+export default TradePageDocument;
