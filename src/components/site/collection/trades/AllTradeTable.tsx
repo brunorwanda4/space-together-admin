@@ -66,7 +66,7 @@ const AllTradeTable = ({ sectors, trades }: props) => {
       accessorKey: "symbol",
       header: "Symbol",
       cell: ({}) => {
-        return <MyImage src="/icons/notebook.png" className="size-8" />;
+        return <MyImage src="/icons/video-conference.png" className="size-8" />;
       },
     },
     {
