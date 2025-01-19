@@ -3,6 +3,7 @@ import CollectionPageStatic, {
 } from "@/utils/static/page/collectionPageStatic";
 import CreateSectorDialog from "./CreateSectorDialog";
 import { fetchAllEducation, fetchAllSector } from "@/services/data/fetchDataFn";
+import AllSectorTable from "./allSectorTable";
 // import AllEducationComponent from "./allEducationComponent"
 
 interface props {
@@ -29,7 +30,7 @@ const SectorPageDocument = async ({ collection }: props) => {
         <h2 className=" happy-title-base">Sector for education</h2>
         <CreateSectorDialog education={getEducation}/>
       </div>
-      {/* <AllEducationComponent /> */}
+     <AllSectorTable educations={getEducation} collectionName="sector" sectors={getSectors} />
     </CollectionPageStatic>
   );
 };

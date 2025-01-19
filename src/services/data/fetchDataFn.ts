@@ -4,7 +4,7 @@ import { ApiClient } from "../class/fetchingAPIClient";
 import { UserModel, UserModelDeleteMany, UserModelPut, UserModelUpdateMany, UserRoleModel, UserRoleModelNew } from "@/types/userModel";
 import { userSchemeType } from "@/utils/schema/user-schema";
 import { EducationModelNew } from "@/types/educationModel";
-import { SectorModelGet, SectorModelNew } from '@/types/sectorModel';
+import { SectorModelGet, SectorModelNew, SectorModelPut } from '@/types/sectorModel';
 
 const apiClient = new ApiClient();
 
@@ -141,6 +141,7 @@ export async function fetchAllUserRoles(): Promise<UserRoleModel[] | FetchError>
   return apiClient.allData<UserRoleModel[]>(endpoint, "user roles");
 }
 
+/////////////////////////////////////---EDUCATION---///////////////////////////////////////////
 
 /**
  *  Create a education
@@ -178,8 +179,6 @@ export async function deleteEducationAPI(
   return apiClient.deleteData(endpoint, "education");
 }
 
-
-
 /**
  * get all education
  * @param education
@@ -191,10 +190,14 @@ export async function fetchAllEducation(): Promise<EducationModelGet[] | FetchEr
   return apiClient.allData<EducationModelGet[]>(endpoint, "Education");
 }
 
+
+/////////////////////////////////////---SECTOR---///////////////////////////////////////////
+
+
 /**
- * get all education
- * @param education
- * @returns EducationModelGet[] | FetchError
+ * get all sector
+ * @param sector
+ * @returns SectorModelGet[] | FetchError
  */
 
 export async function fetchAllSector(): Promise<SectorModelGet[] | FetchError> {
@@ -223,4 +226,28 @@ export async function createSectorAPI(
 ): Promise<SectorModelGet | FetchError> {
   const endpoint = "school/sector";
   return apiClient.postData(endpoint, sector, "educations");
+}
+
+/**
+ * delete sector
+ * @param sector
+ * @returns SectorModelGet | FetchError
+ */
+export async function deleteSectorAPI(
+  id: string
+): Promise<SectorModelGet | FetchError> {
+  const endpoint = `school/sector/${id}`;
+  return apiClient.deleteData(endpoint, "sector");
+}
+
+/**
+ *  update sector
+ * @param sector 
+ * @returns SectorModelGet | FetchError
+ */
+export async function updateSectorAPI(
+  education: SectorModelPut , id : string
+): Promise<SectorModelGet | FetchError> {
+  const endpoint = `education/${id}`;
+  return apiClient.updateData(endpoint, education, "educations");
 }

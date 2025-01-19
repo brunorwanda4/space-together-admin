@@ -4,8 +4,8 @@ export interface SectorModelGet {
   education?: string;
   username?: string;
   description?: string;
-  createOn: string;
-  updatedOn?: string;
+  create_on: string;
+  updated_on?: string;
 }
 
 export interface SectorModelNew {
