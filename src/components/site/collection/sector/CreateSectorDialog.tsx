@@ -140,7 +140,7 @@ const CreateSectorDialog = ({ education }: props) => {
       </DialogTrigger>
       <DialogContent data-theme={UseTheme()}>
         <DialogHeader>
-          <DialogTitle>Add New Education</DialogTitle>
+          <DialogTitle>Add New Sector</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -161,7 +161,7 @@ const CreateSectorDialog = ({ education }: props) => {
                       className="size-24 min-h-24 min-w-24 rounded-full"
                       alt="Profile"
                     />
-                    <span className="cursor-pointer">Education Symbol</span>
+                    <span className="cursor-pointer">Sector Symbol</span>
                   </FormLabel>
                   <FormControl>
                     <Input
