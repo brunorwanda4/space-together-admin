@@ -1,5 +1,6 @@
 import { FetchError } from "@/types/fetchErr";
 import axios, { AxiosResponse, AxiosError } from "axios";
+import util from "util"; // For safe inspection
 
 // API Client Class
 export class ApiClient {
@@ -15,7 +16,7 @@ export class ApiClient {
       return {
         message: errorData.message,
         status,
-        details: JSON.stringify(data),
+        details: this.safeStringify(data),
       };
     }
 
@@ -35,17 +36,17 @@ export class ApiClient {
       return {
         message,
         status,
-        details: JSON.stringify(data),
+        details: this.safeStringify(data),
       };
     } else if (error.request) {
       return {
         message: `No response received from server. ${defaultMessage}`,
-        details: JSON.stringify(error.request), // Add more context here if needed
+        details: this.safeInspect(error.request), // Safer inspection for circular objects
       };
     } else {
       return {
         message: `Request setup error: ${error.message}`,
-        details: error.stack,
+        details: this.safeInspect(error.stack), // Safer inspection for stack trace
       };
     }
   }
@@ -56,6 +57,18 @@ export class ApiClient {
 
   private getBaseUrl(): string {
     return process.env.NEXT_PUBLIC_ST_API || "http://127.0.0.1:2052/api/v0.0.1";
+  }
+
+  private safeStringify(obj: unknown): string {
+    try {
+      return JSON.stringify(obj);
+    } catch {
+      return util.inspect(obj, { depth: 5 });
+    }
+  }
+
+  private safeInspect(obj: unknown): string {
+    return util.inspect(obj, { depth: 5 });
   }
 
   async allData<T>(endpoint: string, name?: string): Promise<T | FetchError> {
