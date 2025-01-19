@@ -66,7 +66,7 @@ const AllEducationComponent = async () => {
                       <Button type="button" variant="outline" size="sm">
                         Sector {getSector.length}
                       </Button>
-                      <UpdateEducationDialog />
+                      <UpdateEducationDialog education={item}/>
                       {getSector.length == 0 && (
                         <Button type="button" size="sm">
                           Delete

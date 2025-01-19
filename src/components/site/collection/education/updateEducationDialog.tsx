@@ -26,8 +26,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
-// import { cn } from "@/lib/utils";
-import { createEducationAPI } from "@/services/data/fetchDataFn";
+import { updateEducationAPI } from "@/services/data/fetchDataFn";
+import { EducationModelGet } from "@/types/educationModel";
 import {
   educationSchema,
   educationSchemaType,
@@ -36,7 +36,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
-const UpdateEducationDialog = () => {
+interface props {
+  education: EducationModelGet;
+}
+
+const UpdateEducationDialog = ({ education }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
@@ -44,9 +48,9 @@ const UpdateEducationDialog = () => {
   const form = useForm<educationSchemaType>({
     resolver: zodResolver(educationSchema),
     defaultValues: {
-      name: "",
-      username: "",
-      description: "",
+      name: education.name ? education.name : "",
+      username: education.username ? education.username : "",
+      description: education.description ? education.description : "",
       logo: "",
     },
     shouldFocusError: true,
@@ -96,7 +100,7 @@ const UpdateEducationDialog = () => {
 
     startTransition(async () => {
       try {
-        const result = await createEducationAPI(validation.data);
+        const result = await updateEducationAPI(validation.data, education.id);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -105,10 +109,10 @@ const UpdateEducationDialog = () => {
             variant: "destructive",
           });
         } else {
-          setSuccess("Education entry created successfully!");
+          setSuccess("Education entry Update successfully!");
           toast({
             title: "Success",
-            description: `Created: ${result.name}`,
+            description: `Update: ${result.name}`,
           });
           form.reset();
         }

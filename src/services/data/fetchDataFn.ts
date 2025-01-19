@@ -1,4 +1,4 @@
-import { EducationModelGet } from './../../types/educationModel';
+import { EducationModelGet, EducationModelPut } from '@/types/educationModel';
 import { FetchError } from "@/types/fetchErr";
 import { ApiClient } from "../class/fetchingAPIClient";
 import { UserModel, UserModelDeleteMany, UserModelPut, UserModelUpdateMany, UserRoleModel, UserRoleModelNew } from "@/types/userModel";
@@ -152,6 +152,18 @@ export async function createEducationAPI(
 ): Promise<EducationModelGet | FetchError> {
   const endpoint = "education";
   return apiClient.postData(endpoint, education, "educations");
+}
+
+/**
+ *  update
+ * @param education 
+ * @returns EducationModelGet | FetchError
+ */
+export async function updateEducationAPI(
+  education: EducationModelPut , id : string
+): Promise<EducationModelGet | FetchError> {
+  const endpoint = `education/${id}`;
+  return apiClient.updateData(endpoint, education, "educations");
 }
 
 
