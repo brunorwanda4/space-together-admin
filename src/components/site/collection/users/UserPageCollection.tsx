@@ -7,6 +7,7 @@ import CollectionPageStatic, {
 import CollectionUserRole from "./collectionUserRole";
 import UserCollectionDetails from "./userCollectionDetials";
 import UsersTableCollection from "./usersTableCollection";
+import { fetchUserRole } from "@/services/data/fetchDataFn";
 
 const apiClient = new ApiClient();
 
@@ -22,10 +23,7 @@ const UserPageCollection = async ({ collectionName }: props) => {
     "users"
   );
 
-  const userRoles: UserRoleModel[] | FetchError = await apiClient.allData<UserRoleModel[]>(
-    "users/role",
-    "users"
-  );
+  const userRoles : UserRoleModel[] | FetchError = await fetchUserRole();
 
   if (Array.isArray(data)) {
     return (

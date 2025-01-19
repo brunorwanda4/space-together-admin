@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -30,13 +30,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { createUserAPI } from "@/services/data/fetchDataFn";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -78,8 +71,8 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
     setSuccess("");
 
     const validation = userSchema.safeParse(values);
-    if(!validation.success) {
-      return setError("Invalid Register Validation")
+    if (!validation.success) {
+      return setError("Invalid Register Validation");
     }
 
     startTransition(async () => {
@@ -121,34 +114,6 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
               onSubmit={form.handleSubmit(handleSubmit)}
               className=" space-y-2"
             >
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>User role</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className=" bg-base-100">
-                          <SelectValue placeholder="Select User Role" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent data-theme={UseTheme()}>
-                        {Array.isArray(usersRole) &&
-                          usersRole.map((role) => (
-                            <SelectItem key={role.role} value={role.id}>
-                              {role.role}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 name="name"
                 control={form.control}
@@ -226,6 +191,39 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
                 )}
               />
               <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>User roles</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                      >
+                        {" "}
+                        {Array.isArray(usersRole) &&
+                          usersRole.map((item) => (
+                            <FormItem
+                              key={item.id}
+                              className="flex items-center space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <RadioGroupItem value={item.id} />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                {item.role}
+                              </FormLabel>
+                            </FormItem>
+                          ))}
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
                 name="password"
                 control={form.control}
                 render={({ field }) => (
@@ -265,9 +263,16 @@ const CreateNewUserDialog = ({ usersRole }: props) => {
               </div>
               <DialogFooter className="mt-4">
                 <DialogClose asChild>
-                  <Button size="sm" type="button">Cancel</Button>
+                  <Button size="sm" type="button">
+                    Cancel
+                  </Button>
                 </DialogClose>
-                <Button size="sm" variant="info" disabled={isPending} type="submit">
+                <Button
+                  size="sm"
+                  variant="info"
+                  disabled={isPending}
+                  type="submit"
+                >
                   Create user
                 </Button>
               </DialogFooter>

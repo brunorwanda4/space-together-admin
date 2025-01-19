@@ -2,6 +2,7 @@ import { FetchError } from "@/types/fetchErr";
 import { ApiClient } from "../class/fetchingAPIClient";
 import { UserModel, UserModelDeleteMany, UserModelPut, UserModelUpdateMany, UserRoleModel, UserRoleModelNew } from "@/types/userModel";
 import { userSchemeType } from "@/utils/schema/user-schema";
+import { EducationModelNew } from "@/types/educationModel";
 
 const apiClient = new ApiClient();
 
@@ -15,6 +16,16 @@ export async function createUserRole(
 ): Promise<UserRoleModel | FetchError> {
   const endpoint = "users/role";
   return apiClient.postData(endpoint, role, "user role");
+}
+
+/**
+ * get all users by role
+ * @param role 
+ * @returns UserModel[] | FetchError
+ */
+export async function fetchUserRole(): Promise<UserRoleModel[] | FetchError> {
+  const endpoint = `users/role`;
+  return apiClient.allData<UserRoleModel[]>(endpoint, "users role");
 }
 
 /**
@@ -126,4 +137,17 @@ export async function fetchDocumentById<T>(
 export async function fetchAllUserRoles(): Promise<UserRoleModel[] | FetchError> {
   const endpoint = "users/role";
   return apiClient.allData<UserRoleModel[]>(endpoint, "user roles");
+}
+
+
+/**
+ *  Create a new users
+ * @param user 
+ * @returns UserModel | FetchError
+ */
+export async function createEducationAPI(
+  education: EducationModelNew
+): Promise<UserModel | FetchError> {
+  const endpoint = "education";
+  return apiClient.postData(endpoint, education, "educations");
 }
