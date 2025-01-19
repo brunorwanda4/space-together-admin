@@ -65,7 +65,7 @@ const AllEducationComponent = async () => {
                     </div>
                     <div className=" space-x-3">
                       <Button type="button" variant="outline" size="sm">
-                        Sector {getSector.length}
+                        Sectors {getSector.length}
                       </Button>
                       <UpdateEducationDialog education={item}/>
                       {getSector.length == 0 && (
@@ -79,7 +79,7 @@ const AllEducationComponent = async () => {
                     <p className="flex space-x-2 ">{item.description}</p>
                     {/* sector */}
                     <div>
-                      <h3 className=" font-medium text-lg"> Sectors</h3>
+                      <h3 className=" font-medium text-lg"> Sectors {getSector.length}</h3>
                       {getSector.map((sector) => (
                         <div key={sector.id} className=" flex">
                           <BsDot />
