@@ -26,6 +26,9 @@ export const tradeSchema = z.object({
     .max(200, {
       message: "Maximum character is 200",
     }),
+  class_rooms: z.string().min(1, {
+    message  : "Class rooms is required"
+  }),
   logo: z.string(),
 });
 

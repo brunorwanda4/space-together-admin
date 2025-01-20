@@ -90,3 +90,7 @@ body {
 .my-sm-text {
   @apply font-semibold text-xs text-myGray
 }
+
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

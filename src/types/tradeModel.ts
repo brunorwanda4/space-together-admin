@@ -4,6 +4,7 @@ export interface TradeModelGet {
   username?: string;
   description?: string;
   sector?: string;
+  class_rooms ?: number,
   create_on: string;
   updated_on?: string;
 }
@@ -13,6 +14,7 @@ export interface TradeModelNew {
   username?: string;
   sector?: string;
   description?: string;
+  class_rooms ?: number,
 }
 
 export interface TradeModelPut {
@@ -20,4 +22,5 @@ export interface TradeModelPut {
   username?: string;
   description?: string;
   sector?: string;
+  class_rooms ?: number,
 }

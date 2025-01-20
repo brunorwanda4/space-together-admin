@@ -28,9 +28,9 @@ import { Textarea } from "@/components/ui/textarea";
 import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
 // import { cn } from "@/lib/utils";
-import { createTradeAPI } from "@/services/data/fetchDataFn";
+import { updateTradeAPI } from "@/services/data/fetchDataFn";
 import { SectorModelGet } from "@/types/sectorModel";
-import { TradeModelGet } from "@/types/tradeModel";
+import { TradeModelGet, TradeModelPut } from "@/types/tradeModel";
 import { tradeSchema, tradeSchemaType } from "@/utils/schema/tradeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
@@ -39,10 +39,10 @@ import { useForm } from "react-hook-form";
 
 interface props {
   sectors: SectorModelGet[];
-  trade : TradeModelGet;
+  trade: TradeModelGet;
 }
 
-const UpdateTradeDialog = ({ sectors , trade}: props) => {
+const UpdateTradeDialog = ({ sectors, trade }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
@@ -82,7 +82,8 @@ const UpdateTradeDialog = ({ sectors , trade}: props) => {
       username: trade.username ? trade.username : "",
       sector: trade.sector ? trade.sector : "",
       description: trade.description ? trade.description : "",
-      logo : "",
+      logo: "",
+      class_rooms: trade.class_rooms ? trade.class_rooms.toString() : undefined,
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -101,9 +102,20 @@ const UpdateTradeDialog = ({ sectors , trade}: props) => {
       return setError("Invalid Register Validation");
     }
 
+    const { name, username, description, class_rooms, sector } =
+      validation.data;
+
+    const data: TradeModelPut = {
+      name,
+      username,
+      class_rooms: Number(class_rooms),
+      sector,
+      description,
+    };
+
     startTransition(async () => {
       try {
-        const result = await createTradeAPI(validation.data);
+        const result = await updateTradeAPI(data, trade.id);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -206,6 +218,24 @@ const UpdateTradeDialog = ({ sectors , trade}: props) => {
                       {...field}
                       placeholder="Username"
                       disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="class_rooms"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Class rooms</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="number of class rooms"
+                      disabled={isPending}
+                      type="number"
                     />
                   </FormControl>
                   <FormMessage />

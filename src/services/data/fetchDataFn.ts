@@ -1,5 +1,12 @@
-import { ClassRoomModelGet, ClassRoomModelNew, ClassRoomModelPut } from './../../types/classRoomModel';
-import { ClassRoomTypeModelGet, ClassRoomTypeModelNew } from '@/types/classRoomTypeModel';
+import {
+  ClassRoomModelGet,
+  ClassRoomModelNew,
+  ClassRoomModelPut,
+} from "./../../types/classRoomModel";
+import {
+  ClassRoomTypeModelGet,
+  ClassRoomTypeModelNew,
+} from "@/types/classRoomTypeModel";
 import { EducationModelGet, EducationModelPut } from "@/types/educationModel";
 import { FetchError } from "@/types/fetchErr";
 import { ApiClient } from "../class/fetchingAPIClient";
@@ -18,7 +25,11 @@ import {
   SectorModelNew,
   SectorModelPut,
 } from "@/types/sectorModel";
-import { TradeModelGet, TradeModelNew } from "@/types/tradeModel";
+import {
+  TradeModelGet,
+  TradeModelNew,
+  TradeModelPut,
+} from "@/types/tradeModel";
 import { ClassModelGet } from "@/types/classModel";
 import { ClassTypeModelGet } from "@/types/classTypeModel";
 
@@ -309,15 +320,26 @@ export async function deleteTradeAPI(
   return apiClient.deleteData(endpoint, "sector");
 }
 
+/**
+ * update trade
+ * @param trade
+ * @returns TradeModelGet | FetchError
+ */
+export async function updateTradeAPI(
+  trade: TradeModelPut,
+  id: string
+): Promise<TradeModelGet | FetchError> {
+  const endpoint = `school/trade/${id}`;
+  return apiClient.updateData(endpoint, trade, "sector");
+}
 
 /////////////////////////////////////---Class--ROOM--TYPE---///////////////////////////////////////////
-
 
 /**
  *  Create a class room type
  * @param ClassRoomTypeModelGet
  * @returns ClassRoomTypeModelGet | FetchError
- */ 
+ */
 export async function createClassRoomTypeAPI(
   trade: ClassRoomTypeModelNew
 ): Promise<ClassRoomTypeModelGet | FetchError> {
@@ -351,12 +373,11 @@ export async function deleteClassRoomTypeAPI(
 
 /////////////////////////////////////---Class--ROOM---///////////////////////////////////////////
 
-
 /**
  *  Create a class room
  * @param ClassRoomModelNew
  * @returns ClassRoomModelGet | FetchError
- */ 
+ */
 export async function createClassRoomAPI(
   classRoom: ClassRoomModelNew
 ): Promise<ClassRoomModelGet | FetchError> {

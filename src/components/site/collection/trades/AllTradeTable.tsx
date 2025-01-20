@@ -90,6 +90,13 @@ const AllTradeTable = ({ sectors, trades }: props) => {
       ),
     },
     {
+      accessorKey: "class_rooms",
+      header: "Levels",
+      cell: ({ row }) => (
+        <span className="text-lowercase">{row.getValue("class_rooms")}</span>
+      ),
+    },
+    {
       accessorKey: "description",
       header: "Description",
       cell: ({ row }) => <span>{row.getValue("description") || "N/A"}</span>,
@@ -131,7 +138,7 @@ const AllTradeTable = ({ sectors, trades }: props) => {
         <DataTable
           columns={columns}
           data={trades}
-          searchKeys={["username", "name", "sector"]}
+          searchKeys={["username", "name", "sector", "class_rooms"]}
         />
       </div>
     </div>
