@@ -31,7 +31,7 @@ import {
   TradeModelNew,
   TradeModelPut,
 } from "@/types/tradeModel";
-import { ClassModelGet } from "@/types/classModel";
+import { ClassModelGet, ClassModelNew } from "@/types/classModel";
 import {
   ClassTypeModelGet,
   ClassTypeModelNew,
@@ -459,10 +459,10 @@ export async function updateClassRoomAPI(
  * @returns ClassModelGet | FetchError
  */
 export async function createClassAPI(
-  trade: TradeModelNew
+  classModel: ClassModelNew
 ): Promise<ClassModelGet | FetchError> {
   const endpoint = "classes";
-  return apiClient.postData(endpoint, trade, "trade");
+  return apiClient.postData(endpoint, classModel, "classes");
 }
 
 /**
