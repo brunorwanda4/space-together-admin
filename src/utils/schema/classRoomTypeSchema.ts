@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const classTypeSchema = z.object({
+export const classRoomTypeSchema = z.object({
   name: z
     .string()
     .min(1, {
@@ -27,4 +27,4 @@ export const classTypeSchema = z.object({
     }),
 });
 
-export type classTypeSchemaType = z.infer<typeof classTypeSchema>;
+export type classRoomTypeSchemaType = z.infer<typeof classRoomTypeSchema>;

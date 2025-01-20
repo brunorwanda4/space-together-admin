@@ -1,3 +1,5 @@
+import { ClassRoomModelGet, ClassRoomModelNew, ClassRoomModelPut } from './../../types/classRoomModel';
+import { ClassRoomTypeModelGet, ClassRoomTypeModelNew } from '@/types/classRoomTypeModel';
 import { EducationModelGet, EducationModelPut } from "@/types/educationModel";
 import { FetchError } from "@/types/fetchErr";
 import { ApiClient } from "../class/fetchingAPIClient";
@@ -119,7 +121,7 @@ export async function updateManyUsersAPI(
 }
 
 /**
- * delete user
+ * update user
  * @param user
  * @returns UserModel | FetchError
  */
@@ -308,43 +310,95 @@ export async function deleteTradeAPI(
 }
 
 
+/////////////////////////////////////---Class--ROOM--TYPE---///////////////////////////////////////////
+
+
+/**
+ *  Create a class room type
+ * @param ClassRoomTypeModelGet
+ * @returns ClassRoomTypeModelGet | FetchError
+ */ 
+export async function createClassRoomTypeAPI(
+  trade: ClassRoomTypeModelNew
+): Promise<ClassRoomTypeModelGet | FetchError> {
+  const endpoint = "classes/room/type";
+  return apiClient.postData(endpoint, trade, "class room type");
+}
+
+/**
+ * get all class room type
+ * @returns ClassRoomTypeModelGet[] | FetchError
+ */
+
+export async function fetchAllClassRoomType(): Promise<
+  ClassRoomTypeModelGet[] | FetchError
+> {
+  const endpoint = "classes/room/type";
+  return apiClient.allData(endpoint, "class room type");
+}
+
+/**
+ * delete class room type
+ * @param id
+ * @returns ClassRoomTypeModelGet | FetchError
+ */
+export async function deleteClassRoomTypeAPI(
+  id: string
+): Promise<ClassRoomTypeModelGet | FetchError> {
+  const endpoint = `classes/room/type/${id}`;
+  return apiClient.deleteData(endpoint, "class room type");
+}
+
 /////////////////////////////////////---Class--ROOM---///////////////////////////////////////////
 
 
 /**
- *  Create a class type
- * @param TradeModelNew
- * @returns ClassTypeModelGet | FetchError
+ *  Create a class room
+ * @param ClassRoomModelNew
+ * @returns ClassRoomModelGet | FetchError
  */ 
 export async function createClassRoomAPI(
-  trade: TradeModelNew
-): Promise<ClassTypeModelGet | FetchError> {
-  const endpoint = "classes/type";
-  return apiClient.postData(endpoint, trade, "trade");
+  classRoom: ClassRoomModelNew
+): Promise<ClassRoomModelGet | FetchError> {
+  const endpoint = "classes/room";
+  return apiClient.postData(endpoint, classRoom, "class room");
 }
 
 /**
- * get all class type
+ * get all  class room
  * @returns ClassTypeModelGet[] | FetchError
  */
 
 export async function fetchAllClassesRoom(): Promise<
   ClassTypeModelGet[] | FetchError
 > {
-  const endpoint = "classes/type";
-  return apiClient.allData(endpoint, "classes");
+  const endpoint = "classes/room";
+  return apiClient.allData(endpoint, "class room");
 }
 
 /**
- * delete class type
+ * delete class room
  * @param id
  * @returns ClassTypeModelGet | FetchError
  */
 export async function deleteClassRoomAPI(
   id: string
 ): Promise<ClassTypeModelGet | FetchError> {
-  const endpoint = `classes/type/${id}`;
-  return apiClient.deleteData(endpoint, "users role");
+  const endpoint = `classes/room/${id}`;
+  return apiClient.deleteData(endpoint, "class room");
+}
+
+/**
+ * update class room
+ * @param ClassRoomModelPut
+ * @returns Class | FetchError
+ */
+export async function updateClassRoomAPI(
+  class_room: ClassRoomModelPut,
+  id: string
+): Promise<ClassRoomModelGet | FetchError> {
+  const endpoint = `classes/room/${id}`;
+  return apiClient.updateData(endpoint, class_room, "class room");
 }
 
 /////////////////////////////////////---CLASS---///////////////////////////////////////////

@@ -103,7 +103,7 @@ const AllSectorTable = ({ sectors, educations }: props) => {
     },
     {
       id: "actions",
-      enableHiding: false,
+      header: "Actions",
       cell: ({ row }) => {
         const sector = row.original;
         return (

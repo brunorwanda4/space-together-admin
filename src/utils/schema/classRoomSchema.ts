@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const classTypeSchema = z.object({
+export const classRoomSchema = z.object({
   name: z
     .string()
     .min(1, {
@@ -17,6 +17,9 @@ export const classTypeSchema = z.object({
     .max(50, {
       message: "Maximum character is 50",
     }),
+  trade: z.string(),
+  sector: z.string(),
+  class_room_type: z.string(),
   description: z
     .string()
     .min(1, {
@@ -27,4 +30,4 @@ export const classTypeSchema = z.object({
     }),
 });
 
-export type classTypeSchemaType = z.infer<typeof classTypeSchema>;
+export type classRoomSchemaType = z.infer<typeof classRoomSchema>;

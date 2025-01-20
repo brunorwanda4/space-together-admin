@@ -36,9 +36,10 @@ type DataTableProps<T> = {
   data: T[];
   columns: ColumnDef<T>[];
   searchKeys: (keyof T)[]; // Keys to enable searching
+  searchPlaceholder ?: string; 
 };
 
-export function DataTable<T>({ data, columns, searchKeys }: DataTableProps<T>) {
+export function DataTable<T>({ data, columns, searchKeys , searchPlaceholder}: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -80,7 +81,7 @@ export function DataTable<T>({ data, columns, searchKeys }: DataTableProps<T>) {
       {/* Search Input */}
       <div className="flex items-center py-4 justify-between">
         <Input
-          placeholder="Search..."
+          placeholder={searchPlaceholder ? searchPlaceholder :"Search..."}
           value={globalFilter ?? ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
           className="max-w-sm"

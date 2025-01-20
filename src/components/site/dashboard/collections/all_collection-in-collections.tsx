@@ -43,6 +43,17 @@ const predefinedMainCollections: MainCollectionsTypes[] = [
     },
   },
   {
+    name: "Class_room",
+    color: "info",
+    size: "",
+    description: "Class room for sectors",
+    icon: "/icons/classroom.png",
+    role: {
+      name: "class room type",
+      items: 0,
+    },
+  },
+  {
     name: "users",
     color: "success",
     size: "",
@@ -63,6 +74,27 @@ const predefinedMainCollections: MainCollectionsTypes[] = [
       name: "Subject Role",
       items: 0,
     },
+  },
+  {
+    name: "educations",
+    color: "success",
+    size: "",
+    description: "Education we support",
+    icon: "/icons/education.png",
+  },
+  {
+    name: "sector",
+    color: "success",
+    size: "",
+    description: "sector for education",
+    icon: "/icons/video-conference.png",
+  },
+  {
+    name: "trades",
+    color: "success",
+    size: "",
+    description: "Trades for education",
+    icon: "/icons/video-conference.png",
   },
 ];
 const AllCollectionInCollection = async () => {

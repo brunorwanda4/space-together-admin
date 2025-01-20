@@ -1,0 +1,32 @@
+export interface ClassRoomModelNew {
+  name: string;
+  username?: string;
+  sector?: string;
+  trade?: string;
+  class_room_type?: string;
+  image?: string;
+  description?: string;
+}
+
+export interface ClassRoomModelGet {
+  id: string;
+  name: string;
+  username?: string;
+  sector?: string;
+  trade?: string;
+  class_room_type?: string;
+  image?: string;
+  description?: string;
+  created_on: string;
+  updated_on?: string;
+}
+
+export interface ClassRoomModelPut {
+  name?: string;
+  username?: string;
+  sector?: string;
+  trade?: string;
+  class_room_type?: string;
+  image?: string;
+  description?: string;
+}
