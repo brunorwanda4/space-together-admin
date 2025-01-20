@@ -18,7 +18,7 @@ import {
 import UseTheme from "@/context/theme/use-theme";
 import { useState, useTransition } from "react";
 import { toast } from "@/hooks/use-toast";
-import { deleteSectorAPI } from "@/services/data/fetchDataFn";
+import { deleteClassRoomAPI } from "@/services/data/fetchDataFn";
 import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ClassRoomModelGet } from "@/types/classRoomModel";
@@ -35,7 +35,7 @@ const DeleteClassRoomDialog = ({ classRoom }: Props) => {
     setError("");
     setSuccess("");
     startTransition(async () => {
-      const deleteEducation = await deleteSectorAPI(id);
+      const deleteEducation = await deleteClassRoomAPI(id);
 
       if ("message" in deleteEducation) {
         setError(deleteEducation.message);
@@ -51,7 +51,7 @@ const DeleteClassRoomDialog = ({ classRoom }: Props) => {
           description: (
             <p>
               You delete <strong>{deleteEducation.name}</strong> account which
-              created on {deleteEducation.create_on} 😔
+              created on {deleteEducation.created_on} 😔
             </p>
           ),
         });

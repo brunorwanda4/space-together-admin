@@ -79,8 +79,8 @@ const UpdateSectorDialog = ({ education, sector }: props) => {
     defaultValues: {
       name: sector.name ? sector.name : "",
       username: sector.username ? sector.username : "",
-      education: sector.education ? sector.education : "",
-      description: sector.description ? sector.description : "",
+      education: sector.education ? sector.education : undefined,
+      description: sector.description ? sector.description : undefined,
       logo: "",
     },
     shouldFocusError: true,

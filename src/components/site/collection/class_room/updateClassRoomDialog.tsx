@@ -40,7 +40,7 @@ import { useForm } from "react-hook-form";
 import { ClassRoomTypeModelGet } from "@/types/classRoomTypeModel";
 import { SectorModelGet } from "@/types/sectorModel";
 import { TradeModelGet } from "@/types/tradeModel";
-import { ClassRoomModelGet } from "@/types/classRoomModel";
+import { ClassRoomModelGet, ClassRoomModelPut } from "@/types/classRoomModel";
 
 interface props {
   classRoomTypes: ClassRoomTypeModelGet[];
@@ -60,9 +60,9 @@ const UpdateClassRoomDialog = ({ classRoomTypes, sectors, trades, classRoom }: p
       name: classRoom.name ? classRoom.name : "",
       username:  classRoom.username ? classRoom.username : "",
       description:  classRoom.description ? classRoom.description : "",
-      trade :  classRoom.trade ? classRoom.trade : "",
-      sector :  classRoom.sector ? classRoom.sector : "",
-      class_room_type :  classRoom.class_room_type ? classRoom.class_room_type : ""
+      trade : "",
+      sector : "",
+      class_room_type : ""
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -81,9 +81,19 @@ const UpdateClassRoomDialog = ({ classRoomTypes, sectors, trades, classRoom }: p
       return setError("Invalid values Validation");
     }
 
+    const {name , username , trade , description , sector , class_room_type} = validation.data;
+    const classRoomPut : ClassRoomModelPut = {
+        name,
+        username,
+        trade,
+        description,
+        sector,
+        class_room_type
+    } ;
+
     startTransition(async () => {
       try {
-        const result = await updateClassRoomAPI(validation.data, classRoom.id);
+        const result = await updateClassRoomAPI(classRoomPut, classRoom.id);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -299,7 +309,7 @@ const UpdateClassRoomDialog = ({ classRoomTypes, sectors, trades, classRoom }: p
                 className="w-full sm:w-auto"
                 disabled={isPending}
               >
-                Add class room
+                update class room
                 {isPending && (
                   <LoaderCircle
                     className="-ms-1 me-2 animate-spin"
