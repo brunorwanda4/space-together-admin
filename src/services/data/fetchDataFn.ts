@@ -1,17 +1,30 @@
-import { EducationModelGet, EducationModelPut } from '@/types/educationModel';
+import { EducationModelGet, EducationModelPut } from "@/types/educationModel";
 import { FetchError } from "@/types/fetchErr";
 import { ApiClient } from "../class/fetchingAPIClient";
-import { UserModel, UserModelDeleteMany, UserModelPut, UserModelUpdateMany, UserRoleModel, UserRoleModelNew } from "@/types/userModel";
+import {
+  UserModel,
+  UserModelDeleteMany,
+  UserModelPut,
+  UserModelUpdateMany,
+  UserRoleModel,
+  UserRoleModelNew,
+} from "@/types/userModel";
 import { userSchemeType } from "@/utils/schema/user-schema";
 import { EducationModelNew } from "@/types/educationModel";
-import { SectorModelGet, SectorModelNew, SectorModelPut } from '@/types/sectorModel';
-import { TradeModelGet, TradeModelNew } from '@/types/tradeModel';
+import {
+  SectorModelGet,
+  SectorModelNew,
+  SectorModelPut,
+} from "@/types/sectorModel";
+import { TradeModelGet, TradeModelNew } from "@/types/tradeModel";
+import { ClassModelGet } from "@/types/classModel";
+import { ClassTypeModelGet } from "@/types/classTypeModel";
 
 const apiClient = new ApiClient();
 
 /**
  * create user role
- * @param role 
+ * @param role
  * @returns UserRoleModel | FetchError
  */
 export async function createUserRole(
@@ -23,7 +36,7 @@ export async function createUserRole(
 
 /**
  * get all users by role
- * @param role 
+ * @param role
  * @returns UserModel[] | FetchError
  */
 export async function fetchUserRole(): Promise<UserRoleModel[] | FetchError> {
@@ -33,7 +46,7 @@ export async function fetchUserRole(): Promise<UserRoleModel[] | FetchError> {
 
 /**
  * get all users by role
- * @param role 
+ * @param role
  * @returns UserModel[] | FetchError
  */
 export async function fetchUsersByRole(
@@ -45,7 +58,7 @@ export async function fetchUsersByRole(
 
 /**
  * delete user role
- * @param id 
+ * @param id
  * @returns UserRoleModel | FetchError
  */
 export async function usersByRoleDelete(
@@ -57,7 +70,7 @@ export async function usersByRoleDelete(
 
 /**
  *  Create a new users
- * @param user 
+ * @param user
  * @returns UserModel | FetchError
  */
 export async function createUserAPI(
@@ -69,7 +82,7 @@ export async function createUserAPI(
 
 /**
  * delete user
- * @param user 
+ * @param user
  * @returns UserModel | FetchError
  */
 export async function deleteUserAPI(
@@ -81,7 +94,7 @@ export async function deleteUserAPI(
 
 /**
  * delete many user
- * @param user 
+ * @param user
  * @returns UserModel[] | FetchError
  */
 
@@ -89,13 +102,12 @@ export async function deleteManyUsersAPI(
   users: UserModelDeleteMany
 ): Promise<UserModel[] | FetchError> {
   const endpoint = `users/delete-many`;
-  return apiClient.postData(endpoint,users, "users");
+  return apiClient.postData(endpoint, users, "users");
 }
-
 
 /**
  * delete many user
- * @param user 
+ * @param user
  * @returns UserModel[] | FetchError
  */
 
@@ -103,21 +115,20 @@ export async function updateManyUsersAPI(
   users: UserModelUpdateMany
 ): Promise<UserModel[] | FetchError> {
   const endpoint = `users/update-many`;
-  return apiClient.postData(endpoint,users, "users");
+  return apiClient.postData(endpoint, users, "users");
 }
-
 
 /**
  * delete user
- * @param user 
+ * @param user
  * @returns UserModel | FetchError
  */
 export async function updateUserAPI(
-  user : UserModelPut,
-  id: string,
+  user: UserModelPut,
+  id: string
 ): Promise<UserModel | FetchError> {
   const endpoint = `users/${id}`;
-  return apiClient.updateData(endpoint,user, "users");
+  return apiClient.updateData(endpoint, user, "users");
 }
 
 /**
@@ -127,7 +138,7 @@ export async function updateUserAPI(
 
 export async function fetchDocumentById<T>(
   endpoint: string,
-  name ?: string
+  name?: string
 ): Promise<T | FetchError> {
   return apiClient.allData<T>(endpoint, name);
 }
@@ -137,7 +148,9 @@ export async function fetchDocumentById<T>(
  * @returns UserRoles[] | FetchError
  */
 
-export async function fetchAllUserRoles(): Promise<UserRoleModel[] | FetchError> {
+export async function fetchAllUserRoles(): Promise<
+  UserRoleModel[] | FetchError
+> {
   const endpoint = "users/role";
   return apiClient.allData<UserRoleModel[]>(endpoint, "user roles");
 }
@@ -146,7 +159,7 @@ export async function fetchAllUserRoles(): Promise<UserRoleModel[] | FetchError>
 
 /**
  *  Create a education
- * @param education 
+ * @param education
  * @returns EducationModelGet | FetchError
  */
 export async function createEducationAPI(
@@ -158,11 +171,12 @@ export async function createEducationAPI(
 
 /**
  *  update education
- * @param education 
+ * @param education
  * @returns EducationModelGet | FetchError
  */
 export async function updateEducationAPI(
-  education: EducationModelPut , id : string
+  education: EducationModelPut,
+  id: string
 ): Promise<EducationModelGet | FetchError> {
   const endpoint = `education/${id}`;
   return apiClient.updateData(endpoint, education, "educations");
@@ -186,14 +200,14 @@ export async function deleteEducationAPI(
  * @returns EducationModelGet[] | FetchError
  */
 
-export async function fetchAllEducation(): Promise<EducationModelGet[] | FetchError> {
+export async function fetchAllEducation(): Promise<
+  EducationModelGet[] | FetchError
+> {
   const endpoint = "education";
   return apiClient.allData<EducationModelGet[]>(endpoint, "Education");
 }
 
-
 /////////////////////////////////////---SECTOR---///////////////////////////////////////////
-
 
 /**
  * get all sector
@@ -212,14 +226,16 @@ export async function fetchAllSector(): Promise<SectorModelGet[] | FetchError> {
  * @returns SectorModelGet[] | FetchError
  */
 
-export async function fetchAllSectorByEducation(id : string): Promise<SectorModelGet[] | FetchError> {
+export async function fetchAllSectorByEducation(
+  id: string
+): Promise<SectorModelGet[] | FetchError> {
   const endpoint = `school/sector/education/${id}`;
   return apiClient.allData<SectorModelGet[]>(endpoint, "sector");
 }
 
 /**
  *  Create a sector
- * @param sector 
+ * @param sector
  * @returns SectorModelGet | FetchError
  */
 export async function createSectorAPI(
@@ -243,22 +259,22 @@ export async function deleteSectorAPI(
 
 /**
  *  update sector
- * @param sector 
+ * @param sector
  * @returns SectorModelGet | FetchError
  */
 export async function updateSectorAPI(
-  education: SectorModelPut , id : string
+  education: SectorModelPut,
+  id: string
 ): Promise<SectorModelGet | FetchError> {
   const endpoint = `school/sector/${id}`;
   return apiClient.updateData(endpoint, education, "sector");
 }
 
-
 /////////////////////////////////////---TRADE---///////////////////////////////////////////
 
 /**
  *  Create a trade
- * @param trade 
+ * @param trade
  * @returns TradeModelGet | FetchError
  */
 export async function createTradeAPI(
@@ -268,7 +284,6 @@ export async function createTradeAPI(
   return apiClient.postData(endpoint, trade, "trade");
 }
 
-
 /**
  * get all trade
  * @param trade
@@ -276,10 +291,9 @@ export async function createTradeAPI(
  */
 
 export async function fetchAllTrade(): Promise<TradeModelGet[] | FetchError> {
-  const endpoint =  "school/trade";
-  return apiClient.allData(endpoint, "Education");
+  const endpoint = "school/trade";
+  return apiClient.allData(endpoint, "trade");
 }
-
 
 /**
  * delete trade
@@ -291,4 +305,107 @@ export async function deleteTradeAPI(
 ): Promise<TradeModelGet | FetchError> {
   const endpoint = `school/trade/${id}`;
   return apiClient.deleteData(endpoint, "sector");
+}
+
+
+/////////////////////////////////////---Class--ROOM---///////////////////////////////////////////
+
+
+/**
+ *  Create a class type
+ * @param TradeModelNew
+ * @returns ClassTypeModelGet | FetchError
+ */ 
+export async function createClassRoomAPI(
+  trade: TradeModelNew
+): Promise<ClassTypeModelGet | FetchError> {
+  const endpoint = "classes/type";
+  return apiClient.postData(endpoint, trade, "trade");
+}
+
+/**
+ * get all class type
+ * @returns ClassTypeModelGet[] | FetchError
+ */
+
+export async function fetchAllClassesRoom(): Promise<
+  ClassTypeModelGet[] | FetchError
+> {
+  const endpoint = "classes/type";
+  return apiClient.allData(endpoint, "classes");
+}
+
+/**
+ * delete class type
+ * @param id
+ * @returns ClassTypeModelGet | FetchError
+ */
+export async function deleteClassRoomAPI(
+  id: string
+): Promise<ClassTypeModelGet | FetchError> {
+  const endpoint = `classes/type/${id}`;
+  return apiClient.deleteData(endpoint, "users role");
+}
+
+/////////////////////////////////////---CLASS---///////////////////////////////////////////
+
+/**
+ *  Create a class
+ * @param class
+ * @returns ClassModelGet | FetchError
+ */
+export async function createClassAPI(
+  trade: TradeModelNew
+): Promise<ClassModelGet | FetchError> {
+  const endpoint = "classes";
+  return apiClient.postData(endpoint, trade, "trade");
+}
+
+/**
+ * get all trade
+ * @param trade
+ * @returns TradeModelGet[] | FetchError
+ */
+
+export async function fetchAllClasses(): Promise<ClassModelGet[] | FetchError> {
+  const endpoint = "classes";
+  return apiClient.allData(endpoint, "classes");
+}
+
+/////////////////////////////////////---TYPE--CLASS---///////////////////////////////////////////
+
+/**
+ *  Create a class type
+ * @param TradeModelNew
+ * @returns ClassTypeModelGet | FetchError
+ */
+export async function createClassTypeAPI(
+  trade: TradeModelNew
+): Promise<ClassTypeModelGet | FetchError> {
+  const endpoint = "classes/type";
+  return apiClient.postData(endpoint, trade, "trade");
+}
+
+/**
+ * get all class type
+ * @returns ClassTypeModelGet[] | FetchError
+ */
+
+export async function fetchAllClassesType(): Promise<
+  ClassTypeModelGet[] | FetchError
+> {
+  const endpoint = "classes/type";
+  return apiClient.allData(endpoint, "classes");
+}
+
+/**
+ * delete class type
+ * @param id
+ * @returns ClassTypeModelGet | FetchError
+ */
+export async function deleteClassTypeAPI(
+  id: string
+): Promise<ClassTypeModelGet | FetchError> {
+  const endpoint = `classes/type/${id}`;
+  return apiClient.deleteData(endpoint, "users role");
 }

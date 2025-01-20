@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 import {
   Form,
@@ -78,16 +78,18 @@ const CollectionUserRoleNew = () => {
   return (
     <Dialog>
       {/* Trigger Button */}
-      <DialogTrigger disabled={isPending} className="btn btn-info btn-sm">
-        <BsPlus /> Add User Role {" "}
-        {isPending && (
-          <LoaderCircle
-            className="-ms-1 me-2 animate-spin"
-            size={16}
-            strokeWidth={2}
-            aria-hidden="true"
-          />
-        )}
+      <DialogTrigger asChild>
+        <Button disabled={isPending} variant="info" size="sm">
+          <BsPlus /> Add User Role{" "}
+          {isPending && (
+            <LoaderCircle
+              className="-ms-1 me-2 animate-spin"
+              size={16}
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+          )}
+        </Button>
       </DialogTrigger>
       {/* Dialog Content */}
       <DialogContent data-theme={UseTheme()} className="happy-card">
@@ -124,8 +126,15 @@ const CollectionUserRoleNew = () => {
               <FormMessageSuccess message={success} />
             </div>
             <DialogFooter className="mt-4">
-              <DialogClose disabled={isPending} className=" btn btn-sm">Cancel</DialogClose>
-              <Button disabled={isPending} variant="info" size="sm" type="submit">
+              <DialogClose disabled={isPending} className=" btn btn-sm">
+                Cancel
+              </DialogClose>
+              <Button
+                disabled={isPending}
+                variant="info"
+                size="sm"
+                type="submit"
+              >
                 Confirm
               </Button>
             </DialogFooter>
