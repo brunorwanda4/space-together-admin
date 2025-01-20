@@ -226,12 +226,12 @@ const UpdateClassRoomDialog = ({ classRoomTypes, sectors, trades, classRoom }: p
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className="flex flex-col space-y-1"
+                        className="flex flex-col items-center space-x-3 space-y-0"
                       >
                         {sectors.map((item) => (
                           <FormItem
                             key={item.id}
-                            className="flex items-center space-x-3 space-y-"
+                            className="flex items-center space-x-3"
                           >
                             <FormControl>
                               <RadioGroupItem value={item.id} />
