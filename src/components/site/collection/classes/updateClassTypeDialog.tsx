@@ -25,25 +25,46 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
-import { createClassTypeAPI } from "@/services/data/fetchDataFn";
-import { classTypeSchema, classTypeSchemaType } from "@/utils/schema/classTYpeSchema";
+import { updateClassTypeAPI } from "@/services/data/fetchDataFn";
+import { ClassTypeModelGet } from "@/types/classTypeModel";
+import {
+  classTypeSchema,
+  classTypeSchemaType,
+} from "@/utils/schema/classTYpeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
-import {  useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { BsPlus } from "react-icons/bs";
 
-const CreateClassType = () => {
+interface props {
+  classType: ClassTypeModelGet;
+}
+
+const UpdateClassTypeDialog = ({ classType }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+  const [isUpdateClassTypeDialog, setIsUpdateClassTypeDialog] =
+    useState<ClassTypeModelGet | null>(null);
 
   const form = useForm<classTypeSchemaType>({
     resolver: zodResolver(classTypeSchema),
     defaultValues: {
-      name: "",
-      username: "",
-      description: "",
+      name: isUpdateClassTypeDialog?.name
+        ? isUpdateClassTypeDialog.name
+        : classType.name
+        ? classType.name
+        : "",
+      username: isUpdateClassTypeDialog?.username
+        ? isUpdateClassTypeDialog.username
+        : classType.username
+        ? classType.username
+        : "",
+        description: isUpdateClassTypeDialog?.description
+        ? isUpdateClassTypeDialog.description
+        : classType.description
+        ? classType.description
+        : "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -52,10 +73,10 @@ const CreateClassType = () => {
     mode: "onChange",
   });
 
-
   const handleSubmit = (values: classTypeSchemaType) => {
     setError("");
     setSuccess("");
+    setIsUpdateClassTypeDialog(null);
 
     const validation = classTypeSchema.safeParse(values);
 
@@ -65,7 +86,7 @@ const CreateClassType = () => {
 
     startTransition(async () => {
       try {
-        const result = await createClassTypeAPI(validation.data);
+        const result = await updateClassTypeAPI(validation.data, classType.id);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -79,6 +100,7 @@ const CreateClassType = () => {
             title: "Success",
             description: `Created: ${result.name}`,
           });
+          setIsUpdateClassTypeDialog(result);
           form.reset();
         }
       } catch (err) {
@@ -90,8 +112,8 @@ const CreateClassType = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="info" size="sm">
-          <BsPlus /> Add new class type
+        <Button variant="warning" size="xs">
+          Update
           {isPending && (
             <LoaderCircle
               className="-ms-1 me-2 animate-spin"
@@ -175,7 +197,7 @@ const CreateClassType = () => {
                 className="w-full sm:w-auto"
                 disabled={isPending}
               >
-                Add class type{" "}
+                Update type{" "}
                 {isPending && (
                   <LoaderCircle
                     className="-ms-1 me-2 animate-spin"
@@ -193,4 +215,4 @@ const CreateClassType = () => {
   );
 };
 
-export default CreateClassType;
+export default UpdateClassTypeDialog;

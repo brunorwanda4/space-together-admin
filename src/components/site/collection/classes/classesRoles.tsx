@@ -3,6 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ClassTypeModelGet } from "@/types/classTypeModel";
 import CreateClassType from "./CreateClassTypeDialog";
 import DeleteClassTypeDialog from "./DeleteClassTypeDialog";
+import UpdateClassTypeDialog from "./updateClassTypeDialog";
 
 type props = {
   roles: ClassTypeModelGet[];
@@ -22,8 +23,9 @@ const ClassRoles = ({ roles }: props) => {
               <span className="  text-muted-foreground capitalize">
                 {item.name}
               </span>
-              <div>
+              <div className=" space-x-2">
                 <DeleteClassTypeDialog role={item} />
+                <UpdateClassTypeDialog classType={item}/>
               </div>
             </div>
           );

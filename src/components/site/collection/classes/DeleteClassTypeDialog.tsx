@@ -21,6 +21,7 @@ import { toast } from "@/hooks/use-toast";
 import { deleteClassTypeAPI } from "@/services/data/fetchDataFn";
 import { LoaderCircle } from "lucide-react";
 import { ClassTypeModelGet } from "@/types/classTypeModel";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   role: ClassTypeModelGet;
@@ -34,9 +35,7 @@ const DeleteClassTypeDialog = ({ role }: Props) => {
     setError("");
     setSuccess("");
     startTransition(async () => {
-      const deleteRole= await deleteClassTypeAPI(
-        id
-      );
+      const deleteRole = await deleteClassTypeAPI(id);
 
       if ("message" in deleteRole) {
         setError(deleteRole.message);
@@ -56,16 +55,18 @@ const DeleteClassTypeDialog = ({ role }: Props) => {
   };
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="btn btn-xs" disabled={isPending}>
-        Delete{" "}
-        {isPending && (
-          <LoaderCircle
-            className="-ms-1 me-2 animate-spin"
-            size={12}
-            strokeWidth={2}
-            aria-hidden="true"
-          />
-        )}
+      <AlertDialogTrigger asChild>
+        <Button disabled={isPending} size="xs">
+          Delete{" "}
+          {isPending && (
+            <LoaderCircle
+              className="-ms-1 me-2 animate-spin"
+              size={12}
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+          )}
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent data-theme={UseTheme()} className="happy-card">
         <AlertDialogHeader>
