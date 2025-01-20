@@ -5,7 +5,8 @@ export interface ClassModelNew {
     trade?: string;
     sector?: string;
     code?: string;
-    class_type_id?: string;
+    class_type?: string;
+    class_room?: string;
     is_public?: boolean;
     image?: string;
     description?: string;
@@ -20,6 +21,7 @@ export interface ClassModelNew {
     sector?: string;
     code?: string;
     class_type?: string;
+    class_room?: string;
     is_public?: boolean;
     image?: string;
     description?: string;
@@ -34,7 +36,8 @@ export interface ClassModelNew {
     trade?: string;
     sector?: string;
     code?: string;
-    class_type_id?: string;
+    class_type?: string;
+    class_room?: string;
     is_public?: boolean;
     image?: string;
     description?: string;
