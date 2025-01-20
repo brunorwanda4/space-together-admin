@@ -1,5 +1,4 @@
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { ClassTypeModelGet } from "@/types/classTypeModel";
 import CreateClassType from "./CreateClassTypeDialog";
 import DeleteClassTypeDialog from "./DeleteClassTypeDialog";
@@ -16,11 +15,11 @@ const ClassRoles = ({ roles }: props) => {
         <CreateClassType />
       </div>
       <Separator />
-      <ScrollArea className=" h-36 p-4 happy-line ">
+      <div className=" h-36 p-4 space-y-2">
         {roles.map(async (item) => {
           return (
-            <div key={item.id} className=" flex justify-between">
-              <span className="  text-muted-foreground capitalize">
+            <div key={item.id} className=" flex justify-between overflow-y-auto max-h-36">
+              <span className="capitalize">
                 {item.name}
               </span>
               <div className=" space-x-2">
@@ -30,7 +29,7 @@ const ClassRoles = ({ roles }: props) => {
             </div>
           );
         })}
-      </ScrollArea>
+      </div>
     </div>
   );
 };
