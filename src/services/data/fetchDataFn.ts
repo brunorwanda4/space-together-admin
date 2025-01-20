@@ -6,6 +6,7 @@ import {
 import {
   ClassRoomTypeModelGet,
   ClassRoomTypeModelNew,
+  ClassRoomTypeModelPut,
 } from "@/types/classRoomTypeModel";
 import { EducationModelGet, EducationModelPut } from "@/types/educationModel";
 import { FetchError } from "@/types/fetchErr";
@@ -31,7 +32,11 @@ import {
   TradeModelPut,
 } from "@/types/tradeModel";
 import { ClassModelGet } from "@/types/classModel";
-import { ClassTypeModelGet, ClassTypeModelNew, ClassTypeModelPut } from "@/types/classTypeModel";
+import {
+  ClassTypeModelGet,
+  ClassTypeModelNew,
+  ClassTypeModelPut,
+} from "@/types/classTypeModel";
 
 const apiClient = new ApiClient();
 
@@ -45,6 +50,18 @@ export async function createUserRole(
 ): Promise<UserRoleModel | FetchError> {
   const endpoint = "users/role";
   return apiClient.postData(endpoint, role, "user role");
+}
+/**
+ * update user role
+ * @param role
+ * @returns UserRoleModel | FetchError
+ */
+export async function updateUserRole(
+  role: UserRoleModelNew,
+  id : string
+): Promise<UserRoleModel | FetchError> {
+  const endpoint = `users/role/${id}`;
+  return apiClient.updateData(endpoint, role, "user role");
 }
 
 /**
@@ -341,10 +358,22 @@ export async function updateTradeAPI(
  * @returns ClassRoomTypeModelGet | FetchError
  */
 export async function createClassRoomTypeAPI(
-  trade: ClassRoomTypeModelNew
+  classRoomType: ClassRoomTypeModelNew
 ): Promise<ClassRoomTypeModelGet | FetchError> {
   const endpoint = "classes/room/type";
-  return apiClient.postData(endpoint, trade, "class room type");
+  return apiClient.postData(endpoint, classRoomType, "class room type");
+}
+/**
+ *  update a class room type
+ * @param ClassRoomTypeModelGet
+ * @returns ClassRoomTypeModelGet | FetchError
+ */
+export async function updateClassRoomTypeAPI(
+  classRoomType: ClassRoomTypeModelPut,
+  id: string
+): Promise<ClassRoomTypeModelGet | FetchError> {
+  const endpoint = `classes/room/type/${id}`;
+  return apiClient.postData(endpoint, classRoomType, "class room type");
 }
 
 /**
@@ -490,9 +519,9 @@ export async function deleteClassTypeAPI(
  * @returns ClassTypeModelGet | FetchError
  */
 export async function updateClassTypeAPI(
-  classType : ClassTypeModelPut,
-  id: string,
+  classType: ClassTypeModelPut,
+  id: string
 ): Promise<ClassTypeModelGet | FetchError> {
   const endpoint = `classes/type/${id}`;
-  return apiClient.updateData(endpoint, classType,"class type");
+  return apiClient.updateData(endpoint, classType, "class type");
 }

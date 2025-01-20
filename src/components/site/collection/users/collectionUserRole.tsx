@@ -3,6 +3,7 @@ import { UserRoleModel } from "@/types/userModel";
 import CollectionUserRoleNew from "./collectionUserRoleNew";
 import DeleteUserRoleDialog from "./deleteUserRoleDialog";
 import { fetchUsersByRole } from "@/services/data/fetchDataFn";
+import UpdateUserRoleDialog from "./updateUserRoleDialog";
 
 type props = {
   roles: UserRoleModel[];
@@ -24,10 +25,11 @@ const CollectionUserRole = ({ roles }: props) => {
           }
           return (
             <div key={item.id} className=" flex justify-between">
-           <span className="  capitalize">
+              <span className="  capitalize">
                 {item.role} ({totalUsers})
               </span>
               <div>
+                <UpdateUserRoleDialog userRole={item}/>
                 <DeleteUserRoleDialog totalUsers={totalUsers} role={item} />
               </div>
             </div>

@@ -25,46 +25,35 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
-import { updateClassTypeAPI } from "@/services/data/fetchDataFn";
-import { ClassTypeModelGet } from "@/types/classTypeModel";
+import { updateClassRoomTypeAPI } from "@/services/data/fetchDataFn";
 import {
-  classTypeSchema,
-  classTypeSchemaType,
-} from "@/utils/schema/classTYpeSchema";
+  ClassRoomTypeModelGet,
+  ClassRoomTypeModelPut,
+} from "@/types/classRoomTypeModel";
+import {
+  classRoomTypeSchema,
+  classRoomTypeSchemaType,
+} from "@/utils/schema/classRoomTypeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 interface props {
-  classType: ClassTypeModelGet;
+  classRoleType: ClassRoomTypeModelGet;
 }
 
-const UpdateClassTypeDialog = ({ classType }: props) => {
+const UpdateClassRoomTypeDialog = ({ classRoleType }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
-  const [isUpdateClassTypeDialog, setIsUpdateClassTypeDialog] =
-    useState<ClassTypeModelGet | null>(null);
 
-  const form = useForm<classTypeSchemaType>({
-    resolver: zodResolver(classTypeSchema),
+  const form = useForm<classRoomTypeSchemaType>({
+    resolver: zodResolver(classRoomTypeSchema),
     defaultValues: {
-      name: isUpdateClassTypeDialog?.name
-        ? isUpdateClassTypeDialog.name
-        : classType.name
-        ? classType.name
-        : "",
-      username: isUpdateClassTypeDialog?.username
-        ? isUpdateClassTypeDialog.username
-        : classType.username
-        ? classType.username
-        : "",
-        description: isUpdateClassTypeDialog?.description
-        ? isUpdateClassTypeDialog.description
-        : classType.description
-        ? classType.description
-        : "",
+      name: classRoleType.name ? classRoleType.name : "",
+      username: classRoleType.username ? classRoleType.username : "",
+      description: classRoleType.description ? classRoleType.description : "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -73,20 +62,26 @@ const UpdateClassTypeDialog = ({ classType }: props) => {
     mode: "onChange",
   });
 
-  const handleSubmit = (values: classTypeSchemaType) => {
+  const handleSubmit = (values: classRoomTypeSchemaType) => {
     setError("");
     setSuccess("");
-    setIsUpdateClassTypeDialog(null);
 
-    const validation = classTypeSchema.safeParse(values);
+    const validation = classRoomTypeSchema.safeParse(values);
 
     if (!validation.success) {
-      return setError("Invalid Register Validation");
+      return setError("Invalid values Validation");
     }
 
+    const { name, username, description } = validation.data;
+
+    const data: ClassRoomTypeModelPut = {
+      name,
+      username,
+      description,
+    };
     startTransition(async () => {
       try {
-        const result = await updateClassTypeAPI(validation.data, classType.id);
+        const result = await updateClassRoomTypeAPI(data, classRoleType.id);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -95,12 +90,11 @@ const UpdateClassTypeDialog = ({ classType }: props) => {
             variant: "destructive",
           });
         } else {
-          setSuccess("Class type entry created successfully!");
+          setSuccess("Class Room type entry created successfully!");
           toast({
             title: "Success",
             description: `Created: ${result.name}`,
           });
-          setIsUpdateClassTypeDialog(result);
           form.reset();
         }
       } catch (err) {
@@ -113,20 +107,12 @@ const UpdateClassTypeDialog = ({ classType }: props) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="warning" size="xs">
-          Update
-          {isPending && (
-            <LoaderCircle
-              className="-ms-1 me-2 animate-spin"
-              size={12}
-              strokeWidth={2}
-              aria-hidden="true"
-            />
-          )}
+          update
         </Button>
       </DialogTrigger>
       <DialogContent data-theme={UseTheme()}>
         <DialogHeader>
-          <DialogTitle>Update Class type</DialogTitle>
+          <DialogTitle>Update Room type</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -197,7 +183,7 @@ const UpdateClassTypeDialog = ({ classType }: props) => {
                 className="w-full sm:w-auto"
                 disabled={isPending}
               >
-                Update type{" "}
+                Update room type
                 {isPending && (
                   <LoaderCircle
                     className="-ms-1 me-2 animate-spin"
@@ -215,4 +201,4 @@ const UpdateClassTypeDialog = ({ classType }: props) => {
   );
 };
 
-export default UpdateClassTypeDialog;
+export default UpdateClassRoomTypeDialog;

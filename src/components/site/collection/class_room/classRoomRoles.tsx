@@ -2,6 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import CreateClassRoomTypeDialog from "./CreateClassRoomTypeDialog";
 import DeleteClassRoomTypeDialog from "./DeleteClassRoomTypeDialog";
 import { ClassRoomTypeModelGet } from "@/types/classRoomTypeModel";
+import UpdateClassRoomTypeDialog from "./updateClassRoomRoleDailog";
 
 type props = {
   roles: ClassRoomTypeModelGet[];
@@ -22,6 +23,7 @@ const ClassRoomRoles = ({ roles }: props) => {
                 {item.name}
               </span>
               <div>
+                <UpdateClassRoomTypeDialog classRoleType={item}/>
                 <DeleteClassRoomTypeDialog role={item} />
               </div>
             </div>
