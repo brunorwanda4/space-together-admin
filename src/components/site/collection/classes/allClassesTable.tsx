@@ -9,6 +9,7 @@ import { FaCloudArrowDown } from "react-icons/fa6";
 import { useState } from "react";
 import MyImage from "@/components/my-components/myImage";
 import { ClassModelGet } from "@/types/classModel";
+import CreateClassDialog from "./createClassDialog";
 
 interface props {
   classes: ClassModelGet[];
@@ -118,6 +119,7 @@ const AllClassesTable = ({ classes }: props) => {
       <div className="flex justify-between p-4">
         <h1 className="happy-title-base">Classes Table ({classes.length})</h1>
         <div className="space-x-2">
+          <CreateClassDialog />
           <Button variant="success" size="sm">
             <FaCloudArrowDown /> Export
           </Button>

@@ -102,20 +102,21 @@ const CreateClassDialog = () => {
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent data-theme={UseTheme()}>
+      <DialogContent data-theme={UseTheme()} className="sm:max-w-[600px] w-full">
         <DialogHeader>
-          <DialogTitle>Add New Class type</DialogTitle>
+          <DialogTitle>Add New Class</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-3"
           >
+            <div className=" flex sm:flex-row space-x-2">
             <FormField
               name="name"
               control={form.control}
               render={({ field }) => (
-                <FormItem>
+                <FormItem className=" w-full">
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
@@ -132,7 +133,7 @@ const CreateClassDialog = () => {
               name="username"
               control={form.control}
               render={({ field }) => (
-                <FormItem>
+                <FormItem className=" w-full">
                   <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input
@@ -145,6 +146,7 @@ const CreateClassDialog = () => {
                 </FormItem>
               )}
             />
+            </div>
             <FormField
               name="description"
               control={form.control}
