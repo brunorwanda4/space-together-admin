@@ -22,7 +22,7 @@ const ClassRoomRoles = ({ roles }: props) => {
               <span className="  capitalize">
                 {item.name}
               </span>
-              <div>
+              <div className=" space-x-2">
                 <UpdateClassRoomTypeDialog classRoleType={item}/>
                 <DeleteClassRoomTypeDialog role={item} />
               </div>
