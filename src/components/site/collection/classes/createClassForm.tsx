@@ -6,40 +6,48 @@ import {
 } from "@/components/form/formError";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+ 
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
 import { createClassAPI } from "@/services/data/fetchDataFn";
-import { classTypeSchema, classTypeSchemaType } from "@/utils/schema/classTYpeSchema";
+import { classSchema, classSchemaType } from "@/utils/schema/classSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
 import {  useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { BsPlus } from "react-icons/bs";
+import Link from "next/link";
+import { EducationModelGet } from "@/types/educationModel";
+import { SectorModelGet } from "@/types/sectorModel";
+import { TradeModelGet } from "@/types/tradeModel";
 
-const CreateClassDialog = () => {
+const CreateClassForm = () => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+  
+  const [education , setEducation] = useState<EducationModelGet[] | null>(null);
+  const [sector , setSector] = useState<SectorModelGet[] | null>(null);
+  const [trade , setTrade] = useState<TradeModelGet[] | null>(null);
 
-  const form = useForm<classTypeSchemaType>({
-    resolver: zodResolver(classTypeSchema),
+  const form = useForm<classSchemaType>({
+    resolver: zodResolver(classSchema),
     defaultValues: {
       name: "",
       username: "",
@@ -53,11 +61,11 @@ const CreateClassDialog = () => {
   });
 
 
-  const handleSubmit = (values: classTypeSchemaType) => {
+  const handleSubmit = (values: classSchemaType) => {
     setError("");
     setSuccess("");
 
-    const validation = classTypeSchema.safeParse(values);
+    const validation = classSchema.safeParse(values);
 
     if (!validation.success) {
       return setError("Invalid Register Validation");
@@ -88,24 +96,7 @@ const CreateClassDialog = () => {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="info" size="sm">
-          <BsPlus /> Add new class type
-          {isPending && (
-            <LoaderCircle
-              className="-ms-1 me-2 animate-spin"
-              size={12}
-              strokeWidth={2}
-              aria-hidden="true"
-            />
-          )}
-        </Button>
-      </DialogTrigger>
-      <DialogContent data-theme={UseTheme()} className="sm:max-w-[600px] w-full">
-        <DialogHeader>
-          <DialogTitle>Add New Class</DialogTitle>
-        </DialogHeader>
+  
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
@@ -146,6 +137,32 @@ const CreateClassDialog = () => {
                 </FormItem>
               )}
             />
+            <FormField
+          control={form.control}
+          name="trade"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a verified email to display" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="m@example.com">m@example.com</SelectItem>
+                  <SelectItem value="m@google.com">m@google.com</SelectItem>
+                  <SelectItem value="m@support.com">m@support.com</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                You can manage email addresses in your{" "}
+                <Link href="/examples/forms">email settings</Link>.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
             </div>
             <FormField
               name="description"
@@ -169,7 +186,7 @@ const CreateClassDialog = () => {
               <FormMessageError message={error} />
               <FormMessageSuccess message={success} />
             </div>
-            <DialogFooter className="">
+            <div className="">
               <Button
                 type="submit"
                 variant="info"
@@ -187,12 +204,10 @@ const CreateClassDialog = () => {
                   />
                 )}
               </Button>
-            </DialogFooter>
+            </div>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
   );
 };
 
-export default CreateClassDialog;
+export default CreateClassForm;

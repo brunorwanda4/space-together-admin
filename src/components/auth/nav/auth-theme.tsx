@@ -9,7 +9,7 @@ const AuthChangeTheme = () => {
     const { changeTheme } = useContext(ThemeContext)!
 
   const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    changeTheme(e.target.checked ? "dark" : "light");
+    changeTheme(e.target.checked ? "dark" : "pastel");
   };
 
   return (

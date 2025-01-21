@@ -9,14 +9,15 @@ import { FaCloudArrowDown } from "react-icons/fa6";
 import { useState } from "react";
 import MyImage from "@/components/my-components/myImage";
 import { ClassModelGet } from "@/types/classModel";
-import CreateClassDialog from "./createClassDialog";
+import { BsPlus } from "react-icons/bs";
+import Link from "next/link";
 
 interface props {
   classes: ClassModelGet[];
   collectionName: string;
 }
 
-const AllClassesTable = ({ classes }: props) => {
+const AllClassesTable = ({ classes , collectionName }: props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [SelectedSector, setSelectedSector] = useState<ClassModelGet[]>([]);
 
@@ -119,7 +120,7 @@ const AllClassesTable = ({ classes }: props) => {
       <div className="flex justify-between p-4">
         <h1 className="happy-title-base">Classes Table ({classes.length})</h1>
         <div className="space-x-2">
-          <CreateClassDialog />
+        <Link className=" btn btn-sm btn-info" href={`/collection/${collectionName}/add`}> <BsPlus /> Create new class</Link>
           <Button variant="success" size="sm">
             <FaCloudArrowDown /> Export
           </Button>
