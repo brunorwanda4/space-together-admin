@@ -1,7 +1,7 @@
 export interface ClassModelNew {
     name: string;
     username?: string;
-    class_teacher_id?: string;
+    class_teacher?: string;
     trade?: string;
     sector?: string;
     code?: string;
@@ -32,7 +32,7 @@ export interface ClassModelNew {
   export interface ClassModelPut {
     name?: string;
     username?: string;
-    class_teacher_id?: string;
+    class_teacher?: string;
     trade?: string;
     sector?: string;
     code?: string;

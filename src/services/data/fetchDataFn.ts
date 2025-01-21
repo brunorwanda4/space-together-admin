@@ -327,7 +327,7 @@ export async function fetchAllTrade(): Promise<TradeModelGet[] | FetchError> {
 
 /**
  * delete trade
- * @param trade
+ * @param id
  * @returns TradeModelGet | FetchError
  */
 export async function deleteTradeAPI(
@@ -339,7 +339,7 @@ export async function deleteTradeAPI(
 
 /**
  * update trade
- * @param trade
+ * @param TradeModelPut
  * @returns TradeModelGet | FetchError
  */
 export async function updateTradeAPI(
@@ -348,6 +348,17 @@ export async function updateTradeAPI(
 ): Promise<TradeModelGet | FetchError> {
   const endpoint = `school/trade/${id}`;
   return apiClient.updateData(endpoint, trade, "sector");
+}
+/**
+ * update trade
+ * @param trade
+ * @returns TradeModelGet | FetchError
+ */
+export async function getAllTradeABySectorPI(
+  id: string
+): Promise<TradeModelGet[] | FetchError> {
+  const endpoint = `school/trade/sector/${id}`;
+  return apiClient.allData(endpoint, "sector");
 }
 
 /////////////////////////////////////---Class--ROOM--TYPE---///////////////////////////////////////////
