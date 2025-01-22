@@ -181,6 +181,7 @@ const CreateClassForm = ({ educations, classTypes }: props) => {
       image,
       class_room,
       class_teacher,
+      class_type,
     } = validation.data;
 
     const data: ClassModelNew = {
@@ -192,6 +193,7 @@ const CreateClassForm = ({ educations, classTypes }: props) => {
       is_public : is_public ? true : false,
       image,
       class_room,
+      class_type,
       class_teacher,
     };
 
