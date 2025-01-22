@@ -17,7 +17,7 @@ export const classSchema = z.object({
     message : "Class type is required"
   }),
   class_room: z.string(),
-  is_public : z.boolean(),
+  is_public : z.string(),
   image : z.string(),
   username: z
     .string()

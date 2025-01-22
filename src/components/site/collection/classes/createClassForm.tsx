@@ -34,7 +34,7 @@ import {
 import { classSchema, classSchemaType } from "@/utils/schema/classSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
-import { useState, useTransition } from "react";
+import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { EducationModelGet } from "@/types/educationModel";
 import { SectorModelGet } from "@/types/sectorModel";
@@ -44,6 +44,7 @@ import { ClassModelNew } from "@/types/classModel";
 import UseTheme from "@/context/theme/use-theme";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ClassTypeModelGet } from "@/types/classTypeModel";
+import MyImage from "@/components/my-components/myImage";
 
 interface props {
   educations: EducationModelGet[];
@@ -60,6 +61,35 @@ const CreateClassForm = ({ educations, classTypes }: props) => {
   const [trades, setTrades] = useState<TradeModelGet[] | null>(null);
   const [classRoom, setClassRoom] = useState<ClassRoomModelGet[] | null>(null);
 
+  
+     const handleImage = (
+        e: ChangeEvent<HTMLInputElement>,
+        fieldChange: (value: string) => void
+      ) => {
+        setError("");
+        e.preventDefault();
+    
+        if (e.target.files?.[0]) {
+          const file = e.target.files[0];
+    
+          if (!file.type.includes("image")) {
+            return setError("Please select an image file.");
+          }
+    
+          if (file.size > 2 * 1024 * 1024) {
+            return setError("Image size exceeds 2MB.");
+          }
+    
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const imageDataUrl = event.target?.result as string;
+            fieldChange(imageDataUrl);
+          };
+          reader.onerror = () => setError("Failed to read image file.");
+          reader.readAsDataURL(file);
+        }
+      };
+
   const form = useForm<classSchemaType>({
     resolver: zodResolver(classSchema),
     defaultValues: {
@@ -67,13 +97,13 @@ const CreateClassForm = ({ educations, classTypes }: props) => {
       username: "",
       description: "",
       education: "",
-      is_public: undefined,
+      is_public: "",
       sector: "",
       trade: "",
       class_room: "",
       class_teacher: "",
       image: "",
-      class_type : "",
+      class_type: "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -159,7 +189,7 @@ const CreateClassForm = ({ educations, classTypes }: props) => {
       sector,
       trade,
       description,
-      is_public,
+      is_public : is_public ? true : false,
       image,
       class_room,
       class_teacher,
@@ -195,6 +225,35 @@ const CreateClassForm = ({ educations, classTypes }: props) => {
         onSubmit={form.handleSubmit(handleSubmit)}
         className="space-y-3 p-8 happy-card"
       >
+        <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem className="flex gap-2 items-center">
+                  <FormLabel
+                    htmlFor="image"
+                    className="flex gap-3 items-center"
+                  >
+                    <MyImage
+                      src={field.value || "/default.jpg"}
+                      className="size-24 min-h-24 min-w-24 rounded-full"
+                      alt="Profile"
+                    />
+                    <span className="cursor-pointer">Sector Symbol</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      id="image"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleImage(e, field.onChange)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
         <div className=" flex sm:flex-row space-x-2 ">
           <FormField
             name="name"
@@ -280,9 +339,7 @@ const CreateClassForm = ({ educations, classTypes }: props) => {
                     ))}
                   </RadioGroup>
                 </FormControl>
-                <FormDescription>
-                  choose class type
-                </FormDescription>
+                <FormDescription>choose class type</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -464,6 +521,23 @@ const CreateClassForm = ({ educations, classTypes }: props) => {
                   className=" resize-none"
                 />
               </FormControl>
+              <FormDescription>Description of your class</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="is_public"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className=" space-x-3">
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormLabel>Is public</FormLabel>
+              <FormDescription>
+                 Class is public {" "}
+                </FormDescription>
               <FormMessage />
             </FormItem>
           )}
