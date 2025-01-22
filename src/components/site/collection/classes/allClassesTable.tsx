@@ -22,10 +22,7 @@ interface props {
   collectionName: string;
 }
 
-const AllClassesTable = ({
-  classes,
-  collectionName,
-}: props) => {
+const AllClassesTable = ({ classes, collectionName }: props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [SelectedSector, setSelectedSector] = useState<ClassModelGet[]>([]);
 
@@ -69,22 +66,26 @@ const AllClassesTable = ({
       enableHiding: false,
     },
     {
-      accessorKey: "symbol",
-      header: "Symbol",
-      cell: ({}) => {
-        return <MyImage src="/icons/teacher.png" className="size-8" />;
+      accessorKey: "image",
+      header: "Image",
+      cell: ({ row }) => {
+        const classModel = row.original;
+        return (
+          <Link href={`/collection/${collectionName}/${classModel.id}`}>
+            <MyImage src="/icons/teacher.png" className="size-8" />
+          </Link>
+        );
       },
     },
     {
       accessorKey: "name",
       header: "Name",
       cell: ({ row }) => {
-        // const sector = row.original;
+        const classModel = row.original;
         return (
-          <div>
-            {" "}
+          <Link href={`/collection/${collectionName}/${classModel.id}`} className=" line-clamp-1">
             {row.getValue("name") || <span className=" text-myGray">N/A</span>}
-          </div>
+          </Link>
         );
       },
     },
@@ -111,20 +112,11 @@ const AllClassesTable = ({
       ),
     },
     {
-      accessorKey: "trade",
-      header: "Trade",
+      accessorKey: "code",
+      header: "Code",
       cell: ({ row }) => (
         <div className="text-lowercase">
-          {row.getValue("trade") || <span className=" text-myGray">N/A</span>}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "sector",
-      header: "Sector",
-      cell: ({ row }) => (
-        <div className="text-lowercase">
-          {row.getValue("sector") || <span className=" text-myGray">N/A</span>}
+          {row.getValue("code") || <span className=" text-myGray">N/A</span>}
         </div>
       ),
     },
@@ -140,11 +132,13 @@ const AllClassesTable = ({
       ),
     },
     {
-      accessorKey: "is_public",
-      header: "Is public",
+      accessorKey: "class_teacher",
+      header: "Teacher",
       cell: ({ row }) => (
         <div>
-          {row.getValue("is_public") ? <span>yes</span> : <span>no</span>}
+          {row.getValue("class_teacher") || (
+            <span className=" text-myGray">N/A</span>
+          )}
         </div>
       ),
     },
@@ -166,12 +160,12 @@ const AllClassesTable = ({
         const classModel = row.original;
         return (
           <div className=" flex gap-2">
-             <Link
-            className=" btn btn-xs btn-warning"
-            href={`/collection/${collectionName}/update/${classModel.id}`}
-          >
-           Update
-          </Link>
+            <Link
+              className=" btn btn-xs btn-warning"
+              href={`/collection/${collectionName}/update/${classModel.id}`}
+            >
+              Update
+            </Link>
             <DeleteClassDialog classModel={classModel} />
           </div>
         );
@@ -200,7 +194,13 @@ const AllClassesTable = ({
         <DataTable
           columns={columns}
           data={classes}
-          searchKeys={["username", "name"]}
+          searchKeys={[
+            "username",
+            "name",
+            "class_room",
+            "class_teacher",
+            "code",
+          ]}
         />
       </div>
     </div>
