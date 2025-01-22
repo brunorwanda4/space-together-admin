@@ -12,7 +12,10 @@ export const classSchema = z.object({
   trade: z.string(),
   education: z.string(),
   sector: z.string(),
-  class_teacher: z.string(),
+  class_teacher: z.string().email(),
+  class_type: z.string().min(1 , {
+    message : "Class type is required"
+  }),
   class_room: z.string(),
   is_public : z.boolean(),
   image : z.string(),

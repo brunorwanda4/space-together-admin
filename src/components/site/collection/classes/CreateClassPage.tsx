@@ -2,10 +2,11 @@ import DocumentPageStatic, {
   DocumentPageStaticError,
 } from "@/utils/static/page/documentPageStatic";
 import CreateClassForm from "./createClassForm";
-import { fetchAllEducation } from "@/services/data/fetchDataFn";
+import { fetchAllClassesType, fetchAllEducation } from "@/services/data/fetchDataFn";
 
 const CreateClassPage = async () => {
   const getEducations = await fetchAllEducation();
+  const getClassTypes = await fetchAllClassesType();
 
   if ("message" in getEducations) {
     return (
@@ -16,9 +17,19 @@ const CreateClassPage = async () => {
       />
     );
   }
+  if ("message" in getClassTypes) {
+    return (
+      <DocumentPageStaticError
+        error={getClassTypes}
+        documentName={"Class-add"}
+        collectionName={"classes"}
+      />
+    );
+  }
+
   return (
     <DocumentPageStatic collectionName="classes" documentName="Class-add">
-      <CreateClassForm educations={getEducations} />
+      <CreateClassForm classTypes={getClassTypes} educations={getEducations} />
     </DocumentPageStatic>
   );
 };

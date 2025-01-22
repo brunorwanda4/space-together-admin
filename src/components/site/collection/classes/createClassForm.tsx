@@ -42,12 +42,15 @@ import { TradeModelGet } from "@/types/tradeModel";
 import { ClassRoomModelGet } from "@/types/classRoomModel";
 import { ClassModelNew } from "@/types/classModel";
 import UseTheme from "@/context/theme/use-theme";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ClassTypeModelGet } from "@/types/classTypeModel";
 
 interface props {
   educations: EducationModelGet[];
+  classTypes: ClassTypeModelGet[];
 }
 
-const CreateClassForm = ({ educations }: props) => {
+const CreateClassForm = ({ educations, classTypes }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
@@ -70,6 +73,7 @@ const CreateClassForm = ({ educations }: props) => {
       class_room: "",
       class_teacher: "",
       image: "",
+      class_type : "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -229,7 +233,62 @@ const CreateClassForm = ({ educations }: props) => {
             )}
           />
         </div>
-        {/* education */}
+        {/* teacher and class type */}
+        <div className=" flex sm:flex-row space-x-2 ">
+          <FormField
+            name="class_teacher"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className=" w-full">
+                <FormLabel>Class teacher</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Education name"
+                    disabled={isPending}
+                  />
+                </FormControl>
+                <FormDescription>Class teacher for class</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="class_type"
+            render={({ field }) => (
+              <FormItem className="space-y-3 w-full">
+                <FormLabel>Class type</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className=" flex space-x-2"
+                  >
+                    {classTypes.map((item) => (
+                      <FormItem
+                        key={item.id}
+                        className=" space-x-3 items-center"
+                      >
+                        <FormControl>
+                          <RadioGroupItem value={item.id} />
+                        </FormControl>
+                        <FormLabel className="font-normal capitalize">
+                          {item.username ? item.username : item.name}
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                <FormDescription>
+                  choose class type
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        {/* education and sector*/}
         <div className=" sm:flex sm:gap-2">
           <FormField
             control={form.control}
@@ -417,11 +476,11 @@ const CreateClassForm = ({ educations }: props) => {
           <Button
             type="submit"
             variant="info"
-            size="sm"
-            className="w-full sm:w-auto"
+            size="md"
+            className="w-full"
             disabled={isPending}
           >
-            Add class type{" "}
+            Create class
             {isPending && (
               <LoaderCircle
                 className="-ms-1 me-2 animate-spin"
