@@ -448,6 +448,30 @@ export async function deleteClassRoomAPI(
   const endpoint = `classes/room/${id}`;
   return apiClient.deleteData(endpoint, "class room");
 }
+/**
+ * get all class room by sector
+ * @param id
+ * @returns ClassTypeModelGet | FetchError
+ */
+
+export async function fetchAllClassRoomBySectorAPI(
+  id: string
+): Promise<ClassTypeModelGet[] | FetchError> {
+  const endpoint = `classes/room/sector/${id}`;
+  return apiClient.allData(endpoint, "class room");
+}
+
+/**
+ * get all class room by trade
+ * @param id
+ * @returns ClassTypeModelGet[] | FetchError
+ */
+export async function fetchAllClassRoomByTradeAPI(
+  id: string
+): Promise<ClassTypeModelGet[] | FetchError> {
+  const endpoint = `classes/room/trade/${id}`;
+  return apiClient.allData(endpoint, "class room");
+}
 
 /**
  * update class room

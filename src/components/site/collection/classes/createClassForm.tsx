@@ -26,6 +26,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import {
   createClassAPI,
+  fetchAllClassRoomBySectorAPI,
+  fetchAllClassRoomByTradeAPI,
   fetchAllSectorByEducation,
   getAllTradeABySectorPI,
 } from "@/services/data/fetchDataFn";
@@ -77,33 +79,52 @@ const CreateClassForm = ({ educations }: props) => {
   });
 
   const handleSectors = async (id: string) => {
+    setSectors(null);
+    setTrades(null);
+    setClassRoom(null);
     const get = await fetchAllSectorByEducation(id);
-
     if ("message" in get) {
-      return setSectors(null);
+      setSectors(null);
+      return;
     }
-    if (get.length == 0) return null;
-    return setSectors(get);
+    if (get.length == 0) {
+      setSectors(null);
+    }
+    setSectors(get);
+    return;
   };
 
   const handleTrades = async (id: string) => {
+    setTrades(null);
+    setClassRoom(null);
     const get = await getAllTradeABySectorPI(id);
-
     if ("message" in get) {
-      return setTrades(null);
+      setTrades(null);
+      return handleClassRoomBySector(id);
     }
-    if (get.length == 0) return null;
+    if (get.length == 0) {
+      setTrades(null);
+      return handleClassRoomBySector(id);
+    }
     return setTrades(get);
   };
 
-  const handleClassRoom = async (id: string) => {
-    const get = await getAllTradeABySectorPI(id);
+  const handleClassRoomBySector = async (id: string) => {
+    setClassRoom(null);
+    const get = await fetchAllClassRoomBySectorAPI(id);
+    if ("message" in get) return setClassRoom(null);
+    if (get.length == 0) return setClassRoom(null);
+    return setClassRoom(get);
+  };
 
+  const handleClassRoom = async (id: string) => {
+    setClassRoom(null);
+    const get = await fetchAllClassRoomByTradeAPI(id);
     if ("message" in get) {
-      return setTrades(null);
+      return setClassRoom(null);
     }
-    if (get.length == 0) return null;
-    return setTrades(get);
+    if (get.length == 0) return setClassRoom(null);
+    return setClassRoom(get);
   };
 
   const handleSubmit = (values: classSchemaType) => {
@@ -304,7 +325,7 @@ const CreateClassForm = ({ educations }: props) => {
                   onValueChange={(value) => {
                     field.onChange(value);
                     setEducation(value);
-                    // handleTrades(value)
+                    handleClassRoom(value);
                   }}
                   defaultValue={field.value}
                 >
@@ -352,8 +373,8 @@ const CreateClassForm = ({ educations }: props) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent data-theme={UseTheme()}>
-                    {sectors &&
-                      sectors.map((item) => {
+                    {classRoom &&
+                      classRoom.map((item) => {
                         return (
                           <SelectItem key={item.id} value={item.id}>
                             {item.username ? item.username : item.name}
