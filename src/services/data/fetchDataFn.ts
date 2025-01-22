@@ -31,7 +31,7 @@ import {
   TradeModelNew,
   TradeModelPut,
 } from "@/types/tradeModel";
-import { ClassModelGet, ClassModelNew } from "@/types/classModel";
+import { ClassModelGet, ClassModelNew, ClassModelPut } from "@/types/classModel";
 import {
   ClassTypeModelGet,
   ClassTypeModelNew,
@@ -501,14 +501,53 @@ export async function createClassAPI(
 }
 
 /**
- * get all trade
- * @param trade
- * @returns TradeModelGet[] | FetchError
+ * get all class
+ * @param class
+ * @returns classModelGet[] | FetchError
  */
 
 export async function fetchAllClasses(): Promise<ClassModelGet[] | FetchError> {
   const endpoint = "classes";
   return apiClient.allData(endpoint, "classes");
+}
+
+
+/**
+ * delete class 
+ * @param id
+ * @returns ClassModelGet | FetchError
+ */
+export async function deleteClassAPI(
+  id: string
+): Promise<ClassModelGet | FetchError> {
+  const endpoint = `classes/${id}`;
+  return apiClient.deleteData(endpoint, "class");
+}
+
+/**
+ * update class 
+ * @param id
+ * @returns ClassModelGet | FetchError
+ */
+export async function updateClassAPI(
+  classModel : ClassModelPut,
+  id: string,
+): Promise<ClassModelGet | FetchError> {
+  const endpoint = `classes/${id}`;
+  return apiClient.updateData(endpoint, classModel, "class");
+}
+
+
+/**
+ * update class 
+ * @param id
+ * @returns ClassModelGet | FetchError
+ */
+export async function getClassAPI(
+  id: string,
+): Promise<ClassModelGet | FetchError> {
+  const endpoint = `classes/${id}`;
+  return apiClient.allData(endpoint, "class");
 }
 
 /////////////////////////////////////---TYPE--CLASS---///////////////////////////////////////////

@@ -11,13 +11,21 @@ import MyImage from "@/components/my-components/myImage";
 import { ClassModelGet } from "@/types/classModel";
 import { BsPlus } from "react-icons/bs";
 import Link from "next/link";
+import DeleteClassDialog from "./deleteClassDialog";
+import { EducationModelGet } from "@/types/educationModel";
+import { ClassTypeModelGet } from "@/types/classTypeModel";
 
 interface props {
   classes: ClassModelGet[];
+  educations: EducationModelGet[];
+  classTypes: ClassTypeModelGet[];
   collectionName: string;
 }
 
-const AllClassesTable = ({ classes , collectionName }: props) => {
+const AllClassesTable = ({
+  classes,
+  collectionName,
+}: props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [SelectedSector, setSelectedSector] = useState<ClassModelGet[]>([]);
 
@@ -136,7 +144,7 @@ const AllClassesTable = ({ classes , collectionName }: props) => {
       header: "Is public",
       cell: ({ row }) => (
         <div>
-          {row.getValue("is_public") ? <span>yes</span> : <span>no</span> }
+          {row.getValue("is_public") ? <span>yes</span> : <span>no</span>}
         </div>
       ),
     },
@@ -151,19 +159,24 @@ const AllClassesTable = ({ classes , collectionName }: props) => {
         </div>
       ),
     },
-    // {
-    //     id: "actions",
-    //     header: "Actions",
-    //     cell: ({ row }) => {
-    //       const classModel = row.original;
-    //       return (
-    //         <div className=" flex gap-2">
-    //           <UpdateClassRoomDialog classRoom={classRoom} trades={trades} sectors={sectors} classRoomTypes={classRoomTypes}/>
-    //           <DeleteClassRoomDialog classRoom={classRoom} />
-    //         </div>
-    //       );
-    //     },
-    //   },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const classModel = row.original;
+        return (
+          <div className=" flex gap-2">
+             <Link
+            className=" btn btn-xs btn-warning"
+            href={`/collection/${collectionName}/update/${classModel.id}`}
+          >
+           Update
+          </Link>
+            <DeleteClassDialog classModel={classModel} />
+          </div>
+        );
+      },
+    },
   ];
 
   return (
@@ -171,7 +184,12 @@ const AllClassesTable = ({ classes , collectionName }: props) => {
       <div className="flex justify-between p-4">
         <h1 className="happy-title-base">Classes Table ({classes.length})</h1>
         <div className="space-x-2">
-        <Link className=" btn btn-sm btn-info" href={`/collection/${collectionName}/add`}> <BsPlus /> Create new class</Link>
+          <Link
+            className=" btn btn-sm btn-info"
+            href={`/collection/${collectionName}/add`}
+          >
+            <BsPlus /> Create new class
+          </Link>
           <Button variant="success" size="sm">
             <FaCloudArrowDown /> Export
           </Button>

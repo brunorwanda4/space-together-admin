@@ -5,6 +5,7 @@ import ClassesCollectionDetails from "./classCollectionDetails";
 import {
   fetchAllClasses,
   fetchAllClassesType,
+  fetchAllEducation,
 } from "@/services/data/fetchDataFn";
 import ClassRoles from "./classesRoles";
 import AllClassesTable from "./allClassesTable";
@@ -31,6 +32,16 @@ const ClassesPageDocument = async ({ collection }: props) => {
     );
   }
 
+    const getEducations = await fetchAllEducation();
+     if ("message" in getEducations) {
+        return (
+          <CollectionPageErrorStatic
+            error={getEducations}
+            collection={"classes"}
+          />
+        );
+      }
+
   return (
     <CollectionPageStatic collection={collection}>
       <div className="min-h-48 flex gap-4 justify-between">
@@ -40,7 +51,7 @@ const ClassesPageDocument = async ({ collection }: props) => {
         />
         <ClassRoles roles={getClassesType} />
       </div>
-      <AllClassesTable collectionName={collection} classes={getClasses}/>
+      <AllClassesTable classTypes={getClassesType} educations={getEducations} collectionName={collection} classes={getClasses}/>
     </CollectionPageStatic>
   );
 };
