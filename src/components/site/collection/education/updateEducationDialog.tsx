@@ -45,7 +45,7 @@ interface props {
   education: EducationModelGet;
 }
 
-const UpdateEducationAlertDialog = ({ education }: props) => {
+const UpdateEducationDialog = ({ education }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
@@ -265,4 +265,4 @@ const UpdateEducationAlertDialog = ({ education }: props) => {
   );
 };
 
-export default UpdateEducationAlertDialog;
+export default UpdateEducationDialog;
