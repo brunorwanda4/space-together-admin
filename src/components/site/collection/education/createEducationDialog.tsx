@@ -28,6 +28,7 @@ import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
 // import { cn } from "@/lib/utils";
 import { createEducationAPI } from "@/services/data/fetchDataFn";
+import { EducationModelNew } from "@/types/educationModel";
 import {
   educationSchema,
   educationSchemaType,
@@ -96,9 +97,18 @@ const CreateEducationDialog = () => {
       return setError("Invalid Register Validation");
     }
 
+    const { name, username, description, logo } = validation.data;
+
+    const data: EducationModelNew = {
+      name,
+      username,
+      description,
+      symbol: logo,
+    };
+
     startTransition(async () => {
       try {
-        const result = await createEducationAPI(validation.data);
+        const result = await createEducationAPI(data);
         if ("message" in result) {
           setError(result.message);
           toast({

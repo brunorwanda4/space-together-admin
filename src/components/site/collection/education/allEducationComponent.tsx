@@ -39,10 +39,10 @@ const AllEducationComponent = async () => {
                   <div className=" flex justify-between w-full items-center mr-4">
                     <div className=" flex space-x-3 text-start">
                       <MyImage
-                        src="/icons/education.png"
+                        src={item.symbol ? item.symbol :"/icons/education.png"}
                         className=" size-12"
                       />
-                      <div>
+                    <div>
                         <h4 className=" font-medium text-lg">{item.name}</h4>
                         <div>
                           <span className=" link-hover">

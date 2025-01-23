@@ -52,7 +52,7 @@ const UpdateEducationDialog = ({ education }: props) => {
       name: education.name ? education.name : "",
       username: education.username ? education.username : "",
       description: education.description ? education.description : "",
-      logo: "",
+      logo:education.symbol ? education.symbol : "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
