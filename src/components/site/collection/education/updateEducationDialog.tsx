@@ -7,13 +7,13 @@ import {
 import MyImage from "@/components/my-components/myImage";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dailog";
 import {
   Form,
   FormControl,
@@ -36,12 +36,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
 import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 
 interface props {
   education: EducationModelGet;
 }
 
-const UpdateEducationDialog = ({ education }: props) => {
+const UpdateEducationAlertDialog = ({ education }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
@@ -52,7 +56,7 @@ const UpdateEducationDialog = ({ education }: props) => {
       name: education.name ? education.name : "",
       username: education.username ? education.username : "",
       description: education.description ? education.description : "",
-      logo:education.symbol ? education.symbol : "",
+      logo: education.symbol ? education.symbol : "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -124,8 +128,8 @@ const UpdateEducationDialog = ({ education }: props) => {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
         <Button type="button" variant="warning" size="sm">
           Update{" "}
           {isPending && (
@@ -137,11 +141,11 @@ const UpdateEducationDialog = ({ education }: props) => {
             />
           )}
         </Button>
-      </DialogTrigger>
-      <DialogContent data-theme={UseTheme()}>
-        <DialogHeader>
-          <DialogTitle>Update Education</DialogTitle>
-        </DialogHeader>
+      </AlertDialogTrigger>
+      <AlertDialogContent data-theme={UseTheme()}>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Update Education</AlertDialogTitle>
+        </AlertDialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
@@ -232,30 +236,33 @@ const UpdateEducationDialog = ({ education }: props) => {
               <FormMessageError message={error} />
               <FormMessageSuccess message={success} />
             </div>
-            <DialogFooter className="">
-              <Button
-                type="submit"
-                variant="info"
-                size="sm"
-                className="w-full sm:w-auto"
-                disabled={isPending}
-              >
-                Add Education{" "}
-                {isPending && (
-                  <LoaderCircle
-                    className="-ms-1 me-2 animate-spin"
-                    size={12}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
-                )}
-              </Button>
-            </DialogFooter>
+            <AlertDialogFooter className="">
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <Button
+                  type="submit"
+                  variant="info"
+                  size="sm"
+                  className="w-full sm:w-auto"
+                  disabled={isPending}
+                >
+                  Add Education{" "}
+                  {isPending && (
+                    <LoaderCircle
+                      className="-ms-1 me-2 animate-spin"
+                      size={12}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                  )}
+                </Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 
-export default UpdateEducationDialog;
+export default UpdateEducationAlertDialog;
