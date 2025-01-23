@@ -246,7 +246,7 @@ const UpdateEducationDialog = ({ education }: props) => {
                   className="w-full sm:w-auto"
                   disabled={isPending}
                 >
-                  Add Education{" "}
+                  Update Education{" "}
                   {isPending && (
                     <LoaderCircle
                       className="-ms-1 me-2 animate-spin"
