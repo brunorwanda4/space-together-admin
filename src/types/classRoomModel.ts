@@ -18,6 +18,7 @@ export interface ClassRoomModelGet {
   class_room_type?: string;
   image?: string;
   description?: string;
+  symbol ?: string;
   created_on: string;
   updated_on?: string;
 
@@ -31,5 +32,5 @@ export interface ClassRoomModelPut {
   class_room_type?: string;
   image?: string;
   description?: string;
-  
+  symbol ?: string;
 }

@@ -8,6 +8,7 @@ import MyImage from "@/components/my-components/myImage";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -296,24 +297,31 @@ const CreateTradeDialog = ({ sectors}: props) => {
               <FormMessageError message={error} />
               <FormMessageSuccess message={success} />
             </div>
-            <DialogFooter className="">
-              <Button
-                type="submit"
-                variant="info"
-                size="sm"
-                className="w-full sm:w-auto"
-                disabled={isPending}
-              >
-                Create trade
-                {isPending && (
-                  <LoaderCircle
-                    className="-ms-1 me-2 animate-spin"
-                    size={12}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
-                )}
-              </Button>
+            <DialogFooter className="px-6 pb-6 sm:justify-start">
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button
+                  type="submit"
+                  variant="info"
+                  size="md"
+                  className="w-full sm:w-auto"
+                  disabled={isPending}
+                >
+                  Add Trade
+                  {isPending && (
+                    <LoaderCircle
+                      className="-ms-1 me-2 animate-spin"
+                      size={12}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                  )}
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>

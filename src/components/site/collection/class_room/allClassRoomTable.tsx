@@ -75,8 +75,9 @@ const AllClassRoomTable = ({
     {
       accessorKey: "symbol",
       header: "Symbol",
-      cell: ({}) => {
-        return <MyImage src="/icons/video-conference.png" className="size-8" />;
+      cell: ({row}) => {
+            const class_room = row.original;
+        return <MyImage src={class_room.symbol ? class_room.symbol: "/icons/video-conference.png"} className="size-8" />;
       },
     },
     {

@@ -7,6 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -35,12 +36,13 @@ import {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
-import { useState, useTransition } from "react";
+import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { ClassRoomTypeModelGet } from "@/types/classRoomTypeModel";
 import { SectorModelGet } from "@/types/sectorModel";
 import { TradeModelGet } from "@/types/tradeModel";
 import { ClassRoomModelGet, ClassRoomModelPut } from "@/types/classRoomModel";
+import MyImage from "@/components/my-components/myImage";
 
 interface props {
   classRoomTypes: ClassRoomTypeModelGet[];
@@ -54,15 +56,44 @@ const UpdateClassRoomDialog = ({ classRoomTypes, sectors, trades, classRoom }: p
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
+  const handleImage = (
+      e: ChangeEvent<HTMLInputElement>,
+      fieldChange: (value: string) => void
+    ) => {
+      setError("");
+      e.preventDefault();
+  
+      if (e.target.files?.[0]) {
+        const file = e.target.files[0];
+  
+        if (!file.type.includes("image")) {
+          return setError("Please select an image file.");
+        }
+  
+        if (file.size > 2 * 1024 * 1024) {
+          return setError("Image size exceeds 2MB.");
+        }
+  
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const imageDataUrl = event.target?.result as string;
+          fieldChange(imageDataUrl);
+        };
+        reader.onerror = () => setError("Failed to read image file.");
+        reader.readAsDataURL(file);
+      }
+    };
+
   const form = useForm<classRoomSchemaType>({
     resolver: zodResolver(classRoomSchema),
     defaultValues: {
       name: classRoom.name ? classRoom.name : "",
       username:  classRoom.username ? classRoom.username : "",
       description:  classRoom.description ? classRoom.description : "",
-      trade : "",
-      sector : "",
-      class_room_type : ""
+      trade : classRoom.trade ? classRoom.trade : "",
+      sector : classRoom.sector ? classRoom.sector : "",
+      class_room_type : classRoom.class_room_type ? classRoom.class_room_type : "",
+      symbol : classRoom.symbol ? classRoom.symbol : "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -81,14 +112,15 @@ const UpdateClassRoomDialog = ({ classRoomTypes, sectors, trades, classRoom }: p
       return setError("Invalid values Validation");
     }
 
-    const {name , username , trade , description , sector , class_room_type} = validation.data;
+    const {name , username , trade , description , sector , class_room_type, symbol} = validation.data;
     const classRoomPut : ClassRoomModelPut = {
         name,
         username,
         trade,
         description,
         sector,
-        class_room_type
+        class_room_type,
+        symbol
     } ;
 
     startTransition(async () => {
@@ -142,6 +174,35 @@ const UpdateClassRoomDialog = ({ classRoomTypes, sectors, trades, classRoom }: p
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-3 w-full"
           >
+             <FormField
+              control={form.control}
+              name="symbol"
+              render={({ field }) => (
+                <FormItem className="flex gap-2 items-center">
+                  <FormLabel
+                    htmlFor="image"
+                    className="flex gap-3 items-center"
+                  >
+                    <MyImage
+                      src={field.value || "/default.jpg"}
+                      className="size-24 min-h-24 min-w-24 rounded-full"
+                      alt="Profile"
+                    />
+                    <span className="cursor-pointer">Education Symbol</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      id="image"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleImage(e, field.onChange)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className=" sm:flex sm:gap-2 w-full">
               <FormField
                 name="name"
@@ -301,24 +362,31 @@ const UpdateClassRoomDialog = ({ classRoomTypes, sectors, trades, classRoom }: p
               <FormMessageError message={error} />
               <FormMessageSuccess message={success} />
             </div>
-            <DialogFooter className="">
-              <Button
-                type="submit"
-                variant="info"
-                size="sm"
-                className="w-full sm:w-auto"
-                disabled={isPending}
-              >
-                update class room
-                {isPending && (
-                  <LoaderCircle
-                    className="-ms-1 me-2 animate-spin"
-                    size={12}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
-                )}
-              </Button>
+            <DialogFooter className="px-6 pb-6 sm:justify-start">
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button
+                  type="submit"
+                  variant="info"
+                  size="md"
+                  className="w-full sm:w-auto"
+                  disabled={isPending}
+                >
+                  update Class room{" "}
+                  {isPending && (
+                    <LoaderCircle
+                      className="-ms-1 me-2 animate-spin"
+                      size={12}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                  )}
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>
