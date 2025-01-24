@@ -20,6 +20,7 @@ export const classRoomSchema = z.object({
   trade: z.string(),
   sector: z.string(),
   class_room_type: z.string(),
+  symbol : z.string(),
   description: z
     .string()
     .min(1, {

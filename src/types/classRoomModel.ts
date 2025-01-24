@@ -6,6 +6,7 @@ export interface ClassRoomModelNew {
   class_room_type?: string;
   image?: string;
   description?: string;
+  symbol ?: string;
 }
 
 export interface ClassRoomModelGet {
@@ -19,6 +20,7 @@ export interface ClassRoomModelGet {
   description?: string;
   created_on: string;
   updated_on?: string;
+
 }
 
 export interface ClassRoomModelPut {
@@ -29,4 +31,5 @@ export interface ClassRoomModelPut {
   class_room_type?: string;
   image?: string;
   description?: string;
+  
 }

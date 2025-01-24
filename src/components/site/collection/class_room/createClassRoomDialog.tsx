@@ -35,12 +35,14 @@ import {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
-import { useState, useTransition } from "react";
+import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
 import { ClassRoomTypeModelGet } from "@/types/classRoomTypeModel";
 import { SectorModelGet } from "@/types/sectorModel";
 import { TradeModelGet } from "@/types/tradeModel";
+import MyImage from "@/components/my-components/myImage";
+import { ClassRoomModelNew } from "@/types/classRoomModel";
 
 interface props {
   classRoomTypes: ClassRoomTypeModelGet[];
@@ -53,6 +55,34 @@ const CreateClassRoomDialog = ({ classRoomTypes, sectors, trades }: props) => {
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
+  const handleImage = (
+      e: ChangeEvent<HTMLInputElement>,
+      fieldChange: (value: string) => void
+    ) => {
+      setError("");
+      e.preventDefault();
+  
+      if (e.target.files?.[0]) {
+        const file = e.target.files[0];
+  
+        if (!file.type.includes("image")) {
+          return setError("Please select an image file.");
+        }
+  
+        if (file.size > 2 * 1024 * 1024) {
+          return setError("Image size exceeds 2MB.");
+        }
+  
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const imageDataUrl = event.target?.result as string;
+          fieldChange(imageDataUrl);
+        };
+        reader.onerror = () => setError("Failed to read image file.");
+        reader.readAsDataURL(file);
+      }
+    };
+
   const form = useForm<classRoomSchemaType>({
     resolver: zodResolver(classRoomSchema),
     defaultValues: {
@@ -62,6 +92,7 @@ const CreateClassRoomDialog = ({ classRoomTypes, sectors, trades }: props) => {
       trade : "",
       sector : "",
       class_room_type : "",
+      symbol: ""
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -80,9 +111,13 @@ const CreateClassRoomDialog = ({ classRoomTypes, sectors, trades }: props) => {
       return setError("Invalid values Validation");
     }
 
+    const {name , username , trade , sector , class_room_type , description, symbol} = validation.data;
+
+    const data: ClassRoomModelNew = {name , username , trade , sector , class_room_type , description, symbol};
+
     startTransition(async () => {
       try {
-        const result = await createClassRoomAPI(validation.data);
+        const result = await createClassRoomAPI(data);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -131,6 +166,35 @@ const CreateClassRoomDialog = ({ classRoomTypes, sectors, trades }: props) => {
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-3 w-full"
           >
+             <FormField
+              control={form.control}
+              name="symbol"
+              render={({ field }) => (
+                <FormItem className="flex gap-2 items-center">
+                  <FormLabel
+                    htmlFor="image"
+                    className="flex gap-3 items-center"
+                  >
+                    <MyImage
+                      src={field.value || "/default.jpg"}
+                      className="size-24 min-h-24 min-w-24 rounded-full"
+                      alt="Profile"
+                    />
+                    <span className="cursor-pointer">Education Symbol</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      id="image"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleImage(e, field.onChange)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className=" sm:flex sm:gap-2 w-full">
               <FormField
                 name="name"
