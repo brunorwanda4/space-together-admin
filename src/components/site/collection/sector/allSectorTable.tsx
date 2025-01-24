@@ -65,8 +65,9 @@ const AllSectorTable = ({ sectors, educations }: props) => {
     {
       accessorKey: "symbol",
       header: "Symbol",
-      cell: ({}) => {
-        return <MyImage src="/icons/notebook.png" className="size-8" />;
+      cell: ({row}) => {
+        const sector = row.original;
+        return <MyImage src={sector.symbol ? sector.symbol : "/icons/notebook.png"} className="size-8" />;
       },
     },
     {
