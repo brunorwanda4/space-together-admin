@@ -137,7 +137,7 @@ const AllClassRoomTable = ({
       accessorKey: "description",
       header: "Description",
       cell: ({ row }) => (
-        <div>
+        <div className=" line-clamp-1">
           {row.getValue("description") || (
             <span className=" text-myGray">N/A</span>
           )}
