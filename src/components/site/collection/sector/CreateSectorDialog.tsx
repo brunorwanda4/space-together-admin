@@ -8,6 +8,7 @@ import MyImage from "@/components/my-components/myImage";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -30,6 +31,7 @@ import { toast } from "@/hooks/use-toast";
 // import { cn } from "@/lib/utils";
 import { createSectorAPI } from "@/services/data/fetchDataFn";
 import { EducationModelGet } from "@/types/educationModel";
+import { SectorModelNew } from "@/types/sectorModel";
 import { sectorSchema, sectorSchemaType } from "@/utils/schema/sectorSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
@@ -46,33 +48,33 @@ const CreateSectorDialog = ({ education }: props) => {
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
-   const handleImage = (
-      e: ChangeEvent<HTMLInputElement>,
-      fieldChange: (value: string) => void
-    ) => {
-      setError("");
-      e.preventDefault();
-  
-      if (e.target.files?.[0]) {
-        const file = e.target.files[0];
-  
-        if (!file.type.includes("image")) {
-          return setError("Please select an image file.");
-        }
-  
-        if (file.size > 2 * 1024 * 1024) {
-          return setError("Image size exceeds 2MB.");
-        }
-  
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const imageDataUrl = event.target?.result as string;
-          fieldChange(imageDataUrl);
-        };
-        reader.onerror = () => setError("Failed to read image file.");
-        reader.readAsDataURL(file);
+  const handleImage = (
+    e: ChangeEvent<HTMLInputElement>,
+    fieldChange: (value: string) => void
+  ) => {
+    setError("");
+    e.preventDefault();
+
+    if (e.target.files?.[0]) {
+      const file = e.target.files[0];
+
+      if (!file.type.includes("image")) {
+        return setError("Please select an image file.");
       }
-    };
+
+      if (file.size > 2 * 1024 * 1024) {
+        return setError("Image size exceeds 2MB.");
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageDataUrl = event.target?.result as string;
+        fieldChange(imageDataUrl);
+      };
+      reader.onerror = () => setError("Failed to read image file.");
+      reader.readAsDataURL(file);
+    }
+  };
 
   const form = useForm<sectorSchemaType>({
     resolver: zodResolver(sectorSchema),
@@ -81,6 +83,7 @@ const CreateSectorDialog = ({ education }: props) => {
       username: "",
       education: "",
       description: "",
+      logo: "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -98,10 +101,17 @@ const CreateSectorDialog = ({ education }: props) => {
     if (!validation.success) {
       return setError("Invalid Register Validation");
     }
-
+    const { name, username, description, education, logo } = validation.data;
+    const data: SectorModelNew = {
+      name,
+      username,
+      description,
+      education,
+      symbol: logo,
+    };
     startTransition(async () => {
       try {
-        const result = await createSectorAPI(validation.data);
+        const result = await createSectorAPI(data);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -232,7 +242,16 @@ const CreateSectorDialog = ({ education }: props) => {
                               <RadioGroupItem value={item.id} />
                             </FormControl>
                             <FormLabel className="font-normal flex gap-2 items-center">
-                            <MyImage className="size-5" classname=" rounded-full" src={item.symbol ? item.symbol : "/icons/education.png"}/>  {item.username ? item.username : item.name}
+                              <MyImage
+                                className="size-5"
+                                classname=" rounded-full"
+                                src={
+                                  item.symbol
+                                    ? item.symbol
+                                    : "/icons/education.png"
+                                }
+                              />{" "}
+                              {item.username ? item.username : item.name}
                             </FormLabel>
                           </FormItem>
                         );
@@ -265,24 +284,31 @@ const CreateSectorDialog = ({ education }: props) => {
               <FormMessageError message={error} />
               <FormMessageSuccess message={success} />
             </div>
-            <DialogFooter className="">
-              <Button
-                type="submit"
-                variant="info"
-                size="sm"
-                className="w-full sm:w-auto"
-                disabled={isPending}
-              >
-                Add Sector{" "}
-                {isPending && (
-                  <LoaderCircle
-                    className="-ms-1 me-2 animate-spin"
-                    size={12}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
-                )}
-              </Button>
+            <DialogFooter className="px-6 pb-6 sm:justify-start">
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button
+                  type="submit"
+                  variant="info"
+                  size="md"
+                  className="w-full sm:w-auto"
+                  disabled={isPending}
+                >
+                  Add Sector{" "}
+                  {isPending && (
+                    <LoaderCircle
+                      className="-ms-1 me-2 animate-spin"
+                      size={12}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                  )}
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>
