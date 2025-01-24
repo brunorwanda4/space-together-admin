@@ -8,6 +8,7 @@ import MyImage from "@/components/my-components/myImage";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -29,7 +30,7 @@ import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
 import { updateSectorAPI } from "@/services/data/fetchDataFn";
 import { EducationModelGet } from "@/types/educationModel";
-import { SectorModelGet } from "@/types/sectorModel";
+import { SectorModelGet, SectorModelPut } from "@/types/sectorModel";
 import { sectorSchema, sectorSchemaType } from "@/utils/schema/sectorSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
@@ -81,7 +82,7 @@ const UpdateSectorDialog = ({ education, sector }: props) => {
       username: sector.username ? sector.username : "",
       education: sector.education ? sector.education : undefined,
       description: sector.description ? sector.description : undefined,
-      logo: "",
+      logo: sector.symbol ? sector.symbol :  "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -100,9 +101,18 @@ const UpdateSectorDialog = ({ education, sector }: props) => {
       return setError("Invalid Register Validation");
     }
 
+        const { name, username, description, education, logo } = validation.data;
+        const data: SectorModelPut = {
+          name,
+          username,
+          description,
+          education,
+          symbol: logo,
+        };
+
     startTransition(async () => {
       try {
-        const result = await updateSectorAPI(validation.data, sector.id);
+        const result = await updateSectorAPI(data, sector.id);
         if ("message" in result) {
           setError(result.message);
           toast({
@@ -266,24 +276,31 @@ const UpdateSectorDialog = ({ education, sector }: props) => {
               <FormMessageError message={error} />
               <FormMessageSuccess message={success} />
             </div>
-            <DialogFooter className="">
-              <Button
-                type="submit"
-                variant="info"
-                size="sm"
-                className="w-full sm:w-auto"
-                disabled={isPending}
-              >
-                Add Sector{" "}
-                {isPending && (
-                  <LoaderCircle
-                    className="-ms-1 me-2 animate-spin"
-                    size={12}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
-                )}
-              </Button>
+            <DialogFooter className="px-6 pb-6 sm:justify-start">
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button
+                  type="submit"
+                  variant="info"
+                  size="md"
+                  className="w-full sm:w-auto"
+                  disabled={isPending}
+                >
+                  Update Sector{" "}
+                  {isPending && (
+                    <LoaderCircle
+                      className="-ms-1 me-2 animate-spin"
+                      size={12}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                  )}
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>
