@@ -56,32 +56,32 @@ const CreateClassRoomDialog = ({ classRoomTypes, sectors, trades }: props) => {
   const [isPending, startTransition] = useTransition();
 
   const handleImage = (
-      e: ChangeEvent<HTMLInputElement>,
-      fieldChange: (value: string) => void
-    ) => {
-      setError("");
-      e.preventDefault();
-  
-      if (e.target.files?.[0]) {
-        const file = e.target.files[0];
-  
-        if (!file.type.includes("image")) {
-          return setError("Please select an image file.");
-        }
-  
-        if (file.size > 2 * 1024 * 1024) {
-          return setError("Image size exceeds 2MB.");
-        }
-  
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const imageDataUrl = event.target?.result as string;
-          fieldChange(imageDataUrl);
-        };
-        reader.onerror = () => setError("Failed to read image file.");
-        reader.readAsDataURL(file);
+    e: ChangeEvent<HTMLInputElement>,
+    fieldChange: (value: string) => void
+  ) => {
+    setError("");
+    e.preventDefault();
+
+    if (e.target.files?.[0]) {
+      const file = e.target.files[0];
+
+      if (!file.type.includes("image")) {
+        return setError("Please select an image file.");
       }
-    };
+
+      if (file.size > 2 * 1024 * 1024) {
+        return setError("Image size exceeds 2MB.");
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageDataUrl = event.target?.result as string;
+        fieldChange(imageDataUrl);
+      };
+      reader.onerror = () => setError("Failed to read image file.");
+      reader.readAsDataURL(file);
+    }
+  };
 
   const form = useForm<classRoomSchemaType>({
     resolver: zodResolver(classRoomSchema),
@@ -89,10 +89,10 @@ const CreateClassRoomDialog = ({ classRoomTypes, sectors, trades }: props) => {
       name: "",
       username: "",
       description: "",
-      trade : "",
-      sector : "",
-      class_room_type : "",
-      symbol: ""
+      trade: "",
+      sector: "",
+      class_room_type: "",
+      symbol: "",
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -111,9 +111,25 @@ const CreateClassRoomDialog = ({ classRoomTypes, sectors, trades }: props) => {
       return setError("Invalid values Validation");
     }
 
-    const {name , username , trade , sector , class_room_type , description, symbol} = validation.data;
+    const {
+      name,
+      username,
+      trade,
+      sector,
+      class_room_type,
+      description,
+      symbol,
+    } = validation.data;
 
-    const data: ClassRoomModelNew = {name , username , trade , sector , class_room_type , description, symbol};
+    const data: ClassRoomModelNew = {
+      name,
+      username,
+      trade,
+      sector,
+      class_room_type,
+      description,
+      symbol,
+    };
 
     startTransition(async () => {
       try {
@@ -166,7 +182,7 @@ const CreateClassRoomDialog = ({ classRoomTypes, sectors, trades }: props) => {
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-3 w-full"
           >
-             <FormField
+            <FormField
               control={form.control}
               name="symbol"
               render={({ field }) => (
