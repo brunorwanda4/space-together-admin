@@ -74,7 +74,7 @@ const AllTradeTable = ({ sectors, trades }: props) => {
       header: "Name",
       cell: ({ row }) => {
         // const sector = row.original;
-        return <span> {row.getValue("name")}</span>;
+        return <span className=" line-clamp-1"> {row.getValue("name")}</span>;
       },
     },
     {

@@ -34,16 +34,15 @@ import { SectorModelGet } from "@/types/sectorModel";
 import { TradeModelNew } from "@/types/tradeModel";
 import { tradeSchema, tradeSchemaType } from "@/utils/schema/tradeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Minus, Plus } from "lucide-react";
 import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
-
 interface props {
   sectors: SectorModelGet[];
 }
 
-const CreateTradeDialog = ({ sectors}: props) => {
+const CreateTradeDialog = ({ sectors }: props) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
@@ -83,8 +82,8 @@ const CreateTradeDialog = ({ sectors}: props) => {
       username: "",
       sector: "",
       description: "",
-      logo : "",
-      class_rooms: undefined,
+      logo: "",
+      class_rooms: 3,
     },
     shouldFocusError: true,
     shouldUnregister: true,
@@ -103,15 +102,16 @@ const CreateTradeDialog = ({ sectors}: props) => {
       return setError("Invalid Register Validation");
     }
 
-    const {name , username , description , class_rooms , sector} = validation.data;
+    const { name, username, description, class_rooms, sector } =
+      validation.data;
 
-    const data : TradeModelNew = {
+    const data: TradeModelNew = {
       name,
       username,
-      class_rooms : Number(class_rooms),
+      class_rooms: Number(class_rooms),
       sector,
-      description
-    }
+      description,
+    };
 
     startTransition(async () => {
       try {
@@ -137,6 +137,16 @@ const CreateTradeDialog = ({ sectors}: props) => {
     });
   };
 
+  const increment = () => {
+    const currentValue = form.getValues("class_rooms");
+    form.setValue("class_rooms", currentValue + 1);
+  };
+
+  const decrement = () => {
+    const currentValue = form.getValues("class_rooms");
+    form.setValue("class_rooms", Math.max(0, currentValue - 1));
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -152,7 +162,7 @@ const CreateTradeDialog = ({ sectors}: props) => {
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent data-theme={UseTheme()}>
+      <DialogContent data-theme={UseTheme()} className=" sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Add New Sector</DialogTitle>
         </DialogHeader>
@@ -225,19 +235,39 @@ const CreateTradeDialog = ({ sectors}: props) => {
               )}
             />
             <FormField
-              name="class_rooms"
               control={form.control}
+              name="class_rooms"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Class rooms</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="number of class rooms"
-                      disabled={isPending}
-                      type="number"
-                    />
-                  </FormControl>
+                  <div className=" space-x-2 flex">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={decrement}
+                      className="flex items-center justify-center"
+                    >
+                      <Minus size={16} />
+                    </Button>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        className=" text-center w-4/6"
+                        value={field.value}
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value, 10) || 0)
+                        }
+                      />
+                    </FormControl>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={increment}
+                      className="flex items-center justify-center"
+                    >
+                      <Plus size={16} />
+                    </Button>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
