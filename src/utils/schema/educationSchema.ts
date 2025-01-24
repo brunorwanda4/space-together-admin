@@ -22,8 +22,8 @@ export const educationSchema = z.object({
     .min(1, {
       message: "Description  is required",
     })
-    .max(200, {
-      message: "Maximum character is 200",
+    .max(400, {
+      message: "Maximum character is 400",
     }),
   logo: z.string(),
 });

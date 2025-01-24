@@ -7,13 +7,13 @@ import {
 import MyImage from "@/components/my-components/myImage";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dailog";
 import {
   Form,
   FormControl,
@@ -38,6 +38,7 @@ import { LoaderCircle } from "lucide-react";
 import { ChangeEvent, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
+import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 
 const CreateEducationDialog = () => {
   const [error, setError] = useState<string>("");
@@ -131,8 +132,8 @@ const CreateEducationDialog = () => {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
         <Button variant="info" size="sm">
           <BsPlus /> Add new education
           {isPending && (
@@ -144,11 +145,11 @@ const CreateEducationDialog = () => {
             />
           )}
         </Button>
-      </DialogTrigger>
-      <DialogContent data-theme={UseTheme()}>
-        <DialogHeader>
-          <DialogTitle>Add New Education</DialogTitle>
-        </DialogHeader>
+      </AlertDialogTrigger>
+      <AlertDialogContent data-theme={UseTheme()}>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Add New Education</AlertDialogTitle>
+        </AlertDialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
@@ -239,29 +240,32 @@ const CreateEducationDialog = () => {
               <FormMessageError message={error} />
               <FormMessageSuccess message={success} />
             </div>
-            <DialogFooter className="">
-              <Button
-                type="submit"
-                variant="info"
-                size="sm"
-                className="w-full sm:w-auto"
-                disabled={isPending}
-              >
-                Add Education{" "}
-                {isPending && (
-                  <LoaderCircle
-                    className="-ms-1 me-2 animate-spin"
-                    size={12}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
-                )}
-              </Button>
-            </DialogFooter>
+            <AlertDialogFooter className="">
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <Button
+                  type="submit"
+                  variant="info"
+                  size="sm"
+                  className="w-full sm:w-auto"
+                  disabled={isPending}
+                >
+                  Add Education{" "}
+                  {isPending && (
+                    <LoaderCircle
+                      className="-ms-1 me-2 animate-spin"
+                      size={12}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                  )}
+                </Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

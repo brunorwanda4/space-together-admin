@@ -40,7 +40,7 @@ const AllEducationComponent = async () => {
                     <div className=" flex space-x-3 text-start">
                       <MyImage
                         src={item.symbol ? item.symbol :"/icons/education.png"}
-                        className=" size-12"
+                        className=" size-14"
                       />
                     <div>
                         <h4 className=" font-medium text-lg">{item.name}</h4>
@@ -106,7 +106,7 @@ const AllEducationComponent = async () => {
                           </div>
                         </div>
                       ))}
-                      <Link href={`/collection/sector`} className=" link text-info justify-center flex">All Sectors</Link>
+                      {/* <Link href={`/collection/sector`} className=" link text-info justify-center flex">All Sectors</Link> */}
                     </div>
                   </div>
                 </div>

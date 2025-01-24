@@ -4,6 +4,7 @@ export interface SectorModelGet {
   education?: string;
   username?: string;
   description?: string;
+  symbol?: string;
   create_on: string;
   updated_on?: string;
 }
@@ -13,6 +14,7 @@ export interface SectorModelNew {
   education?: string;
   username?: string;
   description?: string;
+  symbol?: string;
 }
 
 export interface SectorModelPut {
@@ -20,4 +22,5 @@ export interface SectorModelPut {
   education?: string;
   username?: string;
   description?: string;
+  symbol?: string;
 }

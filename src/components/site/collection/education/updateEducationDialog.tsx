@@ -27,7 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import UseTheme from "@/context/theme/use-theme";
 import { toast } from "@/hooks/use-toast";
 import { updateEducationAPI } from "@/services/data/fetchDataFn";
-import { EducationModelGet } from "@/types/educationModel";
+import { EducationModelGet, EducationModelPut } from "@/types/educationModel";
 import {
   educationSchema,
   educationSchemaType,
@@ -103,9 +103,15 @@ const UpdateEducationDialog = ({ education }: props) => {
       return setError("Invalid Register Validation");
     }
 
+    const {name , description , logo} = validation.data;
+
+    const data: EducationModelPut = {
+      name, description , symbol : logo
+    }
+
     startTransition(async () => {
       try {
-        const result = await updateEducationAPI(validation.data, education.id);
+        const result = await updateEducationAPI(data, education.id);
         if ("message" in result) {
           setError(result.message);
           toast({

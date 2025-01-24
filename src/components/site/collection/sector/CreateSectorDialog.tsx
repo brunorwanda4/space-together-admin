@@ -231,8 +231,8 @@ const CreateSectorDialog = ({ education }: props) => {
                             <FormControl>
                               <RadioGroupItem value={item.id} />
                             </FormControl>
-                            <FormLabel className="font-normal">
-                              {item.username ? item.username : item.name}
+                            <FormLabel className="font-normal flex gap-2 items-center">
+                            <MyImage className="size-5" classname=" rounded-full" src={item.symbol ? item.symbol : "/icons/education.png"}/>  {item.username ? item.username : item.name}
                             </FormLabel>
                           </FormItem>
                         );
